@@ -11,6 +11,8 @@ class m150623_024958_user_table extends Migration
     		'id' => Schema::TYPE_PK,
     		'user' => Schema::TYPE_STRING . '(20) NOT NULL',
     		'pwd' => Schema::TYPE_STRING . ' NOT NULL',
+    		'authKey' => Schema::TYPE_STRING . ' NOT NULL',
+    		'accessKey' => Schema::TYPE_STRING . ' NOT NULL',
     		'nickname' => Schema::TYPE_STRING . '(20) ',
     		'thumb' => Schema::TYPE_STRING,
     		'email' => Schema::TYPE_STRING . ' NOT NULL',
@@ -19,7 +21,9 @@ class m150623_024958_user_table extends Migration
     		'job' => Schema::TYPE_STRING,
     		'hobby' => Schema::TYPE_STRING,
     		'signature' => Schema::TYPE_STRING,
-    	]);
+    		'created_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
+    		'updated_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0'
+    	],'ENGINE=InnoDB');
     	$this->createIndex('user', 'user', 'user',true);
     	$this->createIndex('email', 'user', 'email',true);
 
