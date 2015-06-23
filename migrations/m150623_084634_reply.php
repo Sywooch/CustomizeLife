@@ -24,6 +24,9 @@ class m150623_084634_reply extends Migration
 
     public function safeDown()
     {
+    	$this->dropForeignKey('msgidKey', 'reply');
+    	$this->dropForeignKey('fromidKey', 'reply');
+    	$this->dropForeignKey('toid', 'reply');
         $this->dropTable('reply');
     }
     

@@ -28,8 +28,11 @@ class m150623_084611_msg extends Migration
 
     public function safeDown()
     {
+    	$this->dropForeignKey('appid', 'msgtoapp');
+    	$this->dropForeignKey('msguserid', 'msg');
+    	$this->dropTable('msgtoapp');
         $this->dropTable('msg');
-        $this->dropTable('msgtoapp');
+        
     }
     
     /*
