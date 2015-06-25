@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -32,7 +33,7 @@ use Yii;
  * @property Reply[] $replies0
  * @property Usertoapp[] $usertoapps
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
      * @inheritdoc
@@ -48,12 +49,12 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user', 'pwd', 'authKey', 'accessKey', 'email'], 'required'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['user', 'pwd', 'email'], 'required'],
             [['user', 'nickname'], 'string', 'max' => 20],
             [['pwd', 'authKey', 'accessKey', 'thumb', 'email', 'gender', 'area', 'job', 'hobby', 'signature'], 'string', 'max' => 255],
             [['user'], 'unique'],
-            [['email'], 'unique']
+            [['email'], 'unique'],
+        	[['email'],'email']
         ];
     }
 
@@ -79,6 +80,10 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+    public function setPassword($password)
+    {
+    	$this->pwd=md5($password);
     }
 
     /**
