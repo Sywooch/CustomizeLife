@@ -14,6 +14,10 @@ class m150623_084658_app extends Migration
     		'url' => Schema::TYPE_STRING . ' NOT NULL',
     		'stars' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
     		'downloadcount' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
+    		'introduction' => Schema::TYPE_STRING . ' NOT NULL',
+    		'updated_at' => Schema::TYPE_DATE. ' NOT NULL',
+    		'size' => Schema::TYPE_STRING . ' NOT NULL',
+    		'icon' => Schema::TYPE_STRING . ' NOT NULL',
     	],'ENGINE=InnoDB');
 
     }
