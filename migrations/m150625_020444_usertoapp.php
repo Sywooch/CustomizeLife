@@ -9,16 +9,20 @@ class m150625_020444_usertoapp extends Migration
     {
     	$this->createTable('usertoapp', [
     			'id' => Schema::TYPE_PK,
-    			'userid' => Schema::TYPE_INTEGER . 'NOT NULL',
+    			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     	],'ENGINE=InnoDB');
     	$this->createIndex('usertoapp', 'usertoapp', 'userid');
+    	$this->addForeignKey('usertoappuserid', 'usertoapp', 'userid', 'user', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('usertoappappid', 'usertoapp', 'appid', 'app', 'id','RESTRICT','CASCADE');
 
     }
 
     public function safeDown()
     {
         //echo "m150625_020444_usertoapp cannot be reverted.\n";
+        $this->dropForeignKey('usertoappuserid', 'usertoapp');
+        $this->dropForeignKey('usertoappappid', 'usertoapp');
 		$this->dropTable('usertoapp');
         //return false;
     }
