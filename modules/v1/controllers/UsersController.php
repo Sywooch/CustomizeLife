@@ -5,6 +5,8 @@ namespace app\modules\v1\controllers;
 use Yii;
 use app\modules\v1\models\User;
 use yii\web\Controller;
+use app\modules\v1\models\app\modules\v1\models;
+use app;
 
 class UsersController extends Controller
 {
@@ -28,6 +30,92 @@ class UsersController extends Controller
     public function actionLogin()
     {
     	echo "hello";
+    }
+    public function actionForgetpwd(){
+    	$model=new User();
+    	$data=Yii::$app->request->post();
+    	$userinfo=$model->find()->where(['email'=>$data['email']])->one();
+    	if(!$userinfo)
+    	{
+    		echo json_encode(array(
+    				"flag" => 0,
+    				"msg" => "The email has not been registered!"
+    		));
+    		exit();
+    	}else{
+    		$getpasstime=time();
+    		$id=$userinfo['id'];
+    		$token=md5($id . $userinfo['email'] . $userinfo['pwd']);
+			$url="http://localhost/v1/users/resetpwd?email=" . $userinfo['email'] . "&token=" . $token;
+			$time=date('Y-m-d H:i');
+			$mail=Yii::$app->mailer->compose()
+				->setFrom('daweili@zju.edu.cn')
+				->setTo($userinfo['email'])
+				->setSubject('密码修改通知')
+				->setTextBody("亲爱的" . $userinfo['email'] . ":您在" . $time . "提交了找回密码请求。
+				请点击下面的链接重置密码： $url")
+				->setHtmlBody('<b>HTML content</b>');
+			if((!$mail->send())){
+				echo json_encode(array(
+						"flag"=>0,
+						"msg"=>"Failed to send mail!"
+				));
+			}else{
+				echo json_encode(array(
+						"flag"=>1,
+						"msg"=>"Send success!"
+				));
+			}
+				
+    	}
+    }
+    public function actionResetpwd(){
+    	$model=new User();
+    	$data=Yii::$app->request->post();
+    	$userinfo=$model->find()->where(['email'=>$data['email']])->one();
+    	if($userinfo){
+    		$mt=md5($userinfo['id'] . $userinfo['email'] . $userinfo['pwd']);
+    		if($mt==$token){
+    			if(isset($data['pwd'])){
+    				$userinfo['pwd']=md5($data['pwd']);
+    				$userinfo->save();
+    				echo json_encode(array(
+    						"flag"=>1,
+    						"msg"=>"修改成功，请重新登录"
+    				));
+    				exit();
+    			}else{
+    				echo json_encode(array(
+    						"flag"=>0,
+    						"msg"=>"修改失败！"
+    				));
+    				exit();
+    			}
+    		}else{
+    			echo json_encode(array(
+    					"flag"=>0,
+    					"msg"=>"无效的链接！"
+    			));
+    			exit();
+    		}
+    	}else{
+    		echo json_encode(array(
+    				"flag"=>0,
+    				"msg"=>"错误的链接！"
+    		));
+    		exit();
+    	}
+    }
+    public function actionTest(){
+    	$mail= Yii::$app->mailer->compose();
+    	$mail->setTo('1205582578@qq.com');
+    	$mail->setSubject("邮件测试");
+    	//$mail->setTextBody('zheshisha ');   //发布纯文字文本
+    	$mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
+    	if($mail->send())
+    		echo "success";
+    	else
+    		echo "failse";
     }
 
 }
