@@ -8,7 +8,7 @@ $config = [
 				'log' 
 		],
 		'modules' => [
-				'customlife' => 'app\modules\customlife'  // 后台模块引用
+				'v1' => 'app\modules\v1\customlife'  // 后台模块引用
 		],
 		'components' => [ 
 				'request' => [ 
@@ -19,11 +19,8 @@ $config = [
 						'class' => 'yii\caching\FileCache' 
 				],
 				'user' => [ 
-						'identityClass' => 'app\models\YiiUser',
+						'identityClass' => 'app\modules\v1\models\User',
 						'enableAutoLogin' => true 
-				],
-				'errorHandler' => [ 
-						'class' => 'yii\web\ErrorAction' 
 				],
 				'mailer' => [ 
 						'class' => 'yii\swiftmailer\Mailer',

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\v1\models;
 
 use Yii;
 use yii\db\ActiveRecord;
@@ -10,10 +10,10 @@ use yii\web\IdentityInterface;
  * This is the model class for table "{{%user}}".
  *
  * @property integer $id
- * @property string $user
+ * @property string $email
  * @property string $pwd
  */
-class YiiUser extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord implements IdentityInterface
 {
 	
 	public function beforeSave($insert)
