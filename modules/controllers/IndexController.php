@@ -100,10 +100,10 @@ class IndexController extends Controller{
     	
     	$model=new YiiUser();
     	$data=Yii::$app->request->post();
-    	$model->user=$data['user'];
+    	//$model->user=$data['user'];
     	$model->pwd=md5($data['pwd']);
-    	$model->authKey=$data['authKey'];
-    	$model->accessKey=$data['accessKey'];
+    	//$model->authKey=$data['authKey'];
+    	//$model->accessKey=$data['accessKey'];
     	$model->email=$data['email'];
     	
     	//$model->find()->where(['email'=>$data['email']])->one();

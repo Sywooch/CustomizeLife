@@ -9,7 +9,7 @@ class m150623_024958_user_table extends Migration
     {
     	$this->createTable('user', [
     		'id' => Schema::TYPE_PK,
-    		'user' => Schema::TYPE_STRING . '(20) NOT NULL',
+    		//'user' => Schema::TYPE_STRING . '(20) NOT NULL',
     		'pwd' => Schema::TYPE_STRING . ' NOT NULL',
     		'authKey' => Schema::TYPE_STRING . ' NOT NULL',
     		'accessKey' => Schema::TYPE_STRING . ' NOT NULL',
@@ -24,7 +24,7 @@ class m150623_024958_user_table extends Migration
     		'created_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
     		'updated_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0'
     	],'ENGINE=InnoDB');
-    	$this->createIndex('user', 'user', 'user',true);
+    	//$this->createIndex('user', 'user', 'user',true);
     	$this->createIndex('email', 'user', 'email',true);
 
     }
