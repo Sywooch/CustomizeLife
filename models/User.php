@@ -2,7 +2,36 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+use yii\base\Model;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $user
+ * @property string $pwd
+ * @property string $authKey
+ * @property string $accessKey
+ * @property string $nickname
+ * @property string $thumb
+ * @property string $email
+ * @property string $gender
+ * @property string $area
+ * @property string $job
+ * @property string $hobby
+ * @property string $signature
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property Friends[] $friends
+ * @property Friends[] $friends0
+ * @property Msg[] $msgs
+ * @property Reply[] $replies
+ * @property Reply[] $replies0
+ */
+
+class User extends Model implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
@@ -26,6 +55,53 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             'accessToken' => '101-token',
         ],
     ];
+    
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+    	return 'user';
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+    	return [
+    	[['user', 'pwd', 'authKey', 'accessKey', 'email'], 'required'],
+    	[['created_at', 'updated_at'], 'integer'],
+    	[['user', 'nickname'], 'string', 'max' => 20],
+    	[['pwd', 'authKey', 'accessKey', 'thumb', 'email', 'gender', 'area', 'job', 'hobby', 'signature'], 'string', 'max' => 255],
+    	[['user'], 'unique'],
+    	[['email'], 'unique']
+    	];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+    	return [
+    	'id' => 'ID',
+    	'user' => 'User',
+    	'pwd' => 'Pwd',
+    	'authKey' => 'Auth Key',
+    	'accessKey' => 'Access Key',
+    	'nickname' => 'Nickname',
+    	'thumb' => 'Thumb',
+    	'email' => 'Email',
+    	'gender' => 'Gender',
+    	'area' => 'Area',
+    	'job' => 'Job',
+    	'hobby' => 'Hobby',
+    	'signature' => 'Signature',
+    	'created_at' => 'Created At',
+    	'updated_at' => 'Updated At',
+    	];
+    }
 
     /**
      * @inheritdoc
