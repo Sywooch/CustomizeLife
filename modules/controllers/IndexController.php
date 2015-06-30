@@ -35,7 +35,7 @@ class IndexController extends Controller{
                     [
                         'actions' => ['logout','edit','add','del','index','users','thumb','upload','cutpic','follow','nofollow'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],

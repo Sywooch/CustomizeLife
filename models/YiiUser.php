@@ -15,6 +15,18 @@ use yii\web\IdentityInterface;
  */
 class YiiUser extends ActiveRecord implements IdentityInterface
 {
+	
+	public function beforeSave($insert)
+	{
+		if (parent::beforeSave($insert)) {
+			if ($this->isNewRecord) {
+				$this->authKey = \Yii::$app->security->generateRandomString();
+			}
+			return true;
+		}
+		return false;
+	}
+	
     /**
      * @inheritdoc
      */
@@ -62,6 +74,7 @@ class YiiUser extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
+    	echo "getAuthKey";
         return $this->authKey;
     }
 
@@ -70,6 +83,7 @@ class YiiUser extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
+    	echo "validateAuthKey";
         return $this->authKey === $authKey;
     }
 
