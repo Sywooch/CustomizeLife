@@ -6,6 +6,7 @@ use Yii;
 use app\modules\v1\models\User;
 use app\modules\v1\models\UserForm;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 
 class UsersController extends Controller
 {
@@ -27,6 +28,11 @@ class UsersController extends Controller
 		'actions' => ['login','signup'],
 		'allow' => true,
 		'roles' => ['?'],
+		],
+		[
+		'actions' => ['test'],
+		'allow' => true,
+		'roles' => ['@'],
 		],
 		],
 		],
@@ -61,6 +67,11 @@ class UsersController extends Controller
                 return "login failure";
             }
         }
+    }
+    
+    public function actionTest()
+    {
+    	echo "test";
     }
 
 }
