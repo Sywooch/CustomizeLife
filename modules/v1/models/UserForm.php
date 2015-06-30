@@ -1,10 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\modules\v1\models;
 
 use Yii;
 use yii\base\Model;
-use app\models\YiiUser;
+use app\modules\v1\models\User;
 
 class UserForm extends Model {
 	public $user;
@@ -15,14 +15,14 @@ class UserForm extends Model {
 		return [ 
 				[ 
 						[ 
-								'user',
+								'email',
 								'pwd' 
 						],
 						'required',
 						'message' => '{attribute}不能为空！' 
 				],
 				[ 
-						'user',
+						'email',
 						'string',
 						'max' => 50,
 						'tooLong' => '{attribute}长度必需在100以内' 
@@ -46,7 +46,7 @@ class UserForm extends Model {
 	 */
 	public function attributeLabels() {
 		return [ 
-				'user' => '账号',
+				'email' => '游戏',
 				'pwd' => '密码',
 				'verifyCode' => '验证' 
 		];
@@ -64,13 +64,13 @@ class UserForm extends Model {
 		}
 	}
 	
-	/**
+	/**YiiUser::find
 	 * @根据用户名密码查询用户
 	 */
 	public function getUser() {
 		if ($this->_user === false) {
 			$this->_user = YiiUser::find ()->where ( [ 
-					'user' => $this->user,
+					'email' => $this->email,
 					'pwd' => md5 ( $this->pwd ) 
 			] )->one ();
 		}

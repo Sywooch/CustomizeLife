@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules;
+namespace app\modules\v1;
 
 class customlife extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\controllers';
+    public $controllerNamespace = 'app\modules\v1\controllers';
 
     public function init()
     {
