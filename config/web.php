@@ -7,8 +7,8 @@ $config = [
 		'bootstrap' => [ 
 				'log' 
 		],
-		'modules' => [ 
-				'admin' => 'app\modules\admin'  // 后台模块引用
+		'modules' => [
+				'customlife' => 'app\modules\customlife'  // 后台模块引用
 		],
 		'components' => [ 
 				'request' => [ 
@@ -51,6 +51,7 @@ $config = [
 										"<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>" => "<module>/<controller>/<action>",
 										"<controller:\w+>/<action:\w+>/<id:\d+>" => "<controller>/<action>",
 										"<controller:\w+>/<action:\w+>" => "<controller>/<action>",
+										//"<module:\w+>/<version:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>" => "<module>/<version>/<controller>/<action>",
 								] 
 						],
 				

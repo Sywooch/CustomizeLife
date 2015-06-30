@@ -2,7 +2,7 @@
 
 namespace app\modules;
 
-class admin extends \yii\base\Module
+class customlife extends \yii\base\Module
 {
     public $controllerNamespace = 'app\modules\controllers';
 
