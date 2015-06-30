@@ -3,7 +3,7 @@
 namespace app\modules\v1\controllers;
 
 use Yii;
-use app\modules\v1\models\RegisterForm;
+use app\modules\v1\models\User;
 use yii\web\Controller;
 
 class UsersController extends Controller
@@ -11,7 +11,7 @@ class UsersController extends Controller
 	public $enableCsrfValidation = false;
     public function actionSignup()
     {
-        $model=new RegisterForm();
+        $model=new User();
         $data=Yii::$app->request->post();
         $model->pwd=md5($data['pwd']);
         $model->email=$data['email'];  
@@ -27,7 +27,7 @@ class UsersController extends Controller
     }
     public function actionLogin()
     {
-    	
+    	echo "hello";
     }
 
 }

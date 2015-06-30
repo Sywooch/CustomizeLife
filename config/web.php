@@ -19,12 +19,10 @@ $config = [
 						'class' => 'yii\caching\FileCache' 
 				],
 				'user' => [ 
-						'identityClass' => 'app\models\YiiUser',
+						'identityClass' => 'app\modules\v1\models\User',
 						'enableAutoLogin' => true 
 				],
-				'errorHandler' => [ 
-						'class' => 'yii\web\ErrorAction'
-				],
+				
 				'mailer' => [ 
 						'class' => 'yii\swiftmailer\Mailer',
 						// send all mails to a file by default. You have to set
