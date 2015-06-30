@@ -4,11 +4,35 @@ namespace app\modules\v1\controllers;
 
 use Yii;
 use app\modules\v1\models\User;
+use app\modules\v1\models\UserForm;
 use yii\web\Controller;
 
 class UsersController extends Controller
 {
 	public $enableCsrfValidation = false;
+	/**
+	 * accesscontrol
+	 */
+	
+	/**
+	 * @用户授权规则
+	 */
+	public function behaviors()
+	{
+		return [
+		'access' => [
+		'class' => AccessControl::className(),
+		'rules' => [
+		[
+		'actions' => ['login','signup'],
+		'allow' => true,
+		'roles' => ['?'],
+		],
+		],
+		],
+		];
+	}
+	
     public function actionSignup()
     {
         $model=new User();
@@ -27,7 +51,16 @@ class UsersController extends Controller
     }
     public function actionLogin()
     {
-    	echo "hello";
+     $model=new UserForm();
+        
+        if($model->load(Yii::$app->request->post(),'')){
+
+            if($model->login()){
+               echo "login success";
+            }else{
+                return "login failure";
+            }
+        }
     }
 
 }

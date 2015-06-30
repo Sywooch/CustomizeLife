@@ -7,7 +7,7 @@ use yii\base\Model;
 use app\modules\v1\models\User;
 
 class UserForm extends Model {
-	public $user;
+	public $email;
 	public $pwd;
 	public $verifyCode;
 	private $_user = false;
@@ -69,7 +69,7 @@ class UserForm extends Model {
 	 */
 	public function getUser() {
 		if ($this->_user === false) {
-			$this->_user = YiiUser::find ()->where ( [ 
+			$this->_user = User::find ()->where ( [ 
 					'email' => $this->email,
 					'pwd' => md5 ( $this->pwd ) 
 			] )->one ();
