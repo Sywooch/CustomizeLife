@@ -8,7 +8,7 @@ $config = [
 				'log' 
 		],
 		'modules' => [
-				'customlife' => 'app\modules\customlife'  // 后台模块引用
+				'v1' => 'app\modules\v1\customlife'  // 后台模块引用
 		],
 		'components' => [ 
 				'request' => [ 
@@ -23,7 +23,7 @@ $config = [
 						'enableAutoLogin' => true 
 				],
 				'errorHandler' => [ 
-						'errorAction' => 'site/error' 
+						'class' => 'yii\web\ErrorAction'
 				],
 				'mailer' => [ 
 						'class' => 'yii\swiftmailer\Mailer',

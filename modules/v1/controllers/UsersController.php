@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\controllers;
+namespace app\modules\v1\controllers;
 
 use Yii;
-use app\modules\models\RegisterForm;
+use app\modules\v1\models\RegisterForm;
 use yii\web\Controller;
 
 class UsersController extends Controller
