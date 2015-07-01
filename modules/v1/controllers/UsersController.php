@@ -46,8 +46,8 @@ class UsersController extends Controller
         $model=new User();
         $data=Yii::$app->request->post();
         $model->pwd=md5($data['pwd']);
-        $model->email=$data['email'];  
-        if($model->find()->where(['email'=>$data['email']])->one())
+        $model->phone=$data['phone'];  
+        if($model->find()->where(['phone'=>$data['phone']])->one())
         {
         	return 0;
         }else {
@@ -73,7 +73,7 @@ class UsersController extends Controller
     {
     	Yii::$app->user->logout();
     }
-    public function actionForgetpwd(){
+    /*public function actionForgetpwd(){
     	$model=new User();
     	$data=Yii::$app->request->post();
     	$userinfo=$model->find()->where(['email'=>$data['email']])->one();
@@ -146,19 +146,5 @@ class UsersController extends Controller
     		));
     		exit();
     	}
-    }
-    public function actionTest(){
-    	return "asdfas";
-    	//$mail= Yii::$app->mailer->compose();
-    	//$mail->setTo('zhou544028616@163.com');
-    	//$mail->setSubject("邮件测试");
-    	//$mail->setTextBody('zheshisha ');   //发布纯文字文本
-    	//$mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
-    	return \Yii::$app->mailer->compose()
-                    ->setFrom(["zhou544028616@163.com" => \Yii::$app->name . ' robot'])
-                    ->setTo('zhou544028616@163.com')
-                    ->setSubject('Password reset for ' . \Yii::$app->name)
-                    ->send();
-    }
-    
+    } */
 }

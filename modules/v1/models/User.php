@@ -10,7 +10,7 @@ use yii\web\IdentityInterface;
  * This is the model class for table "{{%user}}".
  *
  * @property integer $id
- * @property string $email
+ * @property string $phone
  * @property string $pwd
  */
 class User extends ActiveRecord implements IdentityInterface
