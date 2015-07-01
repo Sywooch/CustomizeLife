@@ -22,13 +22,25 @@ $config = [
 						'identityClass' => 'app\modules\v1\models\User',
 						'enableAutoLogin' => true 
 				],
-				
 				'mailer' => [ 
 						'class' => 'yii\swiftmailer\Mailer',
 						// send all mails to a file by default. You have to set
 						// 'useFileTransport' to false and configure a transport
 						// for the mailer to send real emails.
-						'useFileTransport' => true 
+						'useFileTransport' => false,
+						'transport' => [
+								'class' => 'Swift_SmtpTransport',
+								'host' => 'smtp.163.com',
+								'username' => 'zhou544028616@163.com',
+								'password' => 'zhou385120072',
+								'port' => '25',
+								'encryption' => 'tls',
+								 
+						],
+						'messageConfig'=>[
+								'charset'=>'UTF-8',
+								'from'=>['shepherdbird@163.com'=>'admin']
+								],
 				],
 				'log' => [ 
 						'traceLevel' => YII_DEBUG ? 3 : 0,
