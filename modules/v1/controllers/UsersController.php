@@ -30,7 +30,7 @@ class UsersController extends Controller
 		'roles' => ['?'],
 		],
 		[
-		'actions' => ['Logout'],
+		'actions' => ['logout','test'],
 		'allow' => true,
 		'roles' => ['@'],
 		],
@@ -72,6 +72,11 @@ class UsersController extends Controller
     public function actionLogout()
     {
     	Yii::$app->user->logout();
+    }
+    
+    public function actionTest()
+    {
+    	echo "test";
     }
     
 }
