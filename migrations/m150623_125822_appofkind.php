@@ -7,6 +7,7 @@ class m150623_125822_appofkind extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS appofkind");
     	$this->createTable('appofkind', [
     			'id' => Schema::TYPE_PK,
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',

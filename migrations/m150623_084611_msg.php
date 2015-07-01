@@ -7,6 +7,7 @@ class m150623_084611_msg extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS msg");
     	$this->createTable('msg', [
     			'id' => Schema::TYPE_PK,
     			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',
@@ -23,7 +24,6 @@ class m150623_084611_msg extends Migration
     	],'ENGINE=InnoDB');
     	$this->addForeignKey('appid', 'msgtoapp', 'msgid', 'msg', 'id','RESTRICT','CASCADE');
     	$this->createIndex('msgid', 'msgtoapp', 'msgid');
-
     }
 
     public function safeDown()

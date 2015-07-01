@@ -7,6 +7,7 @@ class m150623_024958_user_table extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS user");
     	$this->createTable('user', [
     		'id' => Schema::TYPE_PK,
     		//'user' => Schema::TYPE_STRING . '(20) NOT NULL',

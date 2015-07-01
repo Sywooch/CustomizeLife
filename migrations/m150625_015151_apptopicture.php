@@ -7,6 +7,7 @@ class m150625_015151_apptopicture extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS apptopicture");
     	$this->createTable('apptopicture', [
     			'id' => Schema::TYPE_PK,
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',

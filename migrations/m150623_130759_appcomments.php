@@ -7,6 +7,7 @@ class m150623_130759_appcomments extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS appcomments");
     	$this->createTable('appcomments', [
     			'id' => Schema::TYPE_PK,
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',

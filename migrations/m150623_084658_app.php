@@ -7,6 +7,7 @@ class m150623_084658_app extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS app");
     	$this->createTable('app',[
     		'id' => Schema::TYPE_PK,
     		'name' => Schema::TYPE_STRING . ' NOT NULL',

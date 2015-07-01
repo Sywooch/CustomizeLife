@@ -7,6 +7,7 @@ class m150623_133945_collect extends Migration
 {
 public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS collect_interact");
     	$this->createTable('collect_interact', [
     			'id' => Schema::TYPE_PK,
     			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',

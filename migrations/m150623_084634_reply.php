@@ -7,6 +7,7 @@ class m150623_084634_reply extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS reply");
     	$this->createTable('reply', [
     			'id' => Schema::TYPE_PK,
     			'msgid' => Schema::TYPE_INTEGER . ' NOT NULL',

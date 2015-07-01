@@ -7,6 +7,7 @@ class m150623_074316_friends extends Migration
 {
     public function safeUp()
     {
+    	$this->execute("DROP TABLE IF EXISTS friends");
     	$this->createTable('friends', [
     			'id' => Schema::TYPE_PK,
     			'myid' => Schema::TYPE_INTEGER . ' NOT NULL',
@@ -15,7 +16,6 @@ class m150623_074316_friends extends Migration
     	$this->createIndex('friends', 'friends', 'myid');
     	$this->addForeignKey('myidKey', 'friends', 'myid', 'user', 'id','RESTRICT','CASCADE');
     	$this->addForeignKey('friendidKey', 'friends', 'friendid', 'user', 'id','RESTRICT','CASCADE');
-
     }
 
     public function safeDown()

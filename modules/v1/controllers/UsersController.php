@@ -32,7 +32,7 @@ class UsersController extends Controller
 		'roles' => ['?'],
 		],
 		[
-		'actions' => ['Logout'],
+		'actions' => ['logout'],
 		'allow' => true,
 		'roles' => ['@'],
 		],
