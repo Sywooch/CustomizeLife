@@ -32,7 +32,7 @@ class UsersController extends Controller
 		'roles' => ['?'],
 		],
 		[
-		'actions' => ['logout'],
+		'actions' => ['logout','test'],
 		'allow' => true,
 		'roles' => ['@'],
 		],
@@ -73,6 +73,7 @@ class UsersController extends Controller
     {
     	Yii::$app->user->logout();
     }
+
     /*public function actionForgetpwd(){
     	$model=new User();
     	$data=Yii::$app->request->post();
@@ -147,4 +148,5 @@ class UsersController extends Controller
     		exit();
     	}
     } */
+
 }
