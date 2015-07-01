@@ -11,6 +11,7 @@ class m150625_020444_usertoapp extends Migration
     			'id' => Schema::TYPE_PK,
     			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
+    			'created_at' =>Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
     	],'ENGINE=InnoDB');
     	$this->createIndex('usertoapp', 'usertoapp', 'userid');
     	$this->addForeignKey('usertoappuserid', 'usertoapp', 'userid', 'user', 'id','RESTRICT','CASCADE');

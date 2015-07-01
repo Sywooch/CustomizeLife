@@ -26,7 +26,7 @@ class UsersController extends Controller
 		'class' => AccessControl::className(),
 		'rules' => [
 		[
-		'actions' => ['login','signup'],
+		'actions' => ['login','signup','test','forgetpwd'],
 		'allow' => true,
 		'roles' => ['?'],
 		],
@@ -90,7 +90,7 @@ class UsersController extends Controller
 			$url="http://localhost/v1/users/resetpwd?email=" . $userinfo['email'] . "&token=" . $token;
 			$time=date('Y-m-d H:i');
 			$mail=Yii::$app->mailer->compose()
-				->setFrom('daweili@zju.edu.cn')
+				->setFrom('shepherdbird@163.com')
 				->setTo($userinfo['email'])
 				->setSubject('密码修改通知')
 				->setTextBody("亲爱的" . $userinfo['email'] . ":您在" . $time . "提交了找回密码请求。
