@@ -5,7 +5,8 @@ namespace app\modules\v1\controllers;
 use Yii;
 use app\modules\v1\models\User;
 use app\modules\v1\models\UserForm;
-use yii\web\Controller;
+//use yii\web\Controller;
+use yii\rest\Controller;
 use app\modules\v1\models;
 use app;
 use yii\filters\AccessControl;
@@ -26,7 +27,7 @@ class UsersController extends Controller
 		'class' => AccessControl::className(),
 		'rules' => [
 		[
-		'actions' => ['login','signup'],
+		'actions' => ['login','signup','test','forgetpwd','resetpwd'],
 		'allow' => true,
 		'roles' => ['?'],
 		],
@@ -53,7 +54,7 @@ class UsersController extends Controller
         	$model->created_at=time();
         	$model->save();
         	return 1;
-        	//echo json_encode("sighup success");
+        	//return json_encode("sighup success");
         }
     }
     public function actionLogin()
@@ -61,7 +62,7 @@ class UsersController extends Controller
     	$model=new UserForm();
     	if($model->load(Yii::$app->request->post(),'')){
     		if($model->login()){
-    			echo "login success";
+    			return "login success";
     		}else{
     			return "login failure";
     		}
@@ -78,7 +79,7 @@ class UsersController extends Controller
     	$userinfo=$model->find()->where(['email'=>$data['email']])->one();
     	if(!$userinfo)
     	{
-    		echo json_encode(array(
+    		return json_encode(array(
     				"flag" => 0,
     				"msg" => "The email has not been registered!"
     		));
@@ -90,19 +91,18 @@ class UsersController extends Controller
 			$url="http://localhost/v1/users/resetpwd?email=" . $userinfo['email'] . "&token=" . $token;
 			$time=date('Y-m-d H:i');
 			$mail=Yii::$app->mailer->compose()
-				->setFrom('daweili@zju.edu.cn')
+				->setFrom(["zhou544028616@163.com" => \Yii::$app->name . ' robot'])
 				->setTo($userinfo['email'])
 				->setSubject('密码修改通知')
 				->setTextBody("亲爱的" . $userinfo['email'] . ":您在" . $time . "提交了找回密码请求。
-				请点击下面的链接重置密码： $url")
-				->setHtmlBody('<b>HTML content</b>');
+				请点击下面的链接重置密码： $url");
 			if((!$mail->send())){
-				echo json_encode(array(
+				return json_encode(array(
 						"flag"=>0,
 						"msg"=>"Failed to send mail!"
 				));
 			}else{
-				echo json_encode(array(
+				return json_encode(array(
 						"flag"=>1,
 						"msg"=>"Send success!"
 				));
@@ -110,53 +110,55 @@ class UsersController extends Controller
 				
     	}
     }
-    public function actionResetpwd(){
+    public function actionResetpwd($email,$token){
     	$model=new User();
     	$data=Yii::$app->request->post();
-    	$userinfo=$model->find()->where(['email'=>$data['email']])->one();
+    	$userinfo=$model->find()->where(['email'=>$email])->one();
     	if($userinfo){
     		$mt=md5($userinfo['id'] . $userinfo['email'] . $userinfo['pwd']);
     		if($mt==$token){
     			if(isset($data['pwd'])){
     				$userinfo['pwd']=md5($data['pwd']);
     				$userinfo->save();
-    				echo json_encode(array(
+    				return json_encode(array(
     						"flag"=>1,
     						"msg"=>"修改成功，请重新登录"
     				));
     				exit();
     			}else{
-    				echo json_encode(array(
+    				return json_encode(array(
     						"flag"=>0,
-    						"msg"=>"修改失败！"
+    						"msg"=>"false change pwd！"
     				));
     				exit();
     			}
     		}else{
-    			echo json_encode(array(
+    			return json_encode(array(
     					"flag"=>0,
-    					"msg"=>"无效的链接！"
+    					"msg"=>"false token"
     			));
     			exit();
     		}
     	}else{
-    		echo json_encode(array(
+    		return json_encode(array(
     				"flag"=>0,
-    				"msg"=>"错误的链接！"
+    				"msg"=>"false url"
     		));
     		exit();
     	}
     }
     public function actionTest(){
-    	$mail= Yii::$app->mailer->compose();
-    	$mail->setTo('1205582578@qq.com');
-    	$mail->setSubject("邮件测试");
+    	return "asdfas";
+    	//$mail= Yii::$app->mailer->compose();
+    	//$mail->setTo('zhou544028616@163.com');
+    	//$mail->setSubject("邮件测试");
     	//$mail->setTextBody('zheshisha ');   //发布纯文字文本
-    	$mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
-    	if($mail->send())
-    		echo "success";
-    	else
-    		echo "failse";
+    	//$mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
+    	return \Yii::$app->mailer->compose()
+                    ->setFrom(["zhou544028616@163.com" => \Yii::$app->name . ' robot'])
+                    ->setTo('zhou544028616@163.com')
+                    ->setSubject('Password reset for ' . \Yii::$app->name)
+                    ->send();
     }
     
 }
