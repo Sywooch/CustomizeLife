@@ -31,8 +31,8 @@ $config = [
 						'transport' => [
 								'class' => 'Swift_SmtpTransport',
 								'host' => 'smtp.163.com',
-								'username' => 'shepherdbird@163.com',
-								'password' => 'ldw927189',
+								'username' => 'zhou544028616@163.com',
+								'password' => 'zhou385120072',
 								'port' => '25',
 								'encryption' => 'tls',
 								 
