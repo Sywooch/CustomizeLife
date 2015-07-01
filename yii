@@ -1,4 +1,4 @@
-#!/usr/bin/env /Applications/XAMPP/bin/php
+#!/usr/bin/env php
 <?php
 /**
  * Yii console bootstrap file.
