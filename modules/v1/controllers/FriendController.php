@@ -14,7 +14,7 @@ class FriendController extends Controller
 	
   public function actionAdd()
    {
-   		 $model=new Friend();
+   		$model=new Friend();
    		$data=Yii::$app->request->post();
    	    $model->myid=$data['myid'];
    	    $model->friendid=$data['friendid'];
