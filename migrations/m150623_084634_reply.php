@@ -11,6 +11,7 @@ class m150623_084634_reply extends Migration
     	$this->createTable('reply', [
     			'id' => Schema::TYPE_PK,
     			'msgid' => Schema::TYPE_INTEGER . ' NOT NULL',
+    			'content' => Schema::TYPE_STRING . ' NOT NULL',
     			'fromid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'toid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'isread' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT FALSE',
