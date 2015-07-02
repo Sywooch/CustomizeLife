@@ -16,7 +16,7 @@ class MyappController extends Controller
 		//$user=new User();
 		$appl=new Appl();
 		$data=Yii::$app->request->post();
-		if($usertoapp->find()->where(['userid' => $data['userid']])->one()){
+		if($usertoapp->find()->where(['userid' => $data['userid'],'appid'=>$data['appid']])->one()){
 			echo json_encode(array(
 					'flag' => 1,
 					'msg' => 'Already download!'
@@ -35,5 +35,8 @@ class MyappController extends Controller
 			//$appinfo->save();
 			return $appinfo;
 		}
+	}
+	public function actionDelete(){
+		
 	}
 }
