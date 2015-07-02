@@ -40,7 +40,7 @@ class Appl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'version', 'url', 'introduction', 'updated_at', 'size', 'icon'], 'required'],
+            [['name', 'version', 'url', 'updated_at', 'icon'], 'required'],
             [['stars', 'downloadcount'], 'integer'],
             [['updated_at'], 'safe'],
             [['name', 'version', 'url', 'introduction', 'size', 'icon'], 'string', 'max' => 255]
