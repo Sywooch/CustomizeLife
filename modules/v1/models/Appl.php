@@ -24,7 +24,7 @@ use Yii;
  * @property CollectPerson[] $collectPeople
  * @property Usertoapp[] $usertoapps
  */
-class App extends \yii\db\ActiveRecord
+class Appl extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc

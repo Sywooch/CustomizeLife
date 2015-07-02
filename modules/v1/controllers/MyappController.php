@@ -3,36 +3,37 @@ namespace app\modules\v1\controllers;
 
 use Yii;
 use app\modules\v1\models\Usertoapp;
-use app\modules\v1\models\App;
-use yii\web\Controller;
-use app\modules\v1\models;
+use app\modules\v1\models\Appl;
+use yii\rest\Controller;
 use app;
+use app\modules\v1\models;
 use yii\filters\AccessControl;
 class MyappController extends Controller
 {
 	public function actionDownload(){
+		//\Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
 		$usertoapp=new Usertoapp();
-		$user=new User();
-		$app=new App();
-		$model=Yii::$app->request->post();
-		if($usertoapp->find()->where([
-				'userid' => $model['userid'],
-				'appid' => $model['appid']
-		])->one()){
+		//$user=new User();
+		$appl=new Appl();
+		$data=Yii::$app->request->post();
+		if($usertoapp->find()->where(['userid' => $data['userid']])->one()){
 			echo json_encode(array(
 					'flag' => 1,
 					'msg' => 'Already download!'
 			));
 			exit();
 		}else{
-			$usertoapp->appid=$model['appid'];
-			$usertoapp->userid=$model['userid'];
+			$connection=\Yii::$app->db;
+			$command = $connection->createCommand('UPDATE app SET downloadcount=downloadcount+1 WHERE id=' . $data['appid']);
+			$command->execute();
+			$appinfo=$appl->find()->where(['id' => $data['appid']])->one();
+			$usertoapp->appid=$data['appid'];
+			$usertoapp->userid=$data['userid'];
 			$usertoapp->created_at=time();
 			$usertoapp->save();
-			$appinfo=$app->find()->where(['id' => $model['appid']])->one();
-			$appinfo['downloadcount']+=1;
-			$appinfo->save();
-			echo json_encode($appinfo);
+			//$appinfo['downloadcount']=1;
+			//$appinfo->save();
+			return $appinfo;
 		}
 	}
 }
