@@ -12,15 +12,14 @@ use app\modules\v1\models\Message;
 
 class AppController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Appl';
-	public $serializer = [
-	'class' => 'yii\rest\Serializer',
-	'collectionEnvelope' => 'items'
-			];
+	public $serializer = [ 
+			'class' => 'yii\rest\Serializer',
+			'collectionEnvelope' => 'items' 
+	];
 	public function actionKind() {
-		
 		$data = Yii::$app->request->post ();
 		
-		$query = Appl::find()->select ('*')->join ( 'INNER JOIN', 'appofkind', 'app.id=appofkind.appid' )->where ( [ 
+		$query = Appl::find ()->select ( '*' )->join ( 'INNER JOIN', 'appofkind', 'app.id=appofkind.appid' )->where ( [ 
 				'appofkind.kind' => $data ['kind'] 
 		] );
 		
@@ -37,7 +36,7 @@ class AppController extends ActiveController {
 		}
 		$result ['_meta'] = array (
 				'pageCount' => $pages->pageCount,
-				'currentPage' => $pages->page + 1
+				'currentPage' => $pages->page + 1 
 		);
 		
 		return $result;
