@@ -20,7 +20,6 @@ class m150623_084634_reply extends Migration
     	$this->createIndex('reply-msgid', 'reply', 'msgid');
     	$this->addForeignKey('msgidKey', 'reply', 'msgid', 'msg', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('fromidKey', 'reply', 'fromid', 'user', 'id','CASCADE','CASCADE');
-    	$this->addForeignKey('toid', 'reply', 'toid', 'user', 'id','CASCADE','CASCADE');
 
     }
 

@@ -41,7 +41,9 @@ class FriendController extends Controller {
 		$aa = (new \yii\db\Query ())->select ( 'friendid, thumb, nickname' )->from ( 'friends f' )->join ( 'LEFT JOIN', 'user u', 'f.friendid=u.id' )->where ( [ 
 				'myid' => $myid 
 		] )->all ();
-		return $aa;
+		$result=array();
+		$result['items']=$aa;
+		return $result;
 	}
 	public function actionRequestadd() // 请求添加好友
 {
