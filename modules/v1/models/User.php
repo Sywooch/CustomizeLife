@@ -74,7 +74,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-    	echo "getAuthKey";
+    	//echo "getAuthKey";
         return $this->authKey;
     }
 
