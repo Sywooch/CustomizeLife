@@ -73,14 +73,24 @@ class UsersController extends Controller {
 		$model = new UserForm ();
 		if ($model->load ( Yii::$app->request->post (), '' )) {
 			if ($model->login ()) {
-				return "login success";
+				echo json_encode ( array (
+						'flag' => 1,
+						'msg' => 'Login success!'
+				) );
 			} else {
-				return "login failure";
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Login failed!'
+				) );
 			}
 		}
 	}
 	public function actionLogout() {
 		Yii::$app->user->logout ();
+		echo json_encode ( array (
+				'flag' => 1,
+				'msg' => 'Logout success!'
+		) );
 	}
 	public function actionView() {
 		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

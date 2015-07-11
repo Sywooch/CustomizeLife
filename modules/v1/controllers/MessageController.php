@@ -7,6 +7,7 @@ use yii\rest\ActiveController;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Message;
 use yii\data\ActiveDataProvider;
+use app\modules\v1\models\Reply;
 
 class MessageController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Message';
@@ -94,4 +95,18 @@ class MessageController extends ActiveController {
 		$response->format = \yii\web\Response::FORMAT_JSON;
 		return "hello";
 	}
+	
+	public function actionReply(){
+		$data = Yii::$app->request->post ();
+		$model=new Reply();
+		$model->fromid=$data['fromid'];
+		$model->toid=$data['toid'];
+		$model->msgid=$data['msgid'];
+		$model->content=$data['content'];
+		$model->isread=false;
+		$model->created_at=time();
+		$model->save();
+	}
+	
+	
 }
