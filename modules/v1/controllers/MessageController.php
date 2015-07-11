@@ -42,10 +42,7 @@ class MessageController extends ActiveController {
 		$pages = new \yii\data\Pagination ( [ 
 				'totalCount' => $data->count (),
 				'pageSize' => '3' 
-		] );
-		// return $pages;
-		// return $pages->offset;
-		
+		] );	
 		$models = $data->offset ( $pages->offset )->limit ( $pages->limit )->all ();
 		$result = array ();
 		$result['item']=array ();
@@ -58,19 +55,19 @@ class MessageController extends ActiveController {
 			select ( [ 
 					'msgtoapp.appid',
 					'app.icon' 
-			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['id']])->all();//>join ( 'INNER JOIN', 'app', ['msgtoapp.appid'=>'app.id','msgtoapp.msgid' =>1 ])->all ();
-			// $model['id']
-			$info['replys'] = (new \yii\db\Query())->from ( 'reply' )->where(['reply.msgid'=>$model ['id'] ])->all();//>join ( 'INNER JOIN', 'app', ['msgtoapp.appid'=>'app.id','msgtoapp.msgid' =>1 ])->all ();
+			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['id']])->all();
+			$info['replys'] = (new \yii\db\Query())->from ( 'reply' )->where(['reply.msgid'=>$model ['id'] ])->all();
 			$result['item'][]=$info;
 		}
-		
-		//$result ["item"] = $model;
 		$result ['_meta'] = array (
 				'pageCount' => $pages->pageCount,
 				'currentPage' => $pages->page + 1 
 		);
 		return $result;
 		// return $model;
+	}
+	public function actionSendMessage(){
+		
 	}
 // 	public function actionIndex() {
 // 		// echo Yii::$app->user->id;
