@@ -6,24 +6,26 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Friend;
+use app\modules\v1\models\Reqfriend;
 use app\modules\v1\models\User;
 use yii\db\ActiveRecord;
+
+
 
 class FriendController extends Controller {
 	public $enableCsrfValidation = false;
 	public function actionListenadd() // 监听添加好友
 {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$model = new Friend ();
+		$model = new Reqfriend();
 		$data = Yii::$app->request->post ();
 		
 		$num = $model->find ()->andWhere ( [ 
-				'friendid' => $data ['myid'],
-				'status' => false 
+				'friendid' => $data ['myid']
 		] )->count ();
 		
 		if ($num > 0) {
-			$aa = (new \yii\db\Query ())->select ( 'myid, nickname' )->from ( 'friends f' )->join ( 'LEFT JOIN', 'user u', 'f.myid=u.id' )->where ( [ 
+			$aa = (new \yii\db\Query ())->select ( 'myid, thumb, nickname' )->from ( 'reqfriend f' )->join ( 'LEFT JOIN', 'user u', 'f.myid=u.id' )->where ( [ 
 					'friendid' => $data ['myid'] 
 			] )->all ();
 			return $aa;
@@ -36,7 +38,7 @@ class FriendController extends Controller {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$myid = Yii::$app->request->post ();
 		
-		$aa = (new \yii\db\Query ())->select ( 'friendid, nickname,status' )->from ( 'friends f' )->join ( 'LEFT JOIN', 'user u', 'f.friendid=u.id' )->where ( [ 
+		$aa = (new \yii\db\Query ())->select ( 'friendid, thumb, nickname' )->from ( 'friends f' )->join ( 'LEFT JOIN', 'user u', 'f.friendid=u.id' )->where ( [ 
 				'myid' => $myid 
 		] )->all ();
 		return $aa;
@@ -44,10 +46,10 @@ class FriendController extends Controller {
 	public function actionRequestadd() // 请求添加好友
 {
 		$data = Yii::$app->request->post ();
-		$model = new Friend ();
+		$model = new Reqfriend();
 		$model->myid = $data ['myid'];
 		$model->friendid = $data ['friendid'];
-		$model->status = false;
+		
 		echo $data ['myid'];
 		$num = $model->find ()->andWhere ( [ 
 				'myid' => $data ['myid'],
@@ -55,31 +57,52 @@ class FriendController extends Controller {
 		] )->count ();
 		echo $num;
 		if ($num == 0) {
-			$model->save ();
+			$model->save();
 			echo "Request Success";
 		} else {
 			echo "Already Added";
 		}
 	}
 	public function actionRequestresult() // 返回请求添加的结果
-{
+    {
 	}
 	public function actionAcceptadd() // 接受添加
 {
 		$data = Yii::$app->request->post ();
 		
-		$row = Friend::findOne ( [ 
+		$row = Reqfriend::findOne ( [ 
 				'myid' => $data ['friendid'],
 				'friendid' => $data ['myid'] 
 		] );
-		$row->status = true;
-		$row->save ();
+		$row->delete();
 		
-		$model = new Friend ();
-		$model->myid = $data ['myid'];
-		$model->friendid = $data ['friendid'];
-		$model->status = true;
-		$model->save ();
+		$model1 = new Friend ();
+		$model1->myid = $data ['myid'];
+		$model1->friendid = $data ['friendid'];
+		$model1->save ();
+		
+		$model2 = new Friend ();
+		$model2->myid = $data ['friendid'];
+		$model2->friendid = $data ['myid'];
+		$model2->save ();
 		echo "Add Success";
+	}
+	
+	public function actionDelete()
+	{
+		$data = Yii::$app->request->post ();
+		
+		$row1 = Friend::findOne ( [
+				'myid' => $data ['friendid'],
+				'friendid' => $data ['myid']
+		] );
+		$row1->delete();
+		
+		$row2 = Friend::findOne ( [
+				'myid' => $data ['myid'],
+				'friendid' => $data ['friendid']
+		] );
+		$row2->delete();
+		echo "delete success";
 	}
 }

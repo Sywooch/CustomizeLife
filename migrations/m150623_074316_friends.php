@@ -12,11 +12,10 @@ class m150623_074316_friends extends Migration
     			'id' => Schema::TYPE_PK,
     			'myid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'friendid' => Schema::TYPE_INTEGER . ' NOT NULL',
-    			'status' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT FALSE',
     	],'ENGINE=InnoDB');
     	$this->createIndex('friends', 'friends', 'myid');
-    	$this->addForeignKey('myidKey', 'friends', 'myid', 'user', 'id','RESTRICT','CASCADE');
-    	$this->addForeignKey('friendidKey', 'friends', 'friendid', 'user', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('myidKey', 'friends', 'myid', 'user', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('friendidKey', 'friends', 'friendid', 'user', 'id','CASCADE','CASCADE');
     }
 
     public function safeDown()

@@ -13,7 +13,7 @@ class m150623_125822_appofkind extends Migration
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'kind' => Schema::TYPE_STRING,
     	],'ENGINE=InnoDB');
-    	$this->addForeignKey('appofkindKey', 'appofkind', 'appid', 'app', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('appofkindKey', 'appofkind', 'appid', 'app', 'id','CASCADE','CASCADE');
     }
 
     public function safeDown()

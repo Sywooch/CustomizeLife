@@ -16,13 +16,13 @@ class m150623_084611_msg extends Migration
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL',
     	],"ENGINE=InnoDB");
     	$this->createIndex('userid', 'msg', 'userid');
-    	$this->addForeignKey('msguserid', 'msg', 'userid', 'user', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('msguserid', 'msg', 'userid', 'user', 'id','CASCADE','CASCADE');
     	$this->createTable('msgtoapp', [
     			'id' => Schema::TYPE_PK,
     			'msgid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     	],'ENGINE=InnoDB');
-    	$this->addForeignKey('appid', 'msgtoapp', 'msgid', 'msg', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('appid', 'msgtoapp', 'msgid', 'msg', 'id','CASCADE','CASCADE');
     	$this->createIndex('msgid', 'msgtoapp', 'msgid');
     }
 

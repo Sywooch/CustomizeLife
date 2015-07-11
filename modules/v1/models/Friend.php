@@ -10,7 +10,6 @@ use Yii;
  * @property string $id
  * @property integer $myid
  * @property integer $friendid
- * @property boolean $status
  */
 class Friend extends \yii\db\ActiveRecord
 {

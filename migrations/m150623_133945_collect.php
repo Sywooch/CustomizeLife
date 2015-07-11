@@ -15,8 +15,8 @@ public function safeUp()
     			'msg' => Schema::TYPE_INTEGER . ' NOT NULL',
     			
     	],'ENGINE=InnoDB');
-    	$this->addForeignKey('collectmsgKey', 'collect_interact', 'msg', 'msg', 'id','RESTRICT','CASCADE');
-    	$this->addForeignKey('collectinteractKey', 'collect_interact', 'userid', 'user', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('collectmsgKey', 'collect_interact', 'msg', 'msg', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('collectinteractKey', 'collect_interact', 'userid', 'user', 'id','CASCADE','CASCADE');
     	$this->createTable('collect_person', [
     			'id' => Schema::TYPE_PK,
     			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',
@@ -24,8 +24,8 @@ public function safeUp()
     			'app' => Schema::TYPE_INTEGER . ' NOT NULL',
     			 
     	],'ENGINE=InnoDB');
-    	$this->addForeignKey('collectpersonKey', 'collect_person', 'userid', 'user', 'id','RESTRICT','CASCADE');
-    	$this->addForeignKey('collectappKey', 'collect_person', 'app', 'app', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('collectpersonKey', 'collect_person', 'userid', 'user', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('collectappKey', 'collect_person', 'app', 'app', 'id','CASCADE','CASCADE');
 
     }
 

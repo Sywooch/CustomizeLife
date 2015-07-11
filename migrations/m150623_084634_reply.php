@@ -18,9 +18,9 @@ class m150623_084634_reply extends Migration
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
     	]);
     	$this->createIndex('reply-msgid', 'reply', 'msgid');
-    	$this->addForeignKey('msgidKey', 'reply', 'msgid', 'msg', 'id','RESTRICT','CASCADE');
-    	$this->addForeignKey('fromidKey', 'reply', 'fromid', 'user', 'id','RESTRICT','CASCADE');
-    	$this->addForeignKey('toid', 'reply', 'toid', 'user', 'id','RESTRICT','CASCADE');
+    	$this->addForeignKey('msgidKey', 'reply', 'msgid', 'msg', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('fromidKey', 'reply', 'fromid', 'user', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('toid', 'reply', 'toid', 'user', 'id','CASCADE','CASCADE');
 
     }
 
