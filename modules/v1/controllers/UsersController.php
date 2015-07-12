@@ -42,7 +42,8 @@ class UsersController extends Controller {
 								[ 
 										'actions' => [ 
 												'logout',
-												'test' 
+												'test',
+												'getinfo'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -61,11 +62,19 @@ class UsersController extends Controller {
 		if ($model->find ()->where ( [ 
 				'phone' => $data ['phone'] 
 		] )->one ()) {
-			return 0;
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Signup failed!'
+			) );
+			//return 0;
 		} else {
 			$model->created_at = time ();
 			$model->save ();
-			return 1;
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Signup success!'
+			) );
+			//return 1;
 			// return json_encode("sighup success");
 		}
 	}
@@ -91,6 +100,15 @@ class UsersController extends Controller {
 				'flag' => 1,
 				'msg' => 'Logout success!'
 		) );
+	}
+	public function actionGetinfo(){
+// 		$response=Yii::$app->response;
+// 		$response->format=\yii\web\Response::FORMAT_JSON;
+		\Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+		$model=new User();
+		$data=Yii::$app->request->post();
+		$PersonInfo=$model->find()->where(['phone'=> $data['phone']])->one();
+		return $PersonInfo;
 	}
 	public function actionView() {
 		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
