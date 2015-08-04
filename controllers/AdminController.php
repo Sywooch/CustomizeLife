@@ -8,6 +8,8 @@ use yii\data\ActiveDataProvider;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -61,7 +63,7 @@ class AdminController extends Controller
     public function actionCreate()
     {
         $model = new app();
-
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -69,6 +71,30 @@ class AdminController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+    public function actionUpload(){
+    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
+    	$auth=new Auth($accessKey, $secretKey);
+    	$bucket='customizelife';
+    	$token = $auth->uploadToken($bucket);
+    	$uploadMgr = new UploadManager();
+    	//list($ret, $err) = $uploadMgr->put($token, null, 'content string');
+    	list($ret, $err) = $uploadMgr->putFile($token, 'hello','/home/dawei/2.jpg');
+    	echo "\n====> put result: \n";
+    	if ($err !== null) {
+    		var_dump($err);
+    	} else {
+    		var_dump($ret);
+    	}
+    }
+    public function actionDownload(){
+    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
+    	$auth=new Auth($accessKey, $secretKey);
+    	$baseUrl='http://7xkbeq.com1.z0.glb.clouddn.com/FkRvouCaQN6HmCyPmMuBd0OnhiOi';
+    	$authUrl = $auth->privateDownloadUrl($baseUrl);
+    	echo $authUrl;
     }
 
     /**
