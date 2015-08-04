@@ -15,7 +15,7 @@ class m150623_130759_appcomments extends Migration
     			'comments' => Schema::TYPE_STRING . ' NOT NULL',
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL',
     			'title' => Schema::TYPE_STRING . ' NOT NULL',
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('appcommentsKey', 'appcomments', 'appid', 'app', 'id','CASCADE','CASCADE');
 
     }

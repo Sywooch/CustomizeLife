@@ -16,7 +16,7 @@ class m150623_084634_reply extends Migration
     			'toid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'isread' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT FALSE',
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
-    	]);
+    	],"CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB");
     	$this->createIndex('reply-msgid', 'reply', 'msgid');
     	$this->addForeignKey('msgidKey', 'reply', 'msgid', 'msg', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('fromidKey', 'reply', 'fromid', 'user', 'id','CASCADE','CASCADE');

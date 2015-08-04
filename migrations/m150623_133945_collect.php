@@ -23,7 +23,7 @@ public function safeUp()
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL',
     			'app' => Schema::TYPE_INTEGER . ' NOT NULL',
     			 
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('collectpersonKey', 'collect_person', 'userid', 'user', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('collectappKey', 'collect_person', 'app', 'app', 'id','CASCADE','CASCADE');
 

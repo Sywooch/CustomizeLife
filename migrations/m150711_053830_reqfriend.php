@@ -12,7 +12,7 @@ class m150711_053830_reqfriend extends Migration
     			'id' => Schema::TYPE_PK,
     			'myid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'friendid' => Schema::TYPE_INTEGER . ' NOT NULL',
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->createIndex('reqfriend', 'reqfriend', 'myid');
     	$this->addForeignKey('reqmyidKey', 'reqfriend', 'myid', 'user', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('reqfriendidKey', 'reqfriend', 'friendid', 'user', 'id','CASCADE','CASCADE');
