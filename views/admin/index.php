@@ -27,9 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'version',
             'url:url',
             'stars',
-            // 'downloadcount',
+            'downloadcount',
             // 'introduction',
-            // 'updated_at',
+            'updated_at',
             // 'size',
             // 'icon',
 
