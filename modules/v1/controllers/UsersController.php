@@ -30,9 +30,10 @@ class UsersController extends Controller {
 												'login',
 												'signup',
 												'test',
+												'view',
 												'forgetpwd',
-												'resetpwd',
-												'view' 
+												'resetpwd'
+												 
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -93,10 +94,10 @@ class UsersController extends Controller {
 		) );
 	}
 	public function actionView() {
+		$data = Yii::$app->request->post ();
 		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		
 		$userinfo = User::find ()->where ( [ 
-				'id' => 1
+				'phone' => $data['phone']
 		] )->one ();
 		//$userinfo['gender'] = 'man';
 		//$userinfo->save();
@@ -104,11 +105,18 @@ class UsersController extends Controller {
 		$response->format=\yii\web\Response::FORMAT_JSON;
 		if(false==$userinfo){
 			//$response=Yii::$app->response;
-			
+			$user = new User();
+			$user->nickname = "";
+			return $user;
 			//$response->statusCode=404;
-			throw new \yii\web\NotAcceptableHttpException("can not find the server");
+			//throw new \yii\web\HttpException(404,"user recode not found");
 		}else{
 			//
+			unset($userinfo->pwd);
+			unset($userinfo->accessKey);
+			unset($userinfo->authKey);
+			unset($userinfo->created_at);
+			unset($userinfo->updated_at);
 			return $userinfo;
 		} 
 		//return yii\web\NotFoundHttpException;

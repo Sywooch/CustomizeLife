@@ -1,0 +1,731 @@
+Array
+(
+    [0] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/AppController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\AppController'
+        )
+
+    [1] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/AppController.php
+            [message] => No docblock for element '$modelClass'
+        )
+
+    [2] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/AppController.php
+            [message] => No short description for element '$modelClass'
+        )
+
+    [3] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/AppController.php
+            [message] => No docblock for element '$serializer'
+        )
+
+    [4] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/AppController.php
+            [message] => No short description for element '$serializer'
+        )
+
+    [5] => Array
+        (
+            [line] => 19
+            [file] => modules/v1/controllers/AppController.php
+            [message] => No docblock for element 'actionKind'
+        )
+
+    [6] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/CollectController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\CollectController'
+        )
+
+    [7] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/CollectController.php
+            [message] => No docblock for element 'actionInteractcl'
+        )
+
+    [8] => Array
+        (
+            [line] => 25
+            [file] => modules/v1/controllers/CollectController.php
+            [message] => No docblock for element 'actionPersoncl'
+        )
+
+    [9] => Array
+        (
+            [line] => 36
+            [file] => modules/v1/controllers/CollectController.php
+            [message] => No docblock for element 'actionGetpersoncl'
+        )
+
+    [10] => Array
+        (
+            [line] => 61
+            [file] => modules/v1/controllers/CollectController.php
+            [message] => No docblock for element 'actionGetinteractcl'
+        )
+
+    [11] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\FriendController'
+        )
+
+    [12] => Array
+        (
+            [line] => 16
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [13] => Array
+        (
+            [line] => 16
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [14] => Array
+        (
+            [line] => 17
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'actionListenadd'
+        )
+
+    [15] => Array
+        (
+            [line] => 36
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'actionGetall'
+        )
+
+    [16] => Array
+        (
+            [line] => 48
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'actionRequestadd'
+        )
+
+    [17] => Array
+        (
+            [line] => 68
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'actionRequestresult'
+        )
+
+    [18] => Array
+        (
+            [line] => 71
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'actionAcceptadd'
+        )
+
+    [19] => Array
+        (
+            [line] => 93
+            [file] => modules/v1/controllers/FriendController.php
+            [message] => No docblock for element 'actionDelete'
+        )
+
+    [20] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/IndexController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\IndexController'
+        )
+
+    [21] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/IndexController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [22] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/IndexController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [23] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/IndexController.php
+            [message] => No docblock for element '$layout'
+        )
+
+    [24] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/IndexController.php
+            [message] => No short description for element '$layout'
+        )
+
+    [25] => Array
+        (
+            [line] => 145
+            [file] => modules/v1/controllers/IndexController.php
+            [message] => No docblock for element 'actionUpload'
+        )
+
+    [26] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\MessageController'
+        )
+
+    [27] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element '$modelClass'
+        )
+
+    [28] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No short description for element '$modelClass'
+        )
+
+    [29] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element '$serializer'
+        )
+
+    [30] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No short description for element '$serializer'
+        )
+
+    [31] => Array
+        (
+            [line] => 19
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element 'actions'
+        )
+
+    [32] => Array
+        (
+            [line] => 38
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [33] => Array
+        (
+            [line] => 65
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element 'actionSend'
+        )
+
+    [34] => Array
+        (
+            [line] => 83
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element 'actionDeletemsg'
+        )
+
+    [35] => Array
+        (
+            [line] => 127
+            [file] => modules/v1/controllers/MessageController.php
+            [message] => No docblock for element 'actionReply'
+        )
+
+    [36] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/MsgController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\MsgController'
+        )
+
+    [37] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/MsgController.php
+            [message] => No docblock for element '$layout'
+        )
+
+    [38] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/MsgController.php
+            [message] => No short description for element '$layout'
+        )
+
+    [39] => Array
+        (
+            [line] => 12
+            [file] => modules/v1/controllers/MyappController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\MyappController'
+        )
+
+    [40] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/MyappController.php
+            [message] => No docblock for element 'actionDownload'
+        )
+
+    [41] => Array
+        (
+            [line] => 44
+            [file] => modules/v1/controllers/MyappController.php
+            [message] => No docblock for element 'actionDelete'
+        )
+
+    [42] => Array
+        (
+            [line] => 66
+            [file] => modules/v1/controllers/MyappController.php
+            [message] => No docblock for element 'actionKind'
+        )
+
+    [43] => Array
+        (
+            [line] => 12
+            [file] => modules/v1/controllers/ReplyController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\MessageController'
+        )
+
+    [44] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/ReplyController.php
+            [message] => No docblock for element '$modelClass'
+        )
+
+    [45] => Array
+        (
+            [line] => 13
+            [file] => modules/v1/controllers/ReplyController.php
+            [message] => No short description for element '$modelClass'
+        )
+
+    [46] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/ReplyController.php
+            [message] => No docblock for element '$serializer'
+        )
+
+    [47] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/ReplyController.php
+            [message] => No short description for element '$serializer'
+        )
+
+    [48] => Array
+        (
+            [line] => 18
+            [file] => modules/v1/controllers/ReplyController.php
+            [message] => No docblock for element 'actions'
+        )
+
+    [49] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No docblock for element 'app\modules\v1\controllers\UsersController'
+        )
+
+    [50] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [51] => Array
+        (
+            [line] => 15
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [52] => Array
+        (
+            [line] => 56
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No docblock for element 'actionSignup'
+        )
+
+    [53] => Array
+        (
+            [line] => 72
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No docblock for element 'actionLogin'
+        )
+
+    [54] => Array
+        (
+            [line] => 88
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No docblock for element 'actionLogout'
+        )
+
+    [55] => Array
+        (
+            [line] => 95
+            [file] => modules/v1/controllers/UsersController.php
+            [message] => No docblock for element 'actionView'
+        )
+
+    [56] => Array
+        (
+            [line] => 32
+            [file] => modules/v1/models/Appl.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Appl.
+        )
+
+    [57] => Array
+        (
+            [line] => 40
+            [file] => modules/v1/models/Appl.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Appl.
+        )
+
+    [58] => Array
+        (
+            [line] => 53
+            [file] => modules/v1/models/Appl.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Appl.
+        )
+
+    [59] => Array
+        (
+            [line] => 21
+            [file] => modules/v1/models/Appofkind.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Appofkind.
+        )
+
+    [60] => Array
+        (
+            [line] => 29
+            [file] => modules/v1/models/Appofkind.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Appofkind.
+        )
+
+    [61] => Array
+        (
+            [line] => 41
+            [file] => modules/v1/models/Appofkind.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Appofkind.
+        )
+
+    [62] => Array
+        (
+            [line] => 23
+            [file] => modules/v1/models/CollectInteract.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\CollectInteract.
+        )
+
+    [63] => Array
+        (
+            [line] => 31
+            [file] => modules/v1/models/CollectInteract.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\CollectInteract.
+        )
+
+    [64] => Array
+        (
+            [line] => 42
+            [file] => modules/v1/models/CollectInteract.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\CollectInteract.
+        )
+
+    [65] => Array
+        (
+            [line] => 23
+            [file] => modules/v1/models/CollectPerson.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\CollectPerson.
+        )
+
+    [66] => Array
+        (
+            [line] => 31
+            [file] => modules/v1/models/CollectPerson.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\CollectPerson.
+        )
+
+    [67] => Array
+        (
+            [line] => 42
+            [file] => modules/v1/models/CollectPerson.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\CollectPerson.
+        )
+
+    [68] => Array
+        (
+            [line] => 19
+            [file] => modules/v1/models/Friend.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Friend.
+        )
+
+    [69] => Array
+        (
+            [line] => 26
+            [file] => modules/v1/models/Message.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Message.
+        )
+
+    [70] => Array
+        (
+            [line] => 34
+            [file] => modules/v1/models/Message.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Message.
+        )
+
+    [71] => Array
+        (
+            [line] => 46
+            [file] => modules/v1/models/Message.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Message.
+        )
+
+    [72] => Array
+        (
+            [line] => 19
+            [file] => modules/v1/models/Msgtoapp.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Msgtoapp.
+        )
+
+    [73] => Array
+        (
+            [line] => 27
+            [file] => modules/v1/models/Msgtoapp.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Msgtoapp.
+        )
+
+    [74] => Array
+        (
+            [line] => 38
+            [file] => modules/v1/models/Msgtoapp.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Msgtoapp.
+        )
+
+    [75] => Array
+        (
+            [line] => 27
+            [file] => modules/v1/models/Reply.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Reply.
+        )
+
+    [76] => Array
+        (
+            [line] => 35
+            [file] => modules/v1/models/Reply.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Reply.
+        )
+
+    [77] => Array
+        (
+            [line] => 47
+            [file] => modules/v1/models/Reply.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Reply.
+        )
+
+    [78] => Array
+        (
+            [line] => 22
+            [file] => modules/v1/models/Reqfriend.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Reqfriend.
+        )
+
+    [79] => Array
+        (
+            [line] => 30
+            [file] => modules/v1/models/Reqfriend.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Reqfriend.
+        )
+
+    [80] => Array
+        (
+            [line] => 41
+            [file] => modules/v1/models/Reqfriend.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Reqfriend.
+        )
+
+    [81] => Array
+        (
+            [line] => 19
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'beforeSave'
+        )
+
+    [82] => Array
+        (
+            [line] => 33
+            [file] => modules/v1/models/User.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\User.
+        )
+
+    [83] => Array
+        (
+            [line] => 41
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'findIdentity'
+        )
+
+    [84] => Array
+        (
+            [line] => 51
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'findIdentityByAccessToken'
+        )
+
+    [85] => Array
+        (
+            [line] => 59
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'getId'
+        )
+
+    [86] => Array
+        (
+            [line] => 68
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'getUser'
+        )
+
+    [87] => Array
+        (
+            [line] => 75
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'getAuthKey'
+        )
+
+    [88] => Array
+        (
+            [line] => 84
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'validateAuthKey'
+        )
+
+    [89] => Array
+        (
+            [line] => 93
+            [file] => modules/v1/models/User.php
+            [message] => No docblock for element 'validatePassword'
+        )
+
+    [90] => Array
+        (
+            [line] => 9
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element 'app\modules\v1\models\UserForm'
+        )
+
+    [91] => Array
+        (
+            [line] => 10
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element '$phone'
+        )
+
+    [92] => Array
+        (
+            [line] => 10
+            [file] => modules/v1/models/UserForm.php
+            [message] => No short description for element '$phone'
+        )
+
+    [93] => Array
+        (
+            [line] => 11
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element '$pwd'
+        )
+
+    [94] => Array
+        (
+            [line] => 11
+            [file] => modules/v1/models/UserForm.php
+            [message] => No short description for element '$pwd'
+        )
+
+    [95] => Array
+        (
+            [line] => 12
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element '$verifyCode'
+        )
+
+    [96] => Array
+        (
+            [line] => 12
+            [file] => modules/v1/models/UserForm.php
+            [message] => No short description for element '$verifyCode'
+        )
+
+    [97] => Array
+        (
+            [line] => 14
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element 'rules'
+        )
+
+    [98] => Array
+        (
+            [line] => 47
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element 'attributeLabels'
+        )
+
+    [99] => Array
+        (
+            [line] => 58
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element 'validatePassword'
+        )
+
+    [100] => Array
+        (
+            [line] => 70
+            [file] => modules/v1/models/UserForm.php
+            [message] => No docblock for element 'getUser'
+        )
+
+    [101] => Array
+        (
+            [line] => 23
+            [file] => modules/v1/models/Usertoapp.php
+            [message] => Method tableName has no parent to inherit from in app\modules\v1\models\Usertoapp.
+        )
+
+    [102] => Array
+        (
+            [line] => 31
+            [file] => modules/v1/models/Usertoapp.php
+            [message] => Method rules has no parent to inherit from in app\modules\v1\models\Usertoapp.
+        )
+
+    [103] => Array
+        (
+            [line] => 42
+            [file] => modules/v1/models/Usertoapp.php
+            [message] => Method attributeLabels has no parent to inherit from in app\modules\v1\models\Usertoapp.
+        )
+
+)
