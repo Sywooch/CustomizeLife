@@ -1,0 +1,15 @@
+---
+- name: create user
+  hosts: webservers
+  user: root
+  gather_facts: false
+
+  vars:
+  - user: "toy"
+
+  tasks:
+  - name: create {{ user }} on webservers
+    user: name="{{ user }}"
+
+
+ssh root@121.40.171.96
