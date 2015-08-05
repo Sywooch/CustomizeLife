@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'updated_intro')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

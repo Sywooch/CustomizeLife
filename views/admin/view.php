@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
             'size',
             'icon',
-            'updated_intro',
+            'updated_log',
         ],
     ]) ?>
 

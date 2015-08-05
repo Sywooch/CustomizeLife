@@ -18,7 +18,7 @@ use Yii;
  * @property string $updated_at
  * @property string $size
  * @property string $icon
- * @property string $updated_intro
+ * @property string $updated_log
  * @property Appcomments[] $appcomments
  * @property Appofkind[] $appofkinds
  * @property Apptopicture[] $apptopictures
@@ -44,7 +44,7 @@ class Appl extends \yii\db\ActiveRecord
             [['name', 'version', 'android_url','ios_url', 'updated_at', 'icon'], 'required'],
             [['stars', 'downloadcount'], 'integer'],
             [['updated_at'], 'safe'],
-            [['name', 'version', 'android_url','ios_url', 'introduction', 'size', 'icon','updated_intro'], 'string', 'max' => 255]
+            [['name', 'version', 'android_url','ios_url', 'introduction', 'size', 'icon','updated_log'], 'string', 'max' => 255]
         ];
     }
 
@@ -65,7 +65,7 @@ class Appl extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'size' => 'Size',
             'icon' => 'Icon',
-        	'updated_intro' => 'Updated intro'
+        	'updated_log' => 'Updated log'
         ];
     }
 
