@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-require_once '/home/xufei/php/CustomizeLife/vendor/autoload.php';
+
 
 use Yii;
 use app\models\app;

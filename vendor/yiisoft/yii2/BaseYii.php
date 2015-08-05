@@ -464,7 +464,7 @@ class BaseYii
      */
     public static function powered()
     {
-        return 'Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>';
+        return 'Powered by <a href="http://www.sel.zju.edu.cn" rel="external">SEL</a>';
     }
 
     /**
