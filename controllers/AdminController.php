@@ -92,7 +92,7 @@ class AdminController extends Controller
     	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
     	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
     	$auth=new Auth($accessKey, $secretKey);
-    	$baseUrl='http://7xkbeq.com1.z0.glb.clouddn.com/FkRvouCaQN6HmCyPmMuBd0OnhiOi';
+    	$baseUrl='http://7xkbeq.com1.z0.glb.clouddn.com/hello';
     	$authUrl = $auth->privateDownloadUrl($baseUrl);
     	echo $authUrl;
     }

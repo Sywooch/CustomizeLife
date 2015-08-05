@@ -23,6 +23,7 @@ class m150623_084611_msg extends Migration
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('appid', 'msgtoapp', 'msgid', 'msg', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('apppid', 'msgtoapp', 'appid', 'app', 'id','CASCADE','CASCADE');
     	$this->createIndex('msgid', 'msgtoapp', 'msgid');
     }
 
