@@ -20,6 +20,7 @@ class m150623_084658_app extends Migration
     		'updated_at' => Schema::TYPE_DATE. ' NOT NULL',
     		'size' => Schema::TYPE_STRING . ' NOT NULL',
     		'icon' => Schema::TYPE_STRING . ' NOT NULL',
+    		'updated_log'=>Schema::TYPE_STRING,
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
 
     }

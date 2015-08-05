@@ -50,7 +50,10 @@ class ReplyController extends ActiveController {
 		if($err==false){
 			throw new \yii\web\HttpException(404,"recode delete error");
 		}else{
-			return "delete ok";
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Delete success!' 
+			) );
 		}
 		//$model=new Reply();
 		//$model->fromid=$data['fromid'];

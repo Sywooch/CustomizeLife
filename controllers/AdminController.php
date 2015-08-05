@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
+use yii\web\UploadedFile;
+use Qiniu\json_decode;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -63,38 +65,99 @@ class AdminController extends Controller
     public function actionCreate()
     {
         $model = new app();
-		
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $data=Yii::$app->request->post ();
+        //echo var_dump($data);
+        if($data!=false){
+        	echo var_dump($data);
+        $model->name=$data['app']['name'];
+        $model->version=$data['app']['version'];
+        $model->url=$data['app']['url'];
+        $model->stars=$data['app']['stars'];
+        $model->downloadcount=$data['app']['downloadcount'];
+        $model->introduction=$data['app']['introduction'];
+        $model->updated_at=$data['app']['updated_at'];
+        
+        $model->size=$data['app']['size'];
+        $model->icon=$data['icon'];
+        $model->save();
+        }
+        /*if (isset($_POST['app'])) {
+        	$model->attributes=$_POST['app'];
+        	//$rootPath = "uploads/";
+        	$image = UploadedFile::getInstance($model, 'icon');
+        	/*$ext = $image->getExtension();
+        	$randName = time() . rand(1000, 9999) . ".".$ext ;
+        	$path = abs(crc32($randName) % 500);
+        	$rootPath = $rootPath . $path . "/";
+        	if (!file_exists($path)) {
+        		mkdir($rootPath,0777,true);
+        	}
+        	$image->saveAs($rootPath . $randName);
+        	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
+        	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
+        	$auth=new Auth($accessKey, $secretKey);
+        	$bucket='my-space';
+        	$token = $auth->uploadToken($bucket);
+        	$uploadMgr = new UploadManager();
+        	
+        	list($ret, $err) = $uploadMgr->put($token, null, $image);
+        	
+        	if ($err !== null) {
+        		var_dump($err);
+        	} else {
+        		$baseUrl='http://my-space.qiniudn.com/'.$ret['key'];
+        		$authUrl = $auth->privateDownloadUrl($baseUrl);
+        		$model->icon=$authUrl;
+        	}
+        
+        	if($model->save())
+        	{
+        		echo "already save";
+        		return $this->redirect(['view', 'id' => $model->id]);
+        	}
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }
+        }*/
+        return $this->render('create', [
+        		'model' => $model,
+        		]);
     }
     public function actionUpload(){
-    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
-    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
+    	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
+    	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
     	$auth=new Auth($accessKey, $secretKey);
-    	$bucket='customizelife';
+    	$bucket='my-space';
     	$token = $auth->uploadToken($bucket);
     	$uploadMgr = new UploadManager();
     	//list($ret, $err) = $uploadMgr->put($token, null, 'content string');
-    	list($ret, $err) = $uploadMgr->putFile($token, 'hello','/home/dawei/2.jpg');
+    	list($ret, $err) = $uploadMgr->putFile($token, 'hello','/home/xufei/Dockerfile');
     	echo "\n====> put result: \n";
     	if ($err !== null) {
     		var_dump($err);
     	} else {
-    		var_dump($ret);
+    		echo $ret['key'];
     	}
     }
     public function actionDownload(){
-    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
-    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
+    	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
+    	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
     	$auth=new Auth($accessKey, $secretKey);
-    	$baseUrl='http://7xkbeq.com1.z0.glb.clouddn.com/FkRvouCaQN6HmCyPmMuBd0OnhiOi';
+
+    	$baseUrl='http://my-space.qiniudn.com/hello';
+
     	$authUrl = $auth->privateDownloadUrl($baseUrl);
     	echo $authUrl;
+    }
+    
+    public function actionToken(){
+    	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
+    	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
+    	$auth=new Auth($accessKey, $secretKey);
+    	$bucket='my-space';
+    	$token = $auth->uploadToken($bucket);
+    	echo json_encode(array("uptoken"=>$token));
     }
 
     /**
