@@ -128,7 +128,15 @@ class AdminController extends Controller
 
         return $this->redirect(['index']);
     }
-
+    public function actionToken()
+    {
+    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
+    	$auth=new Auth($accessKey, $secretKey);
+    	$bucket='customizelife';
+    	$token = $auth->uploadToken($bucket);
+    	return json_encode(array("uptoken"=>$token));
+    }
     /**
      * Finds the app model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
