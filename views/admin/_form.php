@@ -16,7 +16,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'version')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'android_url')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'ios_url')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'stars')->textInput() ?>
 
@@ -29,6 +31,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'size')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'updated_intro')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

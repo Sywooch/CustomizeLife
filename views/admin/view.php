@@ -31,13 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'version',
-            'url:url',
+            'android_url:url',
+            'ios_url:url',
             'stars',
             'downloadcount',
             'introduction',
             'updated_at',
             'size',
             'icon',
+            'updated_intro',
         ],
     ]) ?>
 
