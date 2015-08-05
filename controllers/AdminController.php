@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-
-
 use Yii;
 use app\models\app;
 use yii\data\ActiveDataProvider;
