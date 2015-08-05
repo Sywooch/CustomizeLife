@@ -146,7 +146,9 @@ class AdminController extends Controller
     	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
     	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
     	$auth=new Auth($accessKey, $secretKey);
+
     	$baseUrl='http://my-space.qiniudn.com/hello';
+
     	$authUrl = $auth->privateDownloadUrl($baseUrl);
     	echo $authUrl;
     }

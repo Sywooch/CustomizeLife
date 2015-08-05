@@ -36,7 +36,7 @@ class MessageController extends ActiveController {
 // 		$posts = $result->query ();
 // 		return $posts->all ();
 // 	}
-	public function actionView(){
+	public function actionId(){
 		$data = Yii::$app->request->post ();
 		$id = $data['id'];
 		$msg = (new \yii\db\Query())->select(['msg.*','user.nickname','user.thumb'])->from ('msg')->join('INNER JOIN', 'user','msg.userid = user.id and msg.id = :id',[':id'=>$id])->one ();
@@ -113,7 +113,10 @@ class MessageController extends ActiveController {
 		if($err==false){
 			throw new \yii\web\HttpException(404,"recode delete error");
 		}else{
-			return "delete ok";
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Delete success!' 
+			) );
 		}
 	}
 // 	public function actionIndex() {

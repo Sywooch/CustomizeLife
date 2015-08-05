@@ -20,7 +20,10 @@ $form = ActiveForm::begin ( [
     <?= $form->field($model, 'version')->textInput(['maxlength' => true])?>
 
 
-    <?= $form->field($model, 'url')->textInput(['maxlength' => true])?>
+    <?= $form->field($model, 'android_url')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'ios_url')->textInput(['maxlength' => true]) ?>
+
 
     <?= $form->field($model, 'stars')->textInput()?>
 
@@ -31,11 +34,6 @@ $form = ActiveForm::begin ( [
     <?= $form->field($model, 'updated_at')->textInput()?>
 
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
-
-
-
-  
-
 
 <div class="col-md-12">
 		<div id="container" style="position: relative;">

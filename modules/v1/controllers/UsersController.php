@@ -29,10 +29,8 @@ class UsersController extends Controller {
 										'actions' => [ 
 												'login',
 												'signup',
-												'test',
-												'view',
 												'forgetpwd',
-												'resetpwd' 
+												'resetpwd'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -48,7 +46,7 @@ class UsersController extends Controller {
 										],
 										'allow' => true,
 										'roles' => [ 
-												'?' 
+												'@' 
 										] 
 								] 
 						] 
@@ -102,7 +100,7 @@ class UsersController extends Controller {
 				'msg' => 'Logout success!' 
 		) );
 	}
-	public function actionGetinfo() {
+	public function actionView() {
 		// $response=Yii::$app->response;
 		// $response->format=\yii\web\Response::FORMAT_JSON;
 		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -111,9 +109,14 @@ class UsersController extends Controller {
 		$PersonInfo = $model->find ()->where ( [ 
 				'phone' => $data ['phone'] 
 		] )->one ();
+		unset($PersonInfo['updated_at']);
+		unset($PersonInfo['pwd']);
+		unset($PersonInfo['created_at']);
+		unset($PersonInfo['authKey']);
+		unset($PersonInfo['accessKey']);
 		return $PersonInfo;
 	}
-	public function actionView() {
+	public function actionGetinfo() {
 		$data = Yii::$app->request->post ();
 		// \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$userinfo = User::find ()->where ( [ 
@@ -157,7 +160,7 @@ class UsersController extends Controller {
 				'job' => $data ['job'],
 				'hobby' => $data ['hobby'],
 				'signature' => $data ['signature'],
-				'updated_at' => $data ['updated_at'] 
+				'updated_at' => time()
 		), 'phone=:ph', array (
 				':ph' => $data ['phone'] 
 		) );

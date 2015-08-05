@@ -52,24 +52,30 @@ class FriendController extends Controller {
 		$model->myid = $data ['myid'];
 		$model->friendid = $data ['friendid'];
 		
-		echo $data ['myid'];
+		//echo $data ['myid'];
 		$num = $model->find ()->andWhere ( [ 
 				'myid' => $data ['myid'],
 				'friendid' => $data ['friendid'] 
 		] )->count ();
-		echo $num;
+		//echo $num;
 		if ($num == 0) {
 			$model->save();
-			echo "Request Success";
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Request Success!'
+			) );
 		} else {
-			echo "Already Added";
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Already Added!'
+			) );
 		}
 	}
 	public function actionRequestresult() // 返回请求添加的结果
     {
 	}
 	public function actionAcceptadd() // 接受添加
-{
+	{
 		$data = Yii::$app->request->post ();
 		
 		$row = Reqfriend::findOne ( [ 
@@ -77,17 +83,27 @@ class FriendController extends Controller {
 				'friendid' => $data ['myid'] 
 		] );
 		$row->delete();
+		if($data['agree']==1){
+			$model1 = new Friend ();
+			$model1->myid = $data ['myid'];
+			$model1->friendid = $data ['friendid'];
+			$model1->save ();
+			
+			$model2 = new Friend ();
+			$model2->myid = $data ['friendid'];
+			$model2->friendid = $data ['myid'];
+			$model2->save ();
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Add friend success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'refuse to add friend!'
+			) );
+		}
 		
-		$model1 = new Friend ();
-		$model1->myid = $data ['myid'];
-		$model1->friendid = $data ['friendid'];
-		$model1->save ();
-		
-		$model2 = new Friend ();
-		$model2->myid = $data ['friendid'];
-		$model2->friendid = $data ['myid'];
-		$model2->save ();
-		echo "Add Success";
 	}
 	
 	public function actionDelete()
@@ -105,6 +121,9 @@ class FriendController extends Controller {
 				'friendid' => $data ['friendid']
 		] );
 		$row2->delete();
-		echo "delete success";
+		echo json_encode ( array (
+				'flag' => 1,
+				'msg' => 'Delete success!'
+		) );
 	}
 }
