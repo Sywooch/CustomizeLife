@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\app;
+use app\models\Apptopicture;
 use yii\data\ActiveDataProvider;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
@@ -80,11 +81,28 @@ class AdminController extends Controller
         
         $model->size=$data['app']['size'];
         $model->icon=$data['icon'];
+        //echo $data['pic'];
+        
+        /*foreach ($data['pic'] as $pic){
+            echo $pic;
+           $model->updated_log=$model->updated_log.$pic;
+        }*/
+        //$appdata=$model->findBySql("select * from app order by id limit 1")->all();
+        $appdata=$model->find()->orderBy('id')->limit(1)->asArray()->all();
+        $model->updated_log=$appdata[0]["id"];
         if($model->save())
-        	{
-        		echo "already save";
-        		return $this->redirect(['view', 'id' => $model->id]);
-        	}
+        {
+        	//$appdata=$model->findBySql("select * from app order by id limit 1")->all();
+        	
+        	/*foreach ($data['pic'] as $pic){
+        		echo $pic;
+        		$apptpic=new Apptopicture();
+        		$apptpic->appid=$appdata['id'];
+        		$apptpic->picture=$pic;
+        		$apptpic->save();
+        	}*/
+        	return $this->redirect(['view', 'id' => $model->id]);
+        }
         } else {
             return $this->render('create', [
                 'model' => $model,

@@ -47,7 +47,7 @@ var domain="http://my-space.qiniudn.com";
 
                 var　tempInput　=　document.createElement("input");　  
                　tempInput.type="hidden";　  
-               　tempInput.name="icon";　　  
+               　tempInput.name="pic[]";　　  
                　tempInput.value=domain+"/"+obj.key;
                 form.appendChild(tempInput);
                 
