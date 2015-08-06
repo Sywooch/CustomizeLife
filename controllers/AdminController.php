@@ -150,21 +150,21 @@ class AdminController extends Controller
     	}
     }
     public function actionDownload(){
-    	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
-    	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
+    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
     	$auth=new Auth($accessKey, $secretKey);
 
-    	$baseUrl='http://my-space.qiniudn.com/hello';
+    	$baseUrl='http://7xkbeq.com1.z0.glb.clouddn.com/u=2117727038,2641018931&fm=21&gp=0.jpg';
 
     	$authUrl = $auth->privateDownloadUrl($baseUrl);
     	echo $authUrl;
     }
     
     public function actionToken(){
-    	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
-    	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
+    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
     	$auth=new Auth($accessKey, $secretKey);
-    	$bucket='my-space';
+    	$bucket='customizelife';
     	$token = $auth->uploadToken($bucket);
     	echo json_encode(array("uptoken"=>$token));
     }
