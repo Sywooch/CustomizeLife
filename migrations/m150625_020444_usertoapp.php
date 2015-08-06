@@ -13,7 +13,7 @@ class m150625_020444_usertoapp extends Migration
     			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'created_at' =>Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->createIndex('usertoapp', 'usertoapp', 'userid');
     	$this->addForeignKey('usertoappuserid', 'usertoapp', 'userid', 'user', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('usertoappappid', 'usertoapp', 'appid', 'app', 'id','CASCADE','CASCADE');

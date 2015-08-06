@@ -691,7 +691,6 @@ class Model extends Component implements IteratorAggregate, ArrayAccess, Arrayab
             foreach ($values as $name => $value) {
                 if (isset($attributes[$name])) {
                     $this->$name = $value;
-                   
                 } elseif ($safeOnly) {
                     $this->onUnsafeAttribute($name, $value);
                 }
@@ -792,9 +791,7 @@ class Model extends Component implements IteratorAggregate, ArrayAccess, Arrayab
      */
     public function load($data, $formName = null)
     {
-    	
         $scope = $formName === null ? $this->formName() : $formName;
-       
         if ($scope === '' && !empty($data)) {
             $this->setAttributes($data);
 

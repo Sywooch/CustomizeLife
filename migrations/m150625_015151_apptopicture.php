@@ -12,7 +12,7 @@ class m150625_015151_apptopicture extends Migration
     			'id' => Schema::TYPE_PK,
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'picture' => Schema::TYPE_STRING . ' NOT NULL',
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('apptopicture', 'apptopicture', 'appid', 'app', 'id','CASCADE','CASCADE');
 
     }

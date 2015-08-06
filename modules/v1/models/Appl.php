@@ -10,14 +10,15 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $version
- * @property string $url
+ * @property string $android_url
+ * @property string $ios_url
  * @property integer $stars
  * @property integer $downloadcount
  * @property string $introduction
  * @property string $updated_at
  * @property string $size
  * @property string $icon
- *
+ * @property string $updated_log
  * @property Appcomments[] $appcomments
  * @property Appofkind[] $appofkinds
  * @property Apptopicture[] $apptopictures
@@ -40,10 +41,10 @@ class Appl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'version', 'url', 'updated_at', 'icon'], 'required'],
+            [['name', 'version', 'android_url','ios_url', 'updated_at', 'icon'], 'required'],
             [['stars', 'downloadcount'], 'integer'],
             [['updated_at'], 'safe'],
-            [['name', 'version', 'url', 'introduction', 'size', 'icon'], 'string', 'max' => 255]
+            [['name', 'version', 'android_url','ios_url', 'introduction', 'size', 'icon','updated_log'], 'string', 'max' => 255]
         ];
     }
 
@@ -56,13 +57,15 @@ class Appl extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'version' => 'Version',
-            'url' => 'Url',
+            'android_url' => 'android_url',
+        	'ios_url' => 'Ios_url',
             'stars' => 'Stars',
             'downloadcount' => 'Downloadcount',
             'introduction' => 'Introduction',
             'updated_at' => 'Updated At',
             'size' => 'Size',
             'icon' => 'Icon',
+        	'updated_log' => 'Updated log'
         ];
     }
 

@@ -19,8 +19,17 @@ class CollectController extends Controller {
 		$model->msg = $data ['msg'];
 		$model->created_at = time ();
 		
-		$model->save ();
-		echo "collect success";
+		if($model->save ()){
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Collect success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Collect fail!'
+			) );
+		}
 	}
 	public function actionPersoncl() {
 		$data = Yii::$app->request->post ();
@@ -30,19 +39,28 @@ class CollectController extends Controller {
 		$model->app = $data ['app'];
 		$model->created_at = time ();
 		
-		$model->save ();
-		echo "collect success";
+		if($model->save ()){
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Collect success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Collect fail!'
+			) );
+		}
 	}
 	public function actionGetpersoncl() {
 		$data = Yii::$app->request->post ();
 		
 		$query = CollectPerson::find ()->select ( '*' )->join ( 'INNER JOIN', 'app', 'app.id=collect_person.app' )->where ( [ 
-				'collect_person.app' => $data ['userid'] 
+				'collect_person.userid' => $data ['userid'] 
 		] );
 		
 		$pages = new Pagination ( [ 
 				'totalCount' => $query->count (),
-				'pageSize' => '3' 
+				'pageSize' => '10' 
 		] );
 		$models = $query->offset ( $pages->offset )->limit ( $pages->limit )->all ();
 		

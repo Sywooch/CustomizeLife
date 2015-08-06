@@ -58,6 +58,7 @@ class FriendController extends Controller {
 		$model->myid = $data ['myid'];
 		$model->friendid = $data ['friendid'];
 		
+
 		$row = Reqfriend::findOne ( [
 				'myid' => $data ['myid'],
 				'friendid' => $data ['friendid']
@@ -84,13 +85,14 @@ class FriendController extends Controller {
 						'flag' => 0,
 						'msg' => 'Alreadyexists'
 				));
+
 		}
 	}
 	public function actionRequestresult() // 返回请求添加的结果
     {
 	}
 	public function actionAcceptadd() // 接受添加
-{
+	{
 		$data = Yii::$app->request->post ();
 		
 		
@@ -155,6 +157,7 @@ class FriendController extends Controller {
 					'msg' => 'Addfailure'
 			));
 		}
+
 	}
 	
 	public function actionDelete()
@@ -195,5 +198,6 @@ class FriendController extends Controller {
 					'msg' => 'Deletefailure'
 			));
 		}
+
 	}
 }

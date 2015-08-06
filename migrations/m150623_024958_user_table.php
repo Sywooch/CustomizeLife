@@ -24,7 +24,7 @@ class m150623_024958_user_table extends Migration
     		'signature' => Schema::TYPE_STRING,
     		'created_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
     		'updated_at' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0'
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	//$this->createIndex('user', 'user', 'user',true);
     	$this->createIndex('phone', 'user', 'phone',true);
 
