@@ -1,7 +1,7 @@
 var domain="http://my-space.qiniudn.com";
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'icon',
+        browse_button: 'pic',
         container: 'container',
         drop_element: 'container',
         max_file_size: '100mb',
@@ -18,19 +18,19 @@ var domain="http://my-space.qiniudn.com";
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function(file) {
-                    var progress = new FileProgress(file, 'fsUploadProgress');
+                    var progress = new FileProgress(file, 'fsUploadProgress1');
                     progress.setStatus("等待...");
                 });
             },
             'BeforeUpload': function(up, file) {
-                var progress = new FileProgress(file, 'fsUploadProgress');
+                var progress = new FileProgress(file, 'fsUploadProgress1');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
                     progress.setChunkProgess(chunk_size);
                 }
             },
             'UploadProgress': function(up, file) {
-                var progress = new FileProgress(file, 'fsUploadProgress');
+                var progress = new FileProgress(file, 'fsUploadProgress1');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
 
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
@@ -39,7 +39,7 @@ var domain="http://my-space.qiniudn.com";
                 $('#success').show();
             },
             'FileUploaded': function(up, file, info) {
-                var progress = new FileProgress(file, 'fsUploadProgress');
+                var progress = new FileProgress(file, 'fsUploadProgress1');
                 progress.setComplete(up, info);
                 var obj=JSON.parse(info);
 
@@ -54,7 +54,7 @@ var domain="http://my-space.qiniudn.com";
             },
             'Error': function(up, err, errTip) {
                     $('table').show();
-                    var progress = new FileProgress(err.file, 'fsUploadProgress');
+                    var progress = new FileProgress(err.file, 'fsUploadProgress1');
                     progress.setError();
                     progress.setStatus(errTip);
                 },
