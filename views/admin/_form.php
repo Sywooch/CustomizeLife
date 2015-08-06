@@ -70,7 +70,7 @@ $form = ActiveForm::begin ( [
 		</table>
 	</div>
 </div>
-</div>
+
 
 
 
