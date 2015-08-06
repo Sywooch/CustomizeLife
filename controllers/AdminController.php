@@ -162,7 +162,7 @@ class AdminController extends Controller
     
     public function actionToken(){
     	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
-    	$secretKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
     	$auth=new Auth($accessKey, $secretKey);
     	$bucket='customizelife';
     	$token = $auth->uploadToken($bucket);
