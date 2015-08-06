@@ -71,15 +71,24 @@ class AdminController extends Controller
         	echo var_dump($data);
         $model->name=$data['app']['name'];
         $model->version=$data['app']['version'];
-        $model->url=$data['app']['url'];
+        $model->android_url=$data['app']['android_url'];
+        $model->ios_url=$data['app']['ios_url'];
         $model->stars=$data['app']['stars'];
         $model->downloadcount=$data['app']['downloadcount'];
         $model->introduction=$data['app']['introduction'];
-        $model->updated_at=$data['app']['updated_at'];
+        $model->updated_at=time();
         
         $model->size=$data['app']['size'];
         $model->icon=$data['icon'];
-        $model->save();
+        if($model->save())
+        	{
+        		echo "already save";
+        		return $this->redirect(['view', 'id' => $model->id]);
+        	}
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
         /*if (isset($_POST['app'])) {
         	$model->attributes=$_POST['app'];

@@ -30,9 +30,7 @@ $form = ActiveForm::begin ( [
     <?= $form->field($model, 'downloadcount')->textInput()?>
 
     <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
-
-    <?= $form->field($model, 'updated_at')->textInput()?>
-
+    
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
 
 <div class="col-md-12">
