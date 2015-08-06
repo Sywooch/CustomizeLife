@@ -92,7 +92,7 @@ $form = ActiveForm::begin ( [
         dragdrop: true,
         chunk_size: '4mb',
         uptoken_url: '/admin/token',
-        domain: 'http://my-space.qiniudn.com',
+        domain: 'http://7xkbeq.com1.z0.glb.clouddn.com',
         auto_start: true,
         init: {
             'FilesAdded': function(up, files) {

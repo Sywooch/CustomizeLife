@@ -125,14 +125,14 @@ class AdminController extends Controller
         		]);
     }
     public function actionUpload(){
-    	$accessKey='LsJtdgRp5sm2UXbF2HNhzn6ZzZpA11O7CAXGlJLS';
-    	$secretKey='tfGAEgVEaQYJDLjMT1XAae1uznqCyZTVPlmcImpo';
+    	$accessKey='6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+    	$secretKey='RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
     	$auth=new Auth($accessKey, $secretKey);
-    	$bucket='my-space';
+    	$bucket='customizelife';
     	$token = $auth->uploadToken($bucket);
     	$uploadMgr = new UploadManager();
     	//list($ret, $err) = $uploadMgr->put($token, null, 'content string');
-    	list($ret, $err) = $uploadMgr->putFile($token, 'hello','/home/xufei/Dockerfile');
+    	list($ret, $err) = $uploadMgr->putFile($token, null,'/home/dawei/Downloads/6bef293afbe28923ee31acc31646bba3.apk');
     	echo "\n====> put result: \n";
     	if ($err !== null) {
     		var_dump($err);
