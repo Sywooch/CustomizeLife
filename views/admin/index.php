@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,10 +14,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create App', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
+    <?php $form=ActiveForm::begin();?>
+ <?=$form->field($model,'user')->textInput(["placeholder"=>"应用名称"]); ?>
+ <div class="form-group">
+            <?=  Html::submitButton('搜索', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
+             
+            </div>
+<?php ActiveForm::end();?>
 
+<p>
+   <?= Html::a('Create App', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
