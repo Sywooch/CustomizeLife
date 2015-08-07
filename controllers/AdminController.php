@@ -15,6 +15,7 @@ use Qiniu\Storage\UploadManager;
 use yii\web\UploadedFile;
 use Qiniu\json_decode;
 use app\modules\v1\models\User;
+use yii\db\ActiveQuery;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -44,17 +45,36 @@ class AdminController extends Controller {
 					'query' => app::find () 
 			] );
 			$model=new Systemuser();
-			return $this->render ( 'index', [ 
-					'dataProvider' => $dataProvider,
-					'model'=>$model 
+			$data = Yii::$app->request->post ();
+			
+			$appdata=new ActiveDataProvider ( [ 
+					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss' ] )
 			] );
+			
+			if($data!=false){
+				$appdata=new ActiveDataProvider ( [
+						'query' => app::find()->select("*")->where ( [ 'name' => $data ['Systemuser']['name'] ] )
+				] );
+				
+				return $this->render ( 'index', [
+						'dataProvider' => $dataProvider,
+						'model'=>$model ,
+						'appdata'=>$appdata
+				] );
+			}else{
+				return $this->render ( 'index', [
+						'dataProvider' => $dataProvider,
+						'model'=>$model ,
+						'appdata'=>$appdata
+				] );
+			}
+			
 		} else {
 			return $this->redirect ( [ 
 					'login' 
 			] );
 		}
 	}
-	
 	/**
 	 * Displays a single app model.
 	 *
@@ -168,7 +188,7 @@ class AdminController extends Controller {
 		$model = new Systemuser ();
 		
 		$model->load ( Yii::$app->request->post () );
-		if ($model->user === 'admin' && $model->pwd === 'admin') {
+		if ($model->name === 'admin' && $model->pwd === 'admin') {
 			Yii::$app->session ['var'] = 'admin';
 			return $this->redirect ( [ 
 					'index' 

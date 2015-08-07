@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "systemuser".
  *
  * @property integer $id
- * @property string $user
+ * @property string $name
  * @property string $pwd
  */
 class Systemuser extends \yii\db\ActiveRecord
@@ -27,10 +27,10 @@ class Systemuser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user', 'pwd'], 'required'],
-            [['user'], 'string', 'max' => 20],
+            [['name', 'pwd'], 'required'],
+            [['name'], 'string', 'max' => 20],
             [['pwd'], 'string', 'max' => 255],
-            [['user'], 'unique']
+            [['name'], 'unique']
         ];
     }
 
@@ -41,7 +41,7 @@ class Systemuser extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user' => 'User',
+            'name' => 'Name',
             'pwd' => 'Pwd',
         ];
     }

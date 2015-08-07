@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
                 'options'=>['enctype'=>'multipart/form-data']
             ]);?>
 
-            <?=$form->field($model,'user')->textInput(["placeholder"=>"账号"]); ?>
+            <?=$form->field($model,'name')->textInput(["placeholder"=>"账号"]); ?>
             <?=$form->field($model,'pwd')->textInput(['placeholder'=>'密码']); ?>
 <!--            --><?//=$form->field($model,'verifyCode')->widget(Captcha::className(),['captchaAction'=>'public/captcha',
 //                'template'=>'<div class="row"><div class="col-md-3 col-xs-4 mr20">{image}</div><div class="col-md-6 col-xs-6">{input}</div></div>'
