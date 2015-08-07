@@ -17,6 +17,7 @@ use Qiniu\json_decode;
 /**
  * AdminController implements the CRUD actions for app model.
  */
+
 class AdminController extends Controller {
 	public function behaviors() {
 		return [ 
