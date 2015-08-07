@@ -197,8 +197,8 @@ FileProgress.prototype.setComplete = function(up, info) {
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     } else {
         var domain = up.getOption('domain');
-        url = domain + encodeURI(res.key);
-        var link = domain + res.key;
+        url = domain +"/" + encodeURI(res.key);
+        var link = domain+"/" + res.key;
         str = "<div><strong>Link:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     }
@@ -236,7 +236,7 @@ FileProgress.prototype.setComplete = function(up, info) {
     progressNameTd.append(Wrapper);
 
     if (!isImg) {
-        showImg.attr('src', 'default.png');
+        showImg.attr('src', '/assets/default.png');
         Wrapper.addClass('default');
 
         imgWrapper.append(showImg);
