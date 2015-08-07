@@ -10,6 +10,7 @@ use app\modules\v1\models\Reqfriend;
 use app\modules\v1\models\User;
 use yii\db\ActiveRecord;
 use app\modules\v1\models\app\modules\v1\models;
+use app\models\app;
 
 class FriendController extends Controller {
 	public $enableCsrfValidation = false;
@@ -85,6 +86,9 @@ class FriendController extends Controller {
 	}
 	public function actionRequestresult() 	// 返回请求添加的结果
 	{
+		$app=new app();
+		$data=$app->findBySql("select * from app order by id desc limit 1")->all();
+		echo $data[0]['id'];
 	}
 	public function actionAcceptadd() 	// 接受添加
 	{

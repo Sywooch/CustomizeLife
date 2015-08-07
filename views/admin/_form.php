@@ -44,7 +44,7 @@ $form = ActiveForm::begin ( [
 				style="position: absolute; top: 0px; left: 0px; width: 167px; height: 46px; overflow: hidden; z-index: 0;">
 				<input id="html5_19rugovp4pupkrh1n901mlkrhd3" type="file"
 					style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
-					multiple="" accept="">
+					multiple=""  accept="">
 			</div>
 		</div>
 	</div>
@@ -70,16 +70,13 @@ $form = ActiveForm::begin ( [
 </div>
 
 
-
-
-
-
 <script src="/assets/jssdk/plupload.full.min.js"></script>
 <script src="/assets/jssdk/ui.js"></script>
 <script src="/assets/jssdk/qiniu.js"></script>
 <script src="/assets/jssdk/moxie.js"></script>
 
 <script>
+	var domain="http://my-space.qiniudn.com";
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
         browse_button: 'pickfiles',
@@ -90,7 +87,7 @@ $form = ActiveForm::begin ( [
         dragdrop: true,
         chunk_size: '4mb',
         uptoken_url: '/admin/token',
-        domain: 'http://my-space.qiniudn.com',
+        domain: domain,
         auto_start: true,
         init: {
             'FilesAdded': function(up, files) {
@@ -127,10 +124,9 @@ $form = ActiveForm::begin ( [
                 var　tempInput　=　document.createElement("input");　  
                　tempInput.type="hidden";　  
                　tempInput.name="icon";　　  
-               　tempInput.value=obj.key;
+               　tempInput.value=domain+"/"+obj.key;
                 form.appendChild(tempInput);
                 
-                console.log(obj.key);
             },
             'Error': function(up, err, errTip) {
                     $('table').show();
