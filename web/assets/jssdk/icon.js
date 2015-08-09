@@ -1,4 +1,4 @@
-var domain="http://my-space.qiniudn.com";
+var domain="http://7xkbeq.com1.z0.glb.clouddn.com";
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
         browse_button: 'icon',
