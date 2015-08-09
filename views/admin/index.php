@@ -1,75 +1,58 @@
 <?php
-
 use yii\helpers\Html;
-use yii\grid\GridView;
-use kartik\form\ActiveForm;
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Apps';
-$this->params['breadcrumbs'][] = $this->title;
+use app\assets\AppAsset;
+use yii\widgets\ActiveForm;
 ?>
-<div class="app-index">
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <?=Html::cssFile('@web/assets/css/dpl-min.css')?>
+    <?=Html::cssFile('@web/assets/css/bui-min.css')?>
+    <?=Html::cssFile('@web/assets/css/main-min.css')?>
+    <?=Html::cssFile('@web/css/site.css')?>
+    <?=Html::jsFile('@web/assets/js/jquery-1.8.1.min.js')?>
+    <?=Html::jsFile('@web/assets/js/bui-min.js')?>
+    <?=Html::jsFile('@web/assets/js/common/main-min.js')?>
+    <?=Html::jsFile('@web/assets/js/config-min.js')?>
+   
 
-    <h1><?= Html::encode($this->title) ?></h1>
+</head>
+<body>
 
-    
- <?php $form=ActiveForm::begin([
- 		'id' => 'login-form-inline',
- 		'type' => ActiveForm::TYPE_INLINE
- 		]);?>
- <?=$form->field($model,'name')->textInput(["placeholder"=>"应用名称"]); ?>
- 
- <div class="form-group">
-            <?=  Html::submitButton('搜索', ['class'=>'btn btn-success','name' =>'submit-button']) ?>
-             
-            </div>
-<?php ActiveForm::end();?>
- <?= GridView::widget([
-        'dataProvider' => $appdata,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'name',
-            'version',
-            //'android_url:url',
-            //'ios_url:url',
-             'stars',
-             'downloadcount',
-            // 'introduction',
-             'updated_at',
-             'size',
-             'icon',
-            // 'updated_log',
+<div class="header">
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<p>&nbsp</p>
-<p>
-   <?= Html::a('Create App', ['create'], ['class' => 'btn btn-success']) ?>
-</p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="dl-title">
+        <!--<img src="/chinapost/Public/assets/img/top.png">-->
+    </div>
 
-            'id',
-            'name',
-            'version',
-            //'android_url:url',
-            //'ios_url:url',
-             'stars',
-             'downloadcount',
-            // 'introduction',
-             'updated_at',
-             'size',
-             'icon',
-            // 'updated_log',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    <div class="dl-log">欢迎您！ <a href="<?=Yii::$app->urlManager->createUrl(['admin/index/logout'])?>" title="退出系统" class="dl-log-quit">[退出]</a>
+    </div>
 </div>
+<div class="content">
+    
+    <ul id="J_NavContent" class="dl-tab-conten">
+
+    </ul>
+</div>
+
+
+<script>
+    var myapp="<?= Yii::$app->urlManager->createUrl('admin/app')?>";
+    var thumb="<?= Yii::$app->urlManager->createUrl('admin/index/thumb')?>";
+
+    BUI.use('common/main',function(){
+        var config = [
+            {id:'1',menu:[
+                  {text:'数据管理',items:[{id:'11',text:'APP',href:myapp},{id:'12',text:'USER',href:thumb}]}
+                ]}
+        ];
+        new PageUtil.MainPage({
+            modulesConfig : config
+        });
+    });
+</script>
+</body>
+</html>

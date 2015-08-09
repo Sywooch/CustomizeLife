@@ -40,34 +40,9 @@ class AdminController extends Controller {
 	 * @return mixed
 	 */
 	public function actionIndex() {
+		
 		if (Yii::$app->session ['var'] === 'admin') {
-			$dataProvider = new ActiveDataProvider ( [ 
-					'query' => app::find () 
-			] );
-			$model=new Systemuser();
-			$data = Yii::$app->request->post ();
-			
-			$appdata=new ActiveDataProvider ( [ 
-					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss' ] )
-			] );
-			
-			if($data!=false){
-				$appdata=new ActiveDataProvider ( [
-						'query' => app::find()->select("*")->where ( [ 'name' => $data ['Systemuser']['name'] ] )
-				] );
-				
-				return $this->render ( 'index', [
-						'dataProvider' => $dataProvider,
-						'model'=>$model ,
-						'appdata'=>$appdata
-				] );
-			}else{
-				return $this->render ( 'index', [
-						'dataProvider' => $dataProvider,
-						'model'=>$model ,
-						'appdata'=>$appdata
-				] );
-			}
+			return $this->render('index');
 			
 		} else {
 			return $this->redirect ( [ 
@@ -75,6 +50,45 @@ class AdminController extends Controller {
 			] );
 		}
 	}
+	
+	public function actionApp() {
+		if (Yii::$app->session ['var'] === 'admin') {
+			$dataProvider = new ActiveDataProvider ( [
+					'query' => app::find ()
+			] );
+			$model=new Systemuser();
+			$data = Yii::$app->request->post ();
+				
+			$appdata=new ActiveDataProvider ( [
+					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss' ] )
+			] );
+				
+			if($data!=false){
+				$appdata=new ActiveDataProvider ( [
+						'query' => app::find()->select("*")->where ( [ 'name' => $data ['Systemuser']['name'] ] )
+				] );
+	
+				return $this->render ( 'app', [
+						'dataProvider' => $dataProvider,
+						'model'=>$model ,
+						'appdata'=>$appdata
+				] );
+			}else{
+				return $this->render ( 'app', [
+						'dataProvider' => $dataProvider,
+						'model'=>$model ,
+						'appdata'=>$appdata
+				] );
+			}
+				
+		} else {
+			return $this->redirect ( [
+					'login'
+			] );
+		}
+	}
+	
+	
 	/**
 	 * Displays a single app model.
 	 *
