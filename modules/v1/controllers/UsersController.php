@@ -5,17 +5,18 @@ namespace app\modules\v1\controllers;
 use Yii;
 use app\modules\v1\models\User;
 use app\modules\v1\models\UserForm;
+use app\modules\v1\models\Vercode;
 // use yii\web\Controller;
 use yii\rest\Controller;
 use app\modules\v1\models;
 use app;
 use yii\filters\AccessControl;
+use function Qiniu\json_decode;
 
 
 
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
-	public $phtonum;
 	/**
 	 * accesscontrol
 	 */
@@ -46,7 +47,8 @@ class UsersController extends Controller {
 												'test',
 												'getinfo',
 												'modify' ,
-												'send'
+												'send',
+												'verify'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -189,23 +191,69 @@ class UsersController extends Controller {
 	
 
 	public function actionSend() {
-		/*$data = Yii::$app->request->post ();
+		$ph = Yii::$app->request->post ();
 		$output="";
 		for ($i=0; $i<4; $i++)
 		{
 		  $output .= mt_rand(0,9);
 		}
-	    $phtonum[$data['phone']]=$output;*/
 		$rest=new REST();
-		$apikey='2ed654a80444b967e906595bba698756';
-		$mobile='18767138117';
+		$apikey='7d4294b4e224bd57377c85873b3e8430';
+		$mobile=$ph['phone'];
 		$tpl_id = 2; //对应默认模板 【#company#】您的验证码是#code#
-		$tpl_value = "#company#=云片网&#code#=1234";
+		$tpl_value = "#company#=云片网&#code#=".$output;
 		//$rest->send_sms($apikey,$text, $mobile);
 		$data=$rest->tpl_send_sms($apikey,$tpl_id, $tpl_value, $mobile);
-		var_dump($data);
+		$obj=json_decode($data);
+		if($obj->msg==='OK'){
+			$model=new Vercode();
+			$model->phone=$ph['phone'];
+			$model->num=$output;
+			$model->created_at=time();
+			$model->save();
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Send success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Send failed!'
+			) );
+		}
 	}
 	
+	public function actionVerify() {
+		$data = Yii::$app->request->post ();
+		
+		$info=Vercode::find()->select('*')->where(['phone' => $data ['phone'] ])->one();
+		
+		if ($info===false){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Verify failed!'
+			) );
+		}else{
+			if($info['num']==$data['num']&&time()-$info['created_at']<=300){
+				Vercode::deleteAll(['phone' => $data ['phone'] ]);
+				echo json_encode ( array (
+						'flag' => 1,
+						'msg' => 'Verify success!'
+				) );
+			}else if(time()-$info['created_at']>300){
+				Vercode::deleteAll(['phone' => $data ['phone'] ]);
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Verify failed!'
+				) );
+		}else {
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Verify failed!'
+				) );
+			}
+		}
+		}
 }
 class REST {
 //模板接口样例（不推荐。需要测试请将注释去掉。)
