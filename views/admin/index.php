@@ -46,7 +46,7 @@ use yii\widgets\ActiveForm;
     BUI.use('common/main',function(){
         var config = [
             {id:'1',menu:[
-                  {text:'数据管理',items:[{id:'11',text:'APP',href:myapp},{id:'12',text:'USER',href:thumb}]}
+                  {text:'数据管理',items:[{id:'11',text:'应用管理',href:myapp},{id:'12',text:'用户管理',href:thumb}]}
                 ]}
         ];
         new PageUtil.MainPage({

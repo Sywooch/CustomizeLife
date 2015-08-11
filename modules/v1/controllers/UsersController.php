@@ -177,6 +177,7 @@ class UsersController extends Controller {
 			echo json_encode ( array (
 					'flag' => 0,
 					'msg' => 'Modify failed!' 
+					
 			) );
 		} else {
 			echo json_encode ( array (
@@ -192,6 +193,16 @@ class UsersController extends Controller {
 
 	public function actionSend() {
 		$ph = Yii::$app->request->post ();
+		$model = new User ();
+		if ($model->find ()->where ( [
+				'phone' => $ph ['phone']
+		] )->one ()) {
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Phone has been registered!'
+			) );
+			return;
+		}
 		$output="";
 		for ($i=0; $i<4; $i++)
 		{
@@ -236,6 +247,10 @@ class UsersController extends Controller {
 		}else{
 			if($info['num']==$data['num']&&time()-$info['created_at']<=300){
 				Vercode::deleteAll(['phone' => $data ['phone'] ]);
+				$model = new User ();
+				$model->phone=$data['phone'];
+					$model->created_at = time ();
+					$model->save ();
 				echo json_encode ( array (
 						'flag' => 1,
 						'msg' => 'Verify success!'
