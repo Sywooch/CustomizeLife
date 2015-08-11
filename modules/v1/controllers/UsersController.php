@@ -189,13 +189,13 @@ class UsersController extends Controller {
 	
 
 	public function actionSend() {
-		$data = Yii::$app->request->post ();
+		/*$data = Yii::$app->request->post ();
 		$output="";
 		for ($i=0; $i<4; $i++)
 		{
 		  $output .= mt_rand(0,9);
 		}
-	    $phtonum[$data['phone']]=$output;
+	    $phtonum[$data['phone']]=$output;*/
 		$rest=new REST();
 		$apikey='2ed654a80444b967e906595bba698756';
 		$mobile='18767138117';

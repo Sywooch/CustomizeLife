@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
 use Qiniu\json_decode;
 use app\modules\v1\models\User;
 use yii\db\ActiveQuery;
+use app\modules\v1\models\Appofkind;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -213,6 +214,7 @@ class AdminController extends Controller {
 			] );
 		}
 	}
+	
 	/**
 	 * Updates an existing app model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

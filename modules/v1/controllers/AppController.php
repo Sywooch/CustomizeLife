@@ -9,6 +9,7 @@ use yii\widgets\LinkPager;
 use yii\rest\ActiveController;
 //use yii\rest\ActiveController;
 use app\modules\v1\models\Appl;
+use app\modules\v1\models\Appofkind;
 use app\modules\v1\models\Apptopicture;
 use app\modules\v1\models\Appcomments;
 use app\modules\v1\models\Message;
@@ -45,6 +46,13 @@ class AppController extends ActiveController {
 		);
 		
 		return $result;
+	}
+	public function actionAllkind(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$model=new Appofkind();
+		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
+		$aa = $model->findBySql ( "select distinct kind from appofkind" )->all ();
+		return $aa;
 	}
 	public function actionGetapp(){
 		$data=Yii::$app->request->post();
