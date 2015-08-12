@@ -95,16 +95,27 @@ class AppController extends ActiveController {
 		$appcomment->created_at=time();
 		$appcomment->appid=$data['appid'];
 		$appcomment->save();
-		$appl = new Appl ();
-		$appinfo = $appl->find ()->where ( [
+// 		$appl = new Appl ();
+// 		$appinfo = $appl->find ()->where ( [
+// 				'id' => $data ['appid']
+// 		] )->one ();
+		$appinfo=Appl::findOne([
 				'id' => $data ['appid']
-		] )->one ();
+		]);
 		$appinfo->stars=($appinfo->stars*$appinfo->commentscount+$data['commentstars'])/($appinfo->commentscount+1);
 		$appinfo['commentscount']+=1;
-		$appl->save();
+		$appinfo->save();
 		echo json_encode ( array (
 				'flag' => 1,
 				'msg' => 'summit success!'
 		) );
+	}
+	public function actionSearch(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$model=new Appl();
+		$data=Yii::$app->request->post();
+		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
+		$aa = $model->find()->where(['like','name',$data['name']])->all();
+		return $aa;
 	}
 }
