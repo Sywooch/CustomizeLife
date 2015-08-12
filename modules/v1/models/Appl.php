@@ -10,15 +10,18 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $version
+ * @property string $profile
  * @property string $android_url
  * @property string $ios_url
  * @property integer $stars
  * @property integer $downloadcount
+ * @property integer $commentscount
  * @property string $introduction
- * @property string $updated_at
+ * @property integer $updated_at
  * @property string $size
  * @property string $icon
  * @property string $updated_log
+ *
  * @property Appcomments[] $appcomments
  * @property Appofkind[] $appofkinds
  * @property Apptopicture[] $apptopictures
@@ -41,10 +44,9 @@ class Appl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'version', 'android_url','ios_url', 'updated_at', 'icon'], 'required'],
-            [['stars', 'downloadcount'], 'integer'],
-            [['updated_at'], 'safe'],
-            [['name', 'version', 'android_url','ios_url', 'introduction', 'size', 'icon','updated_log'], 'string', 'max' => 255]
+            [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'updated_at', 'size', 'icon'], 'required'],
+            [['stars', 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
+            [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log'], 'string', 'max' => 255]
         ];
     }
 
@@ -57,15 +59,17 @@ class Appl extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'version' => 'Version',
-            'android_url' => 'android_url',
-        	'ios_url' => 'Ios_url',
+            'profile' => 'Profile',
+            'android_url' => 'Android Url',
+            'ios_url' => 'Ios Url',
             'stars' => 'Stars',
             'downloadcount' => 'Downloadcount',
+            'commentscount' => 'Commentscount',
             'introduction' => 'Introduction',
             'updated_at' => 'Updated At',
             'size' => 'Size',
             'icon' => 'Icon',
-        	'updated_log' => 'Updated log'
+            'updated_log' => 'Updated Log',
         ];
     }
 

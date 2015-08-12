@@ -5,6 +5,7 @@ namespace app\modules\v1\controllers;
 use Yii;
 use app\modules\v1\models\Usertoapp;
 use app\modules\v1\models\Appl;
+use app\modules\v1\models\User;
 use yii\rest\Controller;
 use app;
 use app\modules\v1\models;
@@ -74,5 +75,17 @@ class MyappController extends Controller {
 		->where(["usertoapp.userid"=>$data['userid'],'appofkind.kind'=>$data['kind']])
 		->all();
 		return $ans;
+	}
+	public function actionLike(){
+		$data=Yii::$app->request->post();
+		$connection = \Yii::$app->db;
+		//$aa = (new \yii\db\Query ())->select ( 'appid,name,icon' )->from ( 'usertoapp u' )->join ( 'LEFT JOIN', 'app a', 'u.appid=a.id' )->where ( [
+		//		'userid' => $data['userid']
+		//] )->all ();
+		$model=new User();
+		$lin = $model->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		$command = $connection->createCommand('SELECT `appid`, `name`, `icon` FROM `usertoapp` `u` LEFT JOIN `app` `a` ON u.appid=a.id WHERE (`userid`=' . $data['userid'] . ') AND (`appid`!=' . $data['appid'] . ')');
+		$aa = $command->queryAll();
+		return $aa;
 	}
 }

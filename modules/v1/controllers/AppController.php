@@ -9,6 +9,7 @@ use yii\widgets\LinkPager;
 use yii\rest\ActiveController;
 //use yii\rest\ActiveController;
 use app\modules\v1\models\Appl;
+use app\modules\v1\models\User;
 use app\modules\v1\models\Appofkind;
 use app\modules\v1\models\Apptopicture;
 use app\modules\v1\models\Appcomments;
@@ -79,5 +80,31 @@ class AppController extends ActiveController {
 			$result['comments'][]=$appcomment;
 		}
 		return $result;
+	}
+	public function actionSubmitcomment(){
+		$data=Yii::$app->request->post();
+		$model=new User();
+		$aa = $model->findBySql ( "select * from user where phone=" . $data['phone'] )->all ();
+		$appcomment=new Appcomments();
+		$appcomment->userid=$aa[0]['id'];
+		$appcomment->userthumb=$aa[0]['thumb'];
+		$appcomment->usernickname=$aa[0]['nickname'];
+		$appcomment->commentstars=$data['commentstars'];
+		$appcomment->comments=$data['comments'];
+		$appcomment->title=$data['title'];
+		$appcomment->created_at=time();
+		$appcomment->appid=$data['appid'];
+		$appcomment->save();
+		$appl = new Appl ();
+		$appinfo = $appl->find ()->where ( [
+				'id' => $data ['appid']
+		] )->one ();
+		$appinfo->stars=($appinfo->stars*$appinfo->commentscount+$data['commentstars'])/($appinfo->commentscount+1);
+		$appinfo['commentscount']+=1;
+		$appl->save();
+		echo json_encode ( array (
+				'flag' => 1,
+				'msg' => 'summit success!'
+		) );
 	}
 }

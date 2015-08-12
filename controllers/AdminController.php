@@ -123,10 +123,12 @@ class AdminController extends Controller {
 				echo var_dump ( $data );
 				$model->name = $data ['app'] ['name'];
 				$model->version = $data ['app'] ['version'];
+				$model->profile = $data ['app'] ['profile'];
 				$model->android_url = $data ['android_url'];
 				$model->ios_url = $data ['ios_url'];
 				$model->stars = $data ['app'] ['stars'];
 				$model->downloadcount = $data ['app'] ['downloadcount'];
+				$model->commentscount = $data ['app'] ['commentscount'];
 				$model->introduction = $data ['app'] ['introduction'];
 				$model->updated_at = time ();
 				$model->updated_log = $data ['app'] ['updated_log'];

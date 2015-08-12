@@ -18,10 +18,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true])?>
 
     <?= $form->field($model, 'version')->textInput(['maxlength' => true])?>
+    <?= $form->field($model, 'profile')->textInput(['maxlength' => true])?>
 
     <?= $form->field($model, 'stars')->textInput()?>
 
     <?= $form->field($model, 'downloadcount')->textInput()?>
+    <?= $form->field($model, 'commentscount')->textInput()?>
 
     <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
     
