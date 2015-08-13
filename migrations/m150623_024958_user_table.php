@@ -15,6 +15,7 @@ class m150623_024958_user_table extends Migration
     		'authKey' => Schema::TYPE_STRING . ' NOT NULL',
     		'famous' => Schema::TYPE_BOOLEAN . ' DEFAULT 0',
     		'shared' =>Schema::TYPE_BIGINT . ' DEFAULT 0',
+    		'follower'=>Schema::TYPE_BIGINT . ' DEFAULT 0',
     		'nickname' => Schema::TYPE_STRING . '(20) ',
     		'thumb' => Schema::TYPE_STRING,
     		'phone' => Schema::TYPE_STRING . ' NOT NULL',

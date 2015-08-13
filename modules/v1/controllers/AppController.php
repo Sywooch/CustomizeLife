@@ -129,13 +129,41 @@ class AppController extends ActiveController {
 // 		] )
 // 		->orderBy('a.downloadcount desc')
 // 		->all ();
-		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,famous,shared' )->from ( 'user' )
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user' )
 		->where ( [
 			'famous' => 1
 		] )
 		->orderBy('shared desc')
 		->limit(6)
  		->all ();
+		return $aa;
+	}
+	public function actionRecommendAll(){
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user' )
+		->where ( [
+				'famous' => 1
+		] )
+		->orderBy('follower desc')
+		->all ();
+		return $aa;
+	}
+	public function actionRecommendHot(){
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user' )
+		->where ( [
+				'famous' => 1
+		] )
+		->orderBy('shared desc')
+		->all ();
+		return $aa;
+	}
+	public function actionRecommendNew(){
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user u' )
+		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->where ( [
+				'u.famous' => 1
+		] )
+		->orderBy('m.created_at desc')
+		->all ();
 		return $aa;
 	}
 	public function actionSharedby(){
