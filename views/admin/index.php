@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
 
 <script>
     var myapp="<?= Yii::$app->urlManager->createUrl('admin/app')?>";
-    var thumb="<?= Yii::$app->urlManager->createUrl('admin/index/thumb')?>";
+    var thumb="<?= Yii::$app->urlManager->createUrl('user/index')?>";
 
     BUI.use('common/main',function(){
         var config = [
