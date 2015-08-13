@@ -118,4 +118,41 @@ class AppController extends ActiveController {
 		$aa = $model->find()->where(['like','name',$data['name']])->all();
 		return $aa;
 	}
+	public function actionRecommend(){
+// 		$connection = \Yii::$app->db;
+// 		$command = $connection->createCommand('SELECT * FROM user u,usertoapp ua,app a on(u.id=ua.userid and ua.appid=a.id and u.famous=1) orderby a.downloadcount');
+// 		$posts = $command->queryAll();
+// 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,famous,appid,name,downloadcount' )->from ( 'user u' )->join ( 'LEFT JOIN', 'usertoapp ua', 'u.id=ua.userid' )
+// 		->join ( 'LEFT JOIN', 'app a', 'ua.appid=a.id' )
+// 		->where ( [
+// 				'u.famous' => 1
+// 		] )
+// 		->orderBy('a.downloadcount desc')
+// 		->all ();
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,famous,shared' )->from ( 'user' )
+		->where ( [
+			'famous' => 1
+		] )
+		->orderBy('shared desc')
+ 		->all ();
+		return $aa;
+	}
+	public function actionSharedby(){
+		$data=Yii::$app->request->post();
+		$userinfo=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		$userinfo['shared']+=1;
+		if($userinfo->save()){
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Failed!'
+			) );
+		}
+	}
 }

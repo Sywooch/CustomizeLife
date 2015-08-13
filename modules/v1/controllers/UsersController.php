@@ -64,14 +64,16 @@ class UsersController extends Controller {
 		$data = Yii::$app->request->post ();
 		$model->pwd = md5 ( $data ['pwd'] );
 		$model->phone = $data ['phone'];
-		if ($model->find ()->where ( [ 
+		$userinfo=User::findOne( [ 
 				'phone' => $data ['phone'] 
-		] )->one ()) {
+		] );
+		if ($userinfo) {
+			$userinfo->pwd=md5 ( $data ['pwd'] );
+			$userinfo->save();
 			echo json_encode ( array (
-					'flag' => 0,
-					'msg' => 'Signup failed!' 
+					'flag' => 1,
+					'msg' => 'change pwd success!' 
 			) );
-			// return 0;
 		} else {
 			$model->created_at = time ();
 			$model->save ();
