@@ -10,7 +10,7 @@ $this->title = '';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
-<html lang="en-US" style="padding-bottom:15px">
+
 <div class="app-app">
 
     <h1><?= Html::encode($this->title) ?></h1>
