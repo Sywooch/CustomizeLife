@@ -41,9 +41,10 @@ class FriendController extends Controller {
 	{
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$myid = Yii::$app->request->post ();
-		
+		$model=new User();
+		$lin = $model->find()->select('id')->where(['phone'=>$myid['phone']])->one();
 		$aa = (new \yii\db\Query ())->select ( 'friendid,phone, thumb, nickname' )->from ( 'friends f' )->join ( 'LEFT JOIN', 'user u', 'f.friendid=u.id' )->where ( [ 
-				'myid' => $myid 
+				'myid' => $lin['id']
 		] )->all ();
 		
 		$result = array ();

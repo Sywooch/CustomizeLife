@@ -61,14 +61,16 @@ class UsersController extends Controller {
 		$data = Yii::$app->request->post ();
 		$model->pwd = md5 ( $data ['pwd'] );
 		$model->phone = $data ['phone'];
-		if ($model->find ()->where ( [ 
+		$userinfo = User::findOne ( [ 
 				'phone' => $data ['phone'] 
-		] )->one ()) {
+		] );
+		if ($userinfo) {
+			$userinfo->pwd = md5 ( $data ['pwd'] );
+			$userinfo->save ();
 			echo json_encode ( array (
-					'flag' => 0,
-					'msg' => 'Signup failed!' 
+					'flag' => 1,
+					'msg' => 'change pwd success!' 
 			) );
-			// return 0;
 		} else {
 			$model->created_at = time ();
 			$model->save ();
@@ -139,7 +141,7 @@ class UsersController extends Controller {
 		} else {
 			//
 			unset ( $userinfo->pwd );
-			unset ( $userinfo->accessKey );
+			// unset ( $userinfo->accessKey );
 			unset ( $userinfo->authKey );
 			unset ( $userinfo->created_at );
 			unset ( $userinfo->updated_at );
@@ -171,7 +173,8 @@ class UsersController extends Controller {
 			echo json_encode ( array (
 					'flag' => 0,
 					'msg' => 'Modify failed!' 
-			) );
+			)
+			 );
 		} else {
 			echo json_encode ( array (
 					'flag' => 1,
@@ -184,11 +187,21 @@ class UsersController extends Controller {
 	 */
 	public function actionSend() {
 		$ph = Yii::$app->request->post ();
+		
+		$model = new User ();
+		if ($model->find ()->where ( [ 
+				'phone' => $ph ['phone'] 
+		] )->one ()) {
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Phone has been registered!' 
+			) );
+			return;
+		}
 		$output = "";
 		for($i = 0; $i < 4; $i ++) {
 			$output .= mt_rand ( 0, 9 );
 		}
-		
 		$rest = new REST ();
 		$apikey = '7d4294b4e224bd57377c85873b3e8430';
 		$mobile = $ph ['phone'];
@@ -232,6 +245,10 @@ class UsersController extends Controller {
 				Vercode::deleteAll ( [ 
 						'phone' => $data ['phone'] 
 				] );
+				$model = new User ();
+				$model->phone = $data ['phone'];
+				$model->created_at = time ();
+				$model->save ();
 				echo json_encode ( array (
 						'flag' => 1,
 						'msg' => 'Verify success!' 

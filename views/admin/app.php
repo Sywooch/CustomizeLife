@@ -6,7 +6,7 @@ use kartik\form\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Apps';
+$this->title = '';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
@@ -35,10 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'version',
+        	'profile',
             //'android_url:url',
             //'ios_url:url',
              'stars',
              'downloadcount',
+            'commentscount',
             // 'introduction',
              'updated_at',
              'size',
@@ -50,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 <p>&nbsp</p>
 <p>
-   <?= Html::a('Create App', ['create'], ['class' => 'btn btn-success']) ?>
+   <?= Html::a('创建', ['create'], ['class' => 'btn btn-success']) ?>
 </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -60,10 +62,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'version',
+        		'profile',
             //'android_url:url',
             //'ios_url:url',
              'stars',
              'downloadcount',
+        		'commentscount',
             // 'introduction',
              'updated_at',
              'size',

@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
 use Qiniu\json_decode;
 use app\modules\v1\models\User;
 use yii\db\ActiveQuery;
+use app\modules\v1\models\Appofkind;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -122,10 +123,12 @@ class AdminController extends Controller {
 				echo var_dump ( $data );
 				$model->name = $data ['app'] ['name'];
 				$model->version = $data ['app'] ['version'];
+				$model->profile = $data ['app'] ['profile'];
 				$model->android_url = $data ['android_url'];
 				$model->ios_url = $data ['ios_url'];
 				$model->stars = $data ['app'] ['stars'];
 				$model->downloadcount = $data ['app'] ['downloadcount'];
+				$model->commentscount = $data ['app'] ['commentscount'];
 				$model->introduction = $data ['app'] ['introduction'];
 				$model->updated_at = time ();
 				$model->updated_log = $data ['app'] ['updated_log'];
@@ -213,6 +216,7 @@ class AdminController extends Controller {
 			] );
 		}
 	}
+	
 	/**
 	 * Updates an existing app model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
