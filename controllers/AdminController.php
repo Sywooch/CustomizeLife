@@ -61,7 +61,7 @@ class AdminController extends Controller {
 			$data = Yii::$app->request->post ();
 				
 			$appdata=new ActiveDataProvider ( [
-					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss' ] )
+					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss@@@Ddd' ] )
 			] );
 				
 			if($data!=false){
@@ -133,18 +133,27 @@ class AdminController extends Controller {
 				$model->updated_at = time ();
 				$model->updated_log = $data ['app'] ['updated_log'];
 				$model->size = $data ['app'] ['size'];
+				//$model->kind=$data ['app'] ['kind'];
 				$model->icon = $data ['icon'];
+				
 				
 				if ($model->save ()) {
 					$appdata = $model->findBySql ( "select * from app order by id desc limit 1" )->all ();
 					
 					foreach ( $data ['pic'] as $pic ) {
-						echo $pic;
 						$apptpic = new Apptopicture ();
 						$apptpic->appid = $appdata [0] ["id"];
 						$apptpic->picture = $pic;
 						$apptpic->save ();
 					}
+					
+					foreach ( $data ['app'] ['kind'] as $kind ) {
+						$appkind=new Appofkind();
+						$appkind->appid=$appdata [0] ["id"];
+						$appkind->kind=$kind;
+						$appkind->save();
+					}
+					
 					return $this->redirect ( [ 
 							'view',
 							'id' => $model->id 

@@ -28,6 +28,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
     
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
+    
+    <?= $form->field($model, 'kind[]')->checkboxList(['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育',
+     '旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像'])?>
 
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     
