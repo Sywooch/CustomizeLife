@@ -60,7 +60,7 @@ class AdminController extends Controller {
 			$data = Yii::$app->request->post ();
 				
 			$appdata=new ActiveDataProvider ( [
-					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss' ] )
+					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss@@@Ddd' ] )
 			] );
 				
 			if($data!=false){

@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 ?>
 <!DOCTYPE HTML>
 <html>
+<html lang="en-US" style="padding-bottom:50px">
 <head>
     <title>管理系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
