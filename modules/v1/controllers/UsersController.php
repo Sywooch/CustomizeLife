@@ -147,7 +147,7 @@ class UsersController extends Controller {
 		} else {
 			//
 			unset ( $userinfo->pwd );
-			unset ( $userinfo->accessKey );
+			//unset ( $userinfo->accessKey );
 			unset ( $userinfo->authKey );
 			unset ( $userinfo->created_at );
 			unset ( $userinfo->updated_at );

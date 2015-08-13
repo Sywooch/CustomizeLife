@@ -28,7 +28,7 @@ class AppController extends ActiveController {
 		
 		$query = Appl::find ()->select ( '*' )->join ( 'INNER JOIN', 'appofkind', 'app.id=appofkind.appid' )->where ( [ 
 				'appofkind.kind' => $data ['kind'] 
-		] );
+		] )->orderBy('downloadcount desc');
 		
 		$pages = new Pagination ( [ 
 				'totalCount' => $query->count (),
@@ -134,6 +134,7 @@ class AppController extends ActiveController {
 			'famous' => 1
 		] )
 		->orderBy('shared desc')
+		->limit(6)
  		->all ();
 		return $aa;
 	}
@@ -154,5 +155,11 @@ class AppController extends ActiveController {
 					'msg' => 'Failed!'
 			) );
 		}
+	}
+	public function actionGuess(){
+		$data=Yii::$app->request->post();
+		$model=new Appl();
+		$app=$model->find()->select('*')->from('app')->limit(6)->all();
+		return $app;
 	}
 }

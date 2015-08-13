@@ -89,10 +89,19 @@ class MyappController extends Controller {
 		//$lin = $model->find()->select('id')->where(['phone'=>$data['phone']])->one();
 		//$command = $connection->createCommand('SELECT `appid`, `name`, `icon` FROM `usertoapp` `u` LEFT JOIN `app` `a` ON u.appid=a.id WHERE (`userid`=' . $data['userid'] . ') AND (`appid`!=' . $data['appid'] . ')');
 		//$aa = $command->queryAll();
-		$ans=(new \yii\db\Query())
-		->select('id,name,icon')
-		->from('app')
-		->limit(4)->all();
-		return $ans;
+// 		$ans=(new \yii\db\Query())
+// 		->select('id,name,icon')
+// 		->from('app')
+// 		->limit(4)->all();
+		$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'usertoapp ua1' )
+		->join ( 'LEFT JOIN', 'usertoapp ua2', 'ua1.userid=ua2.userid' )
+		->join('LEFT JOIN','app a','a.id=ua2.appid')
+		->where ( [
+			 'ua1.appid' => $data['appid']
+				] )
+		->orderBy('a.downloadcount desc')
+		->limit(6)
+	    ->all ();
+		return $aa;
 	}
 }
