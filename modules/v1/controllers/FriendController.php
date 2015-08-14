@@ -54,13 +54,16 @@ class FriendController extends Controller {
 	public function actionRequestadd() 	// 请求添加好友
 	{
 		$data = Yii::$app->request->post ();
+		$model1=new User();
+		$myid = $model1->find()->select('id')->where(['phone'=>$data['myphone']])->one();
+		$fid = $model1->find()->select('id')->where(['phone'=>$data['fphone']])->one();
 		$model = new Reqfriend ();
-		$model->myid = $data ['myid'];
-		$model->friendid = $data ['friendid'];
+		$model->myid = $myid ['id'];
+		$model->friendid = $fid ['id'];
 		
 		$row = Reqfriend::findOne ( [ 
-				'myid' => $data ['myid'],
-				'friendid' => $data ['friendid'] 
+				'myid' => $myid ['id'],
+				'friendid' => $fid ['id'] 
 		] );
 		if ($row != null) {
 			$row->delete ();
@@ -68,8 +71,8 @@ class FriendController extends Controller {
 		
 		$friend = new Friend ();
 		$num = $friend->find ()->andWhere ( [ 
-				'myid' => $data ['myid'],
-				'friendid' => $data ['friendid'] 
+				'myid' => $myid ['id'],
+				'friendid' => $fid ['id'] 
 		] )->count ();
 		
 		if ($num == 0) {
@@ -94,100 +97,74 @@ class FriendController extends Controller {
 	public function actionAcceptadd() 	// 接受添加
 	{
 		$data = Yii::$app->request->post ();
-		
+		$model=new User();
+		$myid = $model->find()->select('id')->where(['phone'=>$data['myphone']])->one();
+		$fid = $model->find()->select('id')->where(['phone'=>$data['fphone']])->one();
 		$friend = Friend::findOne ( [ 
-				'myid' => $data ['myid'],
-				'friendid' => $data ['friendid'] 
+				'myid' => $myid ['id'],
+				'friendid' => $fid ['id'] 
 		] );
 		
 		if ($friend === null) {
-			$model1 = new Friend ();
-			$model1->myid = $data ['myid'];
-			$model1->friendid = $data ['friendid'];
+			if($data['agree']==1){
+				$model1 = new Friend ();
+				$model1->myid = $myid ['id'];
+				$model1->friendid = $fid ['id'];
+				$model1->save ();
 			
-			if ($model1->save () === false) {
+				$model2 = new Friend ();
+				$model2->myid = $fid ['id'];
+				$model2->friendid = $myid ['id'];
+				$model2->save ();
+				echo json_encode ( array (
+						'flag' => 1,
+						'msg' => 'Add friend successfully' 
+				) );
+			}else{
 				echo json_encode ( array (
 						'flag' => 0,
-						'msg' => 'Addfailure' 
+						'msg' => 'Refuse to add friend successfully'
 				) );
-				return;
 			}
-			
-			$model2 = new Friend ();
-			$model2->myid = $data ['friendid'];
-			$model2->friendid = $data ['myid'];
-			if ($model2->save () === false) {
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Addfailure' 
-				) );
-				return;
-			}
-			echo json_encode ( array (
-					'flag' => 1,
-					'msg' => 'Addsuccessfully' 
-			) );
-			
 			$row = Reqfriend::findOne ( [  // 删除req
-					'myid' => $data ['friendid'],
-					'friendid' => $data ['myid'] 
+					'myid' => $fid ['id'],
+					'friendid' => $myid ['id'] 
 			] );
-			if ($row === null) {
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Addfailure' 
-				) );
-				return;
-			} else {
-				if ($row->delete () === false) {
-					echo json_encode ( array (
-							'flag' => 0,
-							'msg' => 'Addfailure' 
-					) );
-					return;
-				}
+			if ($row != null) {
+				$row->delete ();
 			}
 		} else {
 			echo json_encode ( array (
 					'flag' => 0,
-					'msg' => 'Addfailure' 
+					'msg' => 'You are already friend.' 
 			) );
 		}
 	}
 	public function actionDelete() {
 		$data = Yii::$app->request->post ();
-		
+		$model=new User();
+		$myid = $model->find()->select('id')->where(['phone'=>$data['myphone']])->one();
+		$fid = $model->find()->select('id')->where(['phone'=>$data['fphone']])->one();
 		$row1 = Friend::findOne ( [ 
-				'myid' => $data ['friendid'],
-				'friendid' => $data ['myid'] 
+				'myid' => $fid ['id'],
+				'friendid' => $myid ['id'] 
 		] );
 		
 		if ($row1 != null) {
-			if ($row1->delete () === false) {
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Deletefailure' 
-				) );
-			}
-			
+			$row1->delete ();
 			$row2 = Friend::findOne ( [ 
-					'myid' => $data ['myid'],
-					'friendid' => $data ['friendid'] 
+					'myid' => $myid ['id'],
+					'friendid' => $fid ['id'] 
 			] );
-			if ($row2->delete () === false) {
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Deletefailure' 
-				) );
-			}
+			$row2->delete ();
 			echo json_encode ( array (
 					'flag' => 1,
-					'msg' => 'Deletesuccessfully' 
+					'msg' => 'Delete friend successfully' 
 			) );
 		} else {
 			echo json_encode ( array (
 					'flag' => 0,
-					'msg' => 'Deletefailure' 
+					'msg' => 'You are not friend.' 
 			) );
 		}
 	}
