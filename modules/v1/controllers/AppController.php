@@ -139,30 +139,38 @@ class AppController extends ActiveController {
 		return $aa;
 	}
 	public function actionRecommendAll(){
-		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user' )
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
+		->join('LEFT JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'famous' => 1
 		] )
+		->groupBy('phone')
 		->orderBy('follower desc')
+		->limit(30)
 		->all ();
 		return $aa;
 	}
 	public function actionRecommendHot(){
-		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user' )
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
+		->join('LEFT JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'famous' => 1
 		] )
+		->groupBy('phone')
 		->orderBy('shared desc')
+		->limit(30)
 		->all ();
 		return $aa;
 	}
 	public function actionRecommendNew(){
-		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user u' )
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
 		->join('LEFT JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'u.famous' => 1
 		] )
-		->orderBy('m.created_at desc')
+		->groupBy('phone')
+		->orderBy('created_at desc')
+		->limit(30)
 		->all ();
 		return $aa;
 	}

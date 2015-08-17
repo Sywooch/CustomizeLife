@@ -4,6 +4,7 @@ namespace app\modules\v1\controllers;
 
 use Yii;
 use app\modules\v1\models\User;
+use app\modules\v1\models\Friend;
 use app\modules\v1\models\UserForm;
 use app\modules\v1\models\Vercode;
 // use yii\web\Controller;
@@ -45,7 +46,8 @@ class UsersController extends Controller {
 												'getinfo',
 												'modify',
 												'send',
-												'verify' 
+												'verify',
+												'search'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -268,6 +270,30 @@ class UsersController extends Controller {
 				) );
 			}
 		}
+	}
+	public function actionSearch(){
+		
+		$data=Yii::$app->request->post();
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$model=new User();
+		$myid=$model->find()->select('id')->from('user')->where(['phone'=>$data['myphone']])->one();
+		$fid=$model->find()->select('*')->from('user')->where(['phone'=>$data['fphone']])->one();
+		$model=new Friend();
+		$info=$model->find()->where([
+				'myid'=>$myid['id'],
+				'friendid'=>$fid['id']
+		]);
+		$ans=array();
+		$ans['id']=$fid['id'];
+		$ans['phone']=$fid['phone'];
+		$ans['thumb']=$fid['thumb'];
+		$ans['nickname']=$fid['nickname'];
+		if($info){
+			$ans['isfriend']=1;
+		}else{
+			$ans['isfriend']=0;
+		}
+		return $ans;
 	}
 }
 class REST {
