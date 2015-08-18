@@ -135,6 +135,10 @@ class AdminController extends Controller {
 				$model->size = $data ['app'] ['size'];
 				//$model->kind=$data ['app'] ['kind'];
 				$model->icon = $data ['icon'];
+				foreach ( $data ['app'] ['kind'] as $kind ) {
+					$model->kind.=$kind." ";
+				}
+				
 				
 				
 				if ($model->save ()) {
