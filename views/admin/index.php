@@ -33,7 +33,13 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 <div class="content">
-    
+    <div class="dl-main-nav">
+        <div class="dl-inform"><div class="dl-inform-title"><s class="dl-inform-icon dl-up"></s></div></div>
+        <ul id="J_Nav"  class="nav-list ks-clear">
+            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">定制生活系统管理</div></li>		
+
+        </ul>
+    </div>
     <ul id="J_NavContent" class="dl-tab-conten">
 
     </ul>
@@ -43,12 +49,28 @@ use yii\widgets\ActiveForm;
 <script>
     var myapp="<?= Yii::$app->urlManager->createUrl('admin/app')?>";
     var thumb="<?= Yii::$app->urlManager->createUrl('user/index')?>";
-
+    var appcom="<?= Yii::$app->urlManager->createUrl('appcomments/index')?>";
+    var apptopic="<?= Yii::$app->urlManager->createUrl('apptopicture/index')?>";
+    var sysuser="<?= Yii::$app->urlManager->createUrl('systemuser/index')?>";
+    var friend="<?= Yii::$app->urlManager->createUrl('friend/index')?>";
+    var message="<?= Yii::$app->urlManager->createUrl('message/index')?>";
+    var msgtoapp="<?= Yii::$app->urlManager->createUrl('msgtoapp/index')?>";
+    var reply="<?= Yii::$app->urlManager->createUrl('reply/index')?>";
+    var usertoapp="<?= Yii::$app->urlManager->createUrl('usertoapp/index')?>";
+    var follow="<?= Yii::$app->urlManager->createUrl('follow/index')?>";
+    var zan="<?= Yii::$app->urlManager->createUrl('zan/index')?>";
+    var collectinteract="<?= Yii::$app->urlManager->createUrl('collect-interact/index')?>";
+    var collectperson="<?= Yii::$app->urlManager->createUrl('collect-person/index')?>";
+    
     BUI.use('common/main',function(){
         var config = [
             {id:'1',menu:[
-                  {text:'数据管理',items:[{id:'11',text:'应用管理',href:myapp},{id:'12',text:'用户管理',href:thumb}]}
-                ]}
+                  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
+                  {text:'用户管理',items:[{id:'22',text:'用户',href:thumb},{id:'23',text:'后台用户',href:sysuser},{id:'24',text:'用户下载的应用',href:usertoapp},{id:'25',text:'用户收藏的应用',href:collectperson}]},
+                  {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'34',text:'关注列表',href:follow},{id:'35',text:'点赞列表',href:zan}]},
+                  {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply},{id:'47',text:'用户收藏的消息',href:collectinteract}]}
+                ]},
+            {id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:myapp}]}]}
         ];
         new PageUtil.MainPage({
             modulesConfig : config

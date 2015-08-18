@@ -10,6 +10,7 @@ $this->title = 'Create User';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<html lang="en-US" style="padding-left:15px">
 <div class="user-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
