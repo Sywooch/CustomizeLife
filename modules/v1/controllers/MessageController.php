@@ -7,6 +7,7 @@ use yii\rest\ActiveController;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Message;
 use app\modules\v1\models\Msgtoapp;
+use app\modules\v1\models\User;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
 
@@ -79,8 +80,13 @@ class MessageController extends ActiveController {
 	public function actionSend(){
 		$data = Yii::$app->request->post ();
 		$msg = new Message();
-		$msg->userid = Yii::$app->user->id;
+		$phone=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		//$msg->userid = Yii::$app->user->id;
+		$msg->userid=$phone['id'];
 		$msg->content = $data['content'];
+		$msg->status=$data['status'];
 		$msg->created_at = time();
 		$err=$msg->save();
 		if($err==false){
@@ -91,6 +97,7 @@ class MessageController extends ActiveController {
 			$msgtoapp=new Msgtoapp();
 			$msgtoapp->msgid=$msg->id;
 			$msgtoapp->appid = $app['id'];
+			
 			$err=$msgtoapp->save();
 			if($err==false){
 				throw new \yii\web\HttpException(404,"msgtoapp recode insert error");
