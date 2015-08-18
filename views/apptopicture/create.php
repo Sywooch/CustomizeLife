@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Apptopicture */
 
-$this->title = '';
+$this->title = '添加应用图片';
 $this->params['breadcrumbs'][] = ['label' => 'Apptopictures', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

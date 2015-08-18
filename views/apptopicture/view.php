@@ -10,6 +10,7 @@ $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Apptopictures', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<html lang="en-US" style="padding-left:15px">
 <div class="apptopicture-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
