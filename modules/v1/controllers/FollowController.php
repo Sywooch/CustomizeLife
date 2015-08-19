@@ -77,7 +77,7 @@ class FollowController extends \yii\rest\Controller
 		$model=new Follow();
 		$user=new User();
 		$myphone=$user->find()->select('id')->where(['phone'=>$data['myphone']])->one();
-		$aa = (new \yii\db\Query ())->select ( 'phone,thumb,nickname' )->from ( 'follow f' )
+		$aa = (new \yii\db\Query ())->select ( 'phone,thumb,nickname,signature' )->from ( 'follow f' )
 		->join('LEFT JOIN', 'user u','f.followid=u.id')
 		->where ( [
 				'f.myid' => $myphone['id']

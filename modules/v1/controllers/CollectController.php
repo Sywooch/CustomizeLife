@@ -34,11 +34,22 @@ class CollectController extends Controller {
 			) );
 		}
 	}
-	public function actionPersoncl() {
+	public function actionSetApp() {
 		$data = Yii::$app->request->post ();
 		$phone=User::findOne([
 				'phone'=>$data['phone']
 		]);
+		$info=CollectPerson::findOne([
+				'userid'=>$phone['id'],
+				'app'=>$data['app']
+		]);
+		if($info){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Already collect!'
+			) );
+			return;
+		}
 		$model = new CollectPerson ();
 		$model->userid = $phone['id'];
 		$model->app = $data ['app'];
@@ -56,12 +67,34 @@ class CollectController extends Controller {
 			) );
 		}
 	}
-	public function actionGetpersoncl() {
+	public function actionCancelApp() {
 		$data = Yii::$app->request->post ();
 		$phone=User::findOne([
 				'phone'=>$data['phone']
 		]);
-		$query = (new \yii\db\Query ())->select ( 'app.id,name,icon' )->from('collect_person c')
+		$info=CollectPerson::findOne([
+				'userid'=>$phone['id'],
+				'app'=>$data['app']
+		]);
+		if($info){
+			$info->delete();
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Cancel collect success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Cancel collect fail!'
+			) );
+		}
+	}
+	public function actionGetApp() {
+		$data = Yii::$app->request->post ();
+		$phone=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		$query = (new \yii\db\Query ())->select ( 'app.id,name,icon,size,downloadcount,introduction' )->from('collect_person c')
 		->join ( 'LEFT JOIN', 'app', 'app.id=c.app' )->where ( [ 
 				'c.userid' => $phone['id'] 
 		] );

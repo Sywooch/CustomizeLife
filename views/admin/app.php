@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'name',
             'version',
         	'profile',
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'introduction',
              'updated_at',
              'size',
-             'icon',
+             'kind',
             // 'updated_log',
 
             ['class' => 'yii\grid\ActionColumn'],
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'name',
             'version',
         		'profile',
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'introduction',
              'updated_at',
              'size',
-             'icon',
+             'kind',
             // 'updated_log',
 
             ['class' => 'yii\grid\ActionColumn'],
