@@ -50,8 +50,13 @@ class MessageController extends ActiveController {
 		$info['replys'] = (new \yii\db\Query())->select(['reply.*','user1.nickname as fromnickname','user2.nickname as tonickname'])->from ( 'reply' )->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$id ])->join('Left JOIN','user user2','user2.id = reply.toid')->orderBy("reply.created_at")->all();
 		return $info;
 	}
-	public function actionIndex() {
-		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
+	public function actionGet() {
+		$data=Yii::$app->request->post();
+		$phone=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		//$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
+		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => $phone['id'] ]);
 		$pages = new \yii\data\Pagination ( [ 
 				'totalCount' => $data->count (),
 				'pageSize' => '10' 
