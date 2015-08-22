@@ -67,15 +67,14 @@ class MyappController extends Controller {
 			exit ();
 		}
 	}
-	public function actionKind() {
+	public function actionTag() {
 		$data=Yii::$app->request->post();
 		$appl=new Appl();
 		$ans=(new \yii\db\Query())
 		->select('*')
 		->from('app')
-		->innerJoin('usertoapp','app.id=usertoapp.appid')
-		->innerJoin('appofkind','app.id=appofkind.appid')
-		->where(["usertoapp.userid"=>$data['userid'],'appofkind.kind'=>$data['kind']])
+		->innerJoin('tag','app.id=tag.appid')
+		->where(['tag.tag'=>$data['tag']])
 		->all();
 		return $ans;
 	}

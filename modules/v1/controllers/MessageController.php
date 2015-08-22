@@ -57,7 +57,7 @@ class MessageController extends ActiveController {
 				'phone'=>$data['phone']
 		]);
 		//$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
-		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => $phone['id'] ]);
+		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and friends.myid = :id ', [':id' => $phone['id'] ]);
 		$pages = new \yii\data\Pagination ( [ 
 				'totalCount' => $data->count (),
 				'pageSize' => '10' 
@@ -70,10 +70,19 @@ class MessageController extends ActiveController {
 			$info=$msg;
 			$info['apps'] = (new \yii\db\Query())->
 			select ( [ 
-					'msgtoapp.appid',
-					'app.icon' 
+					'app.*' 
 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['id']])->all();
-			$info['replys'] = (new \yii\db\Query())->select(['reply.*','user1.nickname as fromnickname','user2.nickname as tonickname'])->from ( 'reply' )->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$model ['id'] ])->join('Left JOIN','user user2','user2.id = reply.toid')->orderBy("reply.created_at")->all();
+			$info['replys'] = (new \yii\db\Query())
+			->select(['reply.*','user1.nickname as fromnickname','user1.phone as fromphone','user2.nickname as tonickname','user2.phone as tophone'])
+			->from ( 'reply' )
+			->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$model ['id'] ])
+			->join('Left JOIN','user user2','user2.id = reply.toid')
+			->orderBy("reply.created_at")
+			->all();
+			$info['zan']=(new \yii\db\Query())
+			->select('u.phone,u.nickname')->from('zan z')
+			->join('LEFT JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
+			->all();
 			$result['item'][]=$info;
 		}
 		$result ['_meta'] = array (
@@ -192,14 +201,27 @@ class MessageController extends ActiveController {
 	}
 	public function actionReply(){
 		$data = Yii::$app->request->post ();
+		$user=new User();
+		$fromphone=$user->find()->select('id')->where(['phone'=>$data['fphone']])->one();
+		$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
 		$model=new Reply();
-		$model->fromid=$data['fromid'];
-		$model->toid=$data['toid'];
+		$model->fromid=$fromphone['id'];
+		$model->toid=$tophone['id'];
 		$model->msgid=$data['msgid'];
 		$model->content=$data['content'];
-		$model->isread=false;
+		$model->isread=0;
 		$model->created_at=time();
-		$model->save();
+		if($model->save()){
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Reply success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Reply failed!'
+			) );
+		}
 	}
 	
 	

@@ -7,6 +7,7 @@ use app\modules\v1\models\User;
 use app\modules\v1\models\Friend;
 use app\modules\v1\models\UserForm;
 use app\modules\v1\models\Vercode;
+use app\modules\v1\models\Message;
 // use yii\web\Controller;
 use yii\rest\Controller;
 use app\modules\v1\models;
@@ -47,7 +48,8 @@ class UsersController extends Controller {
 												'modify',
 												'send',
 												'verify',
-												'search'
+												'search',
+												'getmsg'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -151,16 +153,48 @@ class UsersController extends Controller {
 		}
 	}
 	public function actionGetmsg(){
-// 		$data=Yii::$app->request->post();
-// 		$user=new User();
-// 		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
-// 		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( ' u' )
-// 		->join('LEFT JOIN','app a','a.id=u.appid')
-// 		->where ( [
-// 				'u.userid' => $phone['id']
-// 		] )
-// 		->all ();
-// 		return $aa;
+		$data=Yii::$app->request->post();
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$phone=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		//$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
+		$data = Message::find ([
+				'myid'=>$phone['id']
+		])->select ( '*' );
+		$pages = new \yii\data\Pagination ( [
+				'totalCount' => $data->count (),
+				'pageSize' => '10'
+		] );
+		$models = $data->orderBy("msg.created_at desc")->offset ( $pages->offset )->limit ( $pages->limit )->all ();
+		$result = array ();
+		$result['item']=array ();
+		foreach ( $models as $model ) {
+			$info=array();
+			$infi['basic']=array();
+			$info['basic']=$model;
+			$info['apps'] = (new \yii\db\Query())->
+			select ( [
+					'app.*'
+			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['id']])->all();
+			$info['replys'] = (new \yii\db\Query())
+			->select(['reply.*','user1.nickname as fromnickname','user1.phone as fromphone','user2.nickname as tonickname','user2.phone as tophone'])
+			->from ( 'reply' )
+			->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$model ['id'] ])
+			->join('Left JOIN','user user2','user2.id = reply.toid')
+			->orderBy("reply.created_at")
+			->all();
+			$info['zan']=(new \yii\db\Query())
+			->select('u.phone,u.nickname')->from('zan z')
+			->join('LEFT JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
+			->all();
+			$result['item'][]=$info;
+		}
+		$result ['_meta'] = array (
+				'pageCount' => $pages->pageCount,
+				'currentPage' => $pages->page + 1
+		);
+		return $result;
 	}
 	public function actionModify() {
 		$data = Yii::$app->request->post ();
