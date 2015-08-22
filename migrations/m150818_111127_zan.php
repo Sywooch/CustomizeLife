@@ -11,15 +11,15 @@ class m150818_111127_zan extends Migration
     	$this->createTable('zan', [
     			'id' => Schema::TYPE_PK,
     			'myid' => Schema::TYPE_INTEGER . ' NOT NULL',
-    			'zanid' => Schema::TYPE_BIGINT . ' NOT NULL',
+    			'msgid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			 
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
-    	$this->addForeignKey('Zan', 'zan', 'myid', 'user', 'id','CASCADE','CASCADE');
+    	$this->addForeignKey('Zan', 'zan', 'msgid', 'msg', 'id','CASCADE','CASCADE');
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('My', 'zan');
+        $this->dropForeignKey('Zan', 'zan');
         $this->dropTable('zan');
     }
     

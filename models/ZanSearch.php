@@ -18,7 +18,7 @@ class ZanSearch extends Zan
     public function rules()
     {
         return [
-            [['id', 'myid', 'zanid'], 'integer'],
+            [['id', 'myid', 'msgid'], 'integer'],
         ];
     }
 
@@ -57,7 +57,7 @@ class ZanSearch extends Zan
         $query->andFilterWhere([
             'id' => $this->id,
             'myid' => $this->myid,
-            'zanid' => $this->zanid,
+            'msgid' => $this->msgid,
         ]);
 
         return $dataProvider;

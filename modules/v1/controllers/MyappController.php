@@ -104,4 +104,16 @@ class MyappController extends Controller {
 	    ->all ();
 		return $aa;
 	}
+	public function actionGet(){
+		$data=Yii::$app->request->post();
+		$user=new User();
+		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'usertoapp u' )
+		->join('LEFT JOIN','app a','a.id=u.appid')
+		->where ( [
+				'u.userid' => $phone['id']
+		] )
+		->all ();
+		return $aa;
+	}
 }

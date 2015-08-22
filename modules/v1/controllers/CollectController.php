@@ -128,7 +128,8 @@ class CollectController extends Controller {
 		$phone=User::findOne([
 				'phone'=>$data['phone']
 		]);
-		$query = (new \yii\db\Query ())->select ( 'app.id,name,icon,profile,size,downloadcount,introduction' )->from('collect_person c')
+		$query = (new \yii\db\Query ())->select ( 'app.*' )
+		->from('collect_person c')
 		->join ( 'LEFT JOIN', 'app', 'app.id=c.app' )->where ( [ 
 				'c.userid' => $phone['id'] 
 		] );
@@ -156,7 +157,7 @@ class CollectController extends Controller {
 		$phone=User::findOne([
 				'phone'=>$dat['phone']
 		]);
- 		$data = (new \yii\db\Query ())->select ( 'u.phone,u.thumb,u.nickname,content,status,c.created_at,msg' )->from('msg m')
+ 		$data = (new \yii\db\Query ())->select ( 'u.phone,u.thumb,u.nickname,content,kind,m.area,c.created_at,msg' )->from('msg m')
  		->join ( 'LEFT JOIN', 'collect_interact c', 'm.id=c.msg' )
  		->join('LEFT JOIN','user u','u.id=m.userid')
  		->where ( [
@@ -180,9 +181,7 @@ class CollectController extends Controller {
  			$info=$model;
  			$info['apps'] = (new \yii\db\Query())->
  			select ( [ 
- 					'msgtoapp.appid',
- 					'app.icon',
- 					'app.name'
+ 					'app.*'
  			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['msg']])->all();
  			$info['replys'] = (new \yii\db\Query())->select(['reply.*','user1.nickname as fromnickname','user2.nickname as tonickname'])->from ( 'reply' )->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$model ['msg'] ])->join('Left JOIN','user user2','user2.id = reply.toid')->orderBy("reply.created_at")->all();
  			$result['item'][]=$info;
