@@ -9,9 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property integer $myid
- * @property integer $zanid
+ * @property integer $msgid
  *
- * @property User $my
+ * @property Msg $msg
  */
 class Zan extends \yii\db\ActiveRecord
 {
@@ -29,8 +29,8 @@ class Zan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['myid', 'zanid'], 'required'],
-            [['myid', 'zanid'], 'integer']
+            [['myid', 'msgid'], 'required'],
+            [['myid', 'msgid'], 'integer']
         ];
     }
 
@@ -42,15 +42,15 @@ class Zan extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'myid' => 'Myid',
-            'zanid' => 'Zanid',
+            'msgid' => 'Msgid',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMy()
+    public function getMsg()
     {
-        return $this->hasOne(User::className(), ['id' => 'myid']);
+        return $this->hasOne(Msg::className(), ['id' => 'msgid']);
     }
 }

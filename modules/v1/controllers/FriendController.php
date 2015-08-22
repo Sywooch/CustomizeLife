@@ -44,7 +44,8 @@ class FriendController extends Controller {
 		$model=new User();
 		$lin = $model->find()->select('id')->where(['phone'=>$myid['phone']])->one();
 		$aa = (new \yii\db\Query ())->select ( 'friendid,phone, thumb, nickname' )->from ( 'friends f' )->join ( 'LEFT JOIN', 'user u', 'f.friendid=u.id' )->where ( [ 
-				'myid' => $lin['id']
+				'myid' => $lin['id'],
+				'isfriend'=>1
 		] )->all ();
 		
 		$result = array ();
@@ -110,11 +111,13 @@ class FriendController extends Controller {
 				$model1 = new Friend ();
 				$model1->myid = $myid ['id'];
 				$model1->friendid = $fid ['id'];
+				$model1->isfriend=1;
 				$model1->save ();
 			
 				$model2 = new Friend ();
 				$model2->myid = $fid ['id'];
 				$model2->friendid = $myid ['id'];
+				$model2->isfriend=1;
 				$model2->save ();
 				echo json_encode ( array (
 						'flag' => 1,
@@ -147,14 +150,16 @@ class FriendController extends Controller {
 		$fid = $model->find()->select('id')->where(['phone'=>$data['fphone']])->one();
 		$row1 = Friend::findOne ( [ 
 				'myid' => $fid ['id'],
-				'friendid' => $myid ['id'] 
+				'friendid' => $myid ['id'],
+				'isfriend'=>1
 		] );
 		
 		if ($row1 != null) {
 			$row1->delete ();
 			$row2 = Friend::findOne ( [ 
 					'myid' => $myid ['id'],
-					'friendid' => $fid ['id'] 
+					'friendid' => $fid ['id'],
+					'isfriend'=>1
 			] );
 			$row2->delete ();
 			echo json_encode ( array (

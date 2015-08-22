@@ -10,7 +10,8 @@ use Yii;
  * @property integer $id
  * @property integer $userid
  * @property string $content
- * @property integer $status
+ * @property string $kind
+ * @property string $area
  * @property integer $created_at
  *
  * @property CollectInteract[] $collectInteracts
@@ -35,8 +36,9 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'content', 'created_at'], 'required'],
-            [['userid', 'status', 'created_at'], 'integer'],
-            [['content'], 'string', 'max' => 255]
+            [['userid', 'created_at'], 'integer'],
+            [['content', 'area'], 'string', 'max' => 255],
+            [['kind'], 'string', 'max' => 11]
         ];
     }
 
@@ -49,7 +51,8 @@ class Message extends \yii\db\ActiveRecord
             'id' => 'ID',
             'userid' => 'Userid',
             'content' => 'Content',
-            'status' => 'Status',
+            'kind' => 'Kind',
+            'area' => 'Area',
             'created_at' => 'Created At',
         ];
     }

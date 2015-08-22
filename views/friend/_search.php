@@ -20,6 +20,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'myid') ?>
 
     <?= $form->field($model, 'friendid') ?>
+    <?= $form->field($model, 'isfriend') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

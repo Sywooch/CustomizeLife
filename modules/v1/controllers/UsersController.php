@@ -149,13 +149,18 @@ class UsersController extends Controller {
 			unset ( $userinfo->updated_at );
 			return $userinfo;
 		}
-		// return yii\web\NotFoundHttpException;
-		// throw yii\web\NotAcceptableHttpException;
-		// $user = User::find()->all();
-		
-		// $users=(new \yii\db\Query())->select()->from('user')->join() ->orderBy('id') ->all();
-		
-		// return $userinfo;
+	}
+	public function actionGetmsg(){
+// 		$data=Yii::$app->request->post();
+// 		$user=new User();
+// 		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
+// 		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( ' u' )
+// 		->join('LEFT JOIN','app a','a.id=u.appid')
+// 		->where ( [
+// 				'u.userid' => $phone['id']
+// 		] )
+// 		->all ();
+// 		return $aa;
 	}
 	public function actionModify() {
 		$data = Yii::$app->request->post ();

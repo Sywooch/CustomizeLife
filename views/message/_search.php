@@ -21,7 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'content') ?>
 
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'kind') ?>
+    <?= $form->field($model, 'area') ?>
 
     <?= $form->field($model, 'created_at') ?>
 

@@ -57,7 +57,6 @@ use yii\widgets\ActiveForm;
     var msgtoapp="<?= Yii::$app->urlManager->createUrl('msgtoapp/index')?>";
     var reply="<?= Yii::$app->urlManager->createUrl('reply/index')?>";
     var usertoapp="<?= Yii::$app->urlManager->createUrl('usertoapp/index')?>";
-    var follow="<?= Yii::$app->urlManager->createUrl('follow/index')?>";
     var zan="<?= Yii::$app->urlManager->createUrl('zan/index')?>";
     var collectinteract="<?= Yii::$app->urlManager->createUrl('collect-interact/index')?>";
     var collectperson="<?= Yii::$app->urlManager->createUrl('collect-person/index')?>";
@@ -67,7 +66,7 @@ use yii\widgets\ActiveForm;
             {id:'1',menu:[
                   {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
                   {text:'用户管理',items:[{id:'22',text:'用户',href:thumb},{id:'23',text:'后台用户',href:sysuser},{id:'24',text:'用户下载的应用',href:usertoapp},{id:'25',text:'用户收藏的应用',href:collectperson}]},
-                  {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'34',text:'关注列表',href:follow},{id:'35',text:'点赞列表',href:zan}]},
+                  {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'35',text:'点赞列表',href:zan}]},
                   {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply},{id:'47',text:'用户收藏的消息',href:collectinteract}]}
                 ]},
             {id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:myapp}]}]}

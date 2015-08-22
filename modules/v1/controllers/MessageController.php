@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use app\modules\v1\models\Message;
 use app\modules\v1\models\Msgtoapp;
 use app\modules\v1\models\User;
+use app\modules\v1\models\Zan;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
 
@@ -91,11 +92,16 @@ class MessageController extends ActiveController {
 		//$msg->userid = Yii::$app->user->id;
 		$msg->userid=$phone['id'];
 		$msg->content = $data['content'];
-		$msg->status=$data['status'];
+		$msg->kind=$data['kind'];
+		$msg->area=$data['area'];
 		$msg->created_at = time();
 		$err=$msg->save();
 		if($err==false){
-			throw new \yii\web\HttpException(404,"msg recode insert error");
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Send fail!'
+			) );
+			//throw new \yii\web\HttpException(404,"msg recode insert error");
 		}
 		foreach ($data['apps'] as $app) {
 			//echo $app;
@@ -105,10 +111,17 @@ class MessageController extends ActiveController {
 			
 			$err=$msgtoapp->save();
 			if($err==false){
-				throw new \yii\web\HttpException(404,"msgtoapp recode insert error");
+				echo json_encode ( array (
+						'flag' => 1,
+						'msg' => 'Send fail!'
+				) );
+				//throw new \yii\web\HttpException(404,"msgtoapp recode insert error");
 			}
 		}
-		return $data['apps'];
+		echo json_encode ( array (
+				'flag' => 1,
+				'msg' => 'Send success!'
+		) );
 	}
 	public function actionDeletemsg(){
 		$data = Yii::$app->request->post();
@@ -131,32 +144,52 @@ class MessageController extends ActiveController {
 			) );
 		}
 	}
-// 	public function actionIndex() {
-// 		// echo Yii::$app->user->id;
-// 		$msg = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', 'friends.friendid = msg.userid' )->where ( 'friends.myid=:id', [ 
-// 				':id' => Yii::$app->user->id 
-// 		] )->orderBy ( 'msg.created_at' )->all ();
-// 		// return $msg;
-// 		$activeData = new ActiveDataProvider ( [ 
-// 				'query' => Message::find ()->where ( 'userid=:id', [ 
-// 						':id' => Yii::$app->user->id 
-// 				] ),
-// 				'pagination' => [ 
-// 						'defaultPageSize' => 10 
-// 				] 
-// 		] );
-// 		return $activeData;
-// 	}
-// 	public function actionShow() {
-// 		$msgs = Message::find ()->all ();
-// 		return $msgs;
-// 	}
-// 	public function actionHello() {
-// 		$response = Yii::$app->response;
-// 		$response->format = \yii\web\Response::FORMAT_JSON;
-// 		return "hello";
-// 	}
-	
+
+	public function actionZan(){
+		$data=Yii::$app->request->post();
+		$user=new User();
+		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		$info=Zan::findOne([
+				'myid'=>$phone['id'],
+				'msgid'=>$data['msgid']
+		]);
+		if($info){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Already zan!'
+			) );
+		}else{
+			$model=new Zan();
+			$model->myid=$phone['id'];
+			$model->msgid=$data['msgid'];
+			$model->save();
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Zan success!'
+			) );
+		}
+	}
+	public function actionCancelZan(){
+		$data=Yii::$app->request->post();
+		$user=new User();
+		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		$info=Zan::findOne([
+				'myid'=>$phone['id'],
+				'msgid'=>$data['msgid']
+		]);
+		if($info){
+			$info->delete();
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Cancel success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Cancel failed!'
+			) );
+		}
+	}
 	public function actionReply(){
 		$data = Yii::$app->request->post ();
 		$model=new Reply();
