@@ -140,7 +140,7 @@ class AppController extends ActiveController {
 	}
 	public function actionRecommendAll(){
 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->join('INNER JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'famous' => 1
 		] )
@@ -152,7 +152,7 @@ class AppController extends ActiveController {
 	}
 	public function actionRecommendHot(){
 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->join('INNER JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'famous' => 1
 		] )
@@ -164,7 +164,7 @@ class AppController extends ActiveController {
 	}
 	public function actionRecommendNew(){
 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->join('INNER JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'u.famous' => 1
 		] )

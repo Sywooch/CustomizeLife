@@ -33,7 +33,7 @@ class FriendController extends Controller {
 		} else {
 			echo json_encode ( array (
 					'flag' => 0,
-					'msg' => 'Havenoreq' 
+					'msg' => 'Have no req' 
 			) );
 		}
 	}
