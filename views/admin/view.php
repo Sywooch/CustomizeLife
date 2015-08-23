@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\modules\v1\models\Appcomments;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\app */
@@ -41,9 +42,28 @@ $this->params['breadcrumbs'][] = $this->title;
         	'introduction',
             'updated_at',
             'size',
-            'icon:image',
+			[
+					'attribute'=>'图标',
+					'value'=>$model->icon,
+					'format' => ['image',['width'=>'100','height'=>'100']],
+			],
 			'kind',
             'updated_log',
+    		[
+    				'attribute'=>'评论',
+    				'value'=>'<a href='.'/appcomments/index?AppcommentsSearch%5Bappid%5D='.$model->name.'&amp;AppcommentsSearch%5Buserid%5D=&amp;AppcommentsSearch%5Busernickname%5D=&amp;AppcommentsSearch%5Bcommentstars%5D=&amp;AppcommentsSearch%5Bcomments%5D=&amp;sort=appid'.'>点击这里</a>',
+    				'format' => ['html'],
+    		],
         ],
-    ]) ?>
+    ]); 
+    echo '<h2>图片</h2>';
+    for($i=0;$i<count($apptopicture);$i++) {
+    	echo '<a href="/apptopicture/view/'.$apptopicture[$i]['id'].'">';
+    	echo Html::img($apptopicture[$i]['picture'],['width'=>'240','height'=>'400']);
+    	echo '</a>';
+    	echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+    }
+    
+    ?>
+ 
 </div>

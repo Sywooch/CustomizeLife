@@ -80,10 +80,19 @@ class ApptopictureController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        $data=Yii::$app->request->post();
+        if($data!=false){
+        	$model->appid = $data['Apptopicture']['appid'];
+        	$model->picture = $data['pic'][0];
+        	//echo $data['apptopicture']['pic'][0];
+        	if ($model->save()) {
+        		return $this->redirect(['view', 'id' => $model->id]);
+        	}else{
+        		return $this->render('update', [
+        				'model' => $model,
+        		]);
+        	}
+        }else {
             return $this->render('update', [
                 'model' => $model,
             ]);
