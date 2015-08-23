@@ -8,7 +8,7 @@ use app\models\MsgtoappSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\app;
 /**
  * MsgtoappController implements the CRUD actions for Msgtoapp model.
  */
@@ -34,6 +34,24 @@ class MsgtoappController extends Controller
     {
         $searchModel = new MsgtoappSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$appinfo = app::findOne ( [
+        				'id' => $model ['appid']
+        				] );
+        		$model ['appid'] = $appinfo ['name'];
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -48,8 +66,13 @@ class MsgtoappController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$appinfo = app::findOne ( [
+    			'id' => $model ['appid']
+    			] );
+    	$model ['appid'] = $appinfo ['name'];
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -62,13 +85,30 @@ class MsgtoappController extends Controller
     {
         $model = new Msgtoapp();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $data = Yii::$app->request->post ();
+		if ($data != false) {
+			$appinfo = app::findOne ( [ 
+					'name' => $data ['Msgtoapp']['appid'] 
+			] );
+			
+			$model->appid=(string)$appinfo ['id'];
+			$model->msgid=$data ['Msgtoapp']['msgid'];
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'create', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'create', [
+					'model' => $model
+					] );
+		}
     }
 
     /**
@@ -80,14 +120,35 @@ class MsgtoappController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $appinfo = app::findOne ( [
+        		'id' => $model ['appid']
+        		] );
+        $model ['appid'] = $appinfo ['name'];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        $data = Yii::$app->request->post ();
+		if ($data != false) {
+			$appinfo = app::findOne ( [ 
+					'name' => $data ['Msgtoapp']['appid'] 
+			] );
+			
+			$model->appid=(string)$appinfo ['id'];
+			$model->msgid=$data ['Msgtoapp']['msgid'];
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'update', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'update', [
+					'model' => $model
+					] );
+		}
     }
 
     /**

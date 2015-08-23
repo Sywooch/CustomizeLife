@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('创建用户', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('添加用户', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -32,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
         	'nickname',
             'famous',
             'shared',
-            'thumb',
+            //'thumb',
             'gender',
             // 'area',
-            // 'job',
-            // 'hobby',
+             'job',
+             'hobby',
             'signature',
             // 'created_at',
             // 'updated_at',
