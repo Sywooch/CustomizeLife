@@ -38,7 +38,7 @@ class app extends \yii\db\ActiveRecord
     {
         return 'app';
     }
-
+	public $kindarray;
     /**
      * @inheritdoc
      */
@@ -59,20 +59,20 @@ class app extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'version' => 'Version',
-            'profile' => 'Profile',
-            'android_url' => 'Android Url',
-            'ios_url' => 'Ios Url',
-            'stars' => 'Stars',
-            'downloadcount' => 'Downloadcount',
-            'commentscount' => 'Commentscount',
-            'introduction' => 'Introduction',
-            'updated_at' => 'Updated At',
-            'size' => 'Size',
-            'icon' => 'Icon',
-            'updated_log' => 'Updated Log',
-            'kind' => 'Kind',
+            'name' => '名称',
+            'version' => '版本',
+            'profile' => '简介',
+            'android_url' => 'Android应用地址',
+            'ios_url' => 'Ios应用地址',
+            'stars' => '评星',
+            'downloadcount' => '下载次数',
+            'commentscount' => '评论数量',
+            'introduction' => '介绍',
+            'updated_at' => '更新时间',
+            'size' => '大小',
+            'icon' => '图标',
+            'updated_log' => '更新日志',
+            'kind' => '种类',
         ];
     }
 

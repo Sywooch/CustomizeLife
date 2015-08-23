@@ -8,6 +8,8 @@ use app\models\AppcommentsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\User;
+use app\models\app;
 
 /**
  * AppcommentsController implements the CRUD actions for Appcomments model.
@@ -34,7 +36,25 @@ class AppcommentsController extends Controller
     {
         $searchModel = new AppcommentsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
+        $pagination = $dataProvider->getPagination();
+        $count=$pagination->pageCount;
+        $count1=0;
+        while ($categories = $dataProvider->models){
+        	$models=$categories;
+        	foreach ($models as $model) {
+        		$userinfo=User::findOne(['id' => $model['userid']]);
+        		$appinfo=app::findOne(['id' => $model['appid']]);
+        	$model['userid']=$userinfo['phone'];
+        	$model['appid']=$appinfo['name'];
+        	}
+        	$dataProvider->setModels($models);
+        	$count1++;
+        	if($count1>$count){
+        		break;
+        	}
+        }
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
