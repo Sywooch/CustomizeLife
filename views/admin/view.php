@@ -46,5 +46,4 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_log',
         ],
     ]) ?>
-
 </div>
