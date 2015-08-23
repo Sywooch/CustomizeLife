@@ -53,8 +53,7 @@ class MessageController extends ActiveController {
 		] )->one ();
 		$info = $msg;
 		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
-				'msgtoapp.appid',
-				'app.icon' 
+				'app.*' 
 		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
 				':id' => $id 
 		] )->all ();
@@ -65,6 +64,10 @@ class MessageController extends ActiveController {
 		] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
 				':id' => $id 
 		] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
+		$info['zan']=(new \yii\db\Query())
+		->select('u.phone,u.nickname')->from('zan z')
+		->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$id ])
+		->all();
 		return $info;
 	}
 	public function actionGet() {
@@ -73,7 +76,7 @@ class MessageController extends ActiveController {
 				'phone' => $data ['phone'] 
 		] );
 		// $data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
-		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [ 
+		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and friends.myid = :id ', [ 
 				':id' => $phone ['id'] 
 		] );
 		$pages = new \yii\data\Pagination ( [ 
@@ -93,8 +96,7 @@ class MessageController extends ActiveController {
 			] )->one ();
 			$info = $msg;
 			$info ['apps'] = (new \yii\db\Query ())->select ( [ 
-					'msgtoapp.appid',
-					'app.icon' 
+					'app.*' 
 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
 					':id' => $model ['id'] 
 			] )->all ();
@@ -105,6 +107,11 @@ class MessageController extends ActiveController {
 			] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
 					':id' => $model ['id'] 
 			] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
+			$info['zan']=(new \yii\db\Query())
+			->select('u.phone,u.nickname')->from('zan z')
+			->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
+			->all();
+			
 			$result ['item'] [] = $info;
 		}
 		$result ['_meta'] = array (

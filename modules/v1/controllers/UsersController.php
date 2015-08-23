@@ -186,7 +186,7 @@ class UsersController extends Controller {
 			->all();
 			$info['zan']=(new \yii\db\Query())
 			->select('u.phone,u.nickname')->from('zan z')
-			->join('LEFT JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
+			->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
 			->all();
 			$result['item'][]=$info;
 		}
