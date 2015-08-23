@@ -12,7 +12,8 @@ class m150623_084611_msg extends Migration
     			'id' => Schema::TYPE_PK,
     			'userid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'content' => Schema::TYPE_STRING . ' NOT NULL',
-    			'status' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',//0 share; 1 collect; 2 download.
+    			'kind' => Schema::TYPE_STRING,
+    			'area' => Schema::TYPE_STRING,
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL',
     	],"CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB");
     	$this->createIndex('userid', 'msg', 'userid');
@@ -23,6 +24,7 @@ class m150623_084611_msg extends Migration
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('appid', 'msgtoapp', 'msgid', 'msg', 'id','CASCADE','CASCADE');
+    	//$this->addForeignKey('apppid', 'msgtoapp', 'appid', 'app', 'id','CASCADE','CASCADE');
     	$this->createIndex('msgid', 'msgtoapp', 'msgid');
     }
 

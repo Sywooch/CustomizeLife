@@ -14,7 +14,7 @@ public function safeUp()
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL',
     			'msg' => Schema::TYPE_INTEGER . ' NOT NULL',
     			
-    	],'ENGINE=InnoDB');
+    	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('collectmsgKey', 'collect_interact', 'msg', 'msg', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('collectinteractKey', 'collect_interact', 'userid', 'user', 'id','CASCADE','CASCADE');
     	$this->createTable('collect_person', [

@@ -10,6 +10,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Apps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<html lang="en-US" style="padding-left:15px">
 <div class="app-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -31,13 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'version',
-            'url:url',
+        	'profile',
+            'android_url:url',
+            'ios_url:url',
             'stars',
             'downloadcount',
-            'introduction',
+            'commentscount',
+        	'introduction',
             'updated_at',
             'size',
             'icon',
+			'kind',
+            'updated_log',
         ],
     ]) ?>
 

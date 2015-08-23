@@ -10,6 +10,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Apps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
+<html lang="en-US" style="padding-left:15px">
 <div class="app-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
