@@ -156,7 +156,8 @@ class UsersController extends Controller {
 				'area' => $data ['area'],
 				'job' => $data ['job'],
 				'hobby' => $data ['hobby'],
-				'signature' => $data ['signature']
+				'signature' => $data ['signature'],
+				'updated_at' => $data ['updated_at'] 
 		), 'phone=:ph', array (
 				':ph' => $data ['phone'] 
 		) );
