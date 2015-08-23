@@ -41,8 +41,8 @@ class Systemuser extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'pwd' => 'Pwd',
+            'name' => '账号',
+            'pwd' => '密码',
         ];
     }
 }

@@ -8,6 +8,8 @@ use app\models\UsertoappSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\User;
+use app\models\app;
 
 /**
  * UsertoappController implements the CRUD actions for Usertoapp model.
@@ -35,6 +37,28 @@ class UsertoappController extends Controller
         $searchModel = new UsertoappSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$userinfo = User::findOne ( [
+        				'id' => $model ['userid']
+        				] );
+        		$appinfo = app::findOne ( [
+        				'id' => $model ['appid']
+        				] );
+        		$model ['userid'] = $userinfo ['phone'];
+        		$model ['appid'] = $appinfo ['name'];
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -48,8 +72,17 @@ class UsertoappController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['userid']
+    			] );
+    	$appinfo = app::findOne ( [
+    			'id' => $model ['appid']
+    			] );
+    	$model ['userid'] = $userinfo ['phone'];
+    	$model ['appid'] = $appinfo ['name'];
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -62,12 +95,33 @@ class UsertoappController extends Controller
     {
         $model = new Usertoapp();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $data = Yii::$app->request->post ();
+        if ($data != false) {
+        	$userinfo = User::findOne ( [
+        			'phone' => $data['Usertoapp'] ['userid']
+        			] );
+        	$appinfo = app::findOne ( [
+        			'name' => $data ['Usertoapp']['appid']
+        			] );
+        		
+        	$model->appid=(string)$appinfo ['id'];
+        	$model->userid=$userinfo ['id'];
+        	$model->created_at=(string)time();
+        	
+        	if ($model->save()) {
+        		return $this->redirect ( [
+        				'view',
+        				'id' => $model->id
+        				] );
+        	} else {
+        		return $this->render ( 'create', [
+        				'model' => $model
+        				] );
+        	}
+        }else{
+        	return $this->render ( 'create', [
+        			'model' => $model
+        			] );
         }
     }
 
@@ -81,13 +135,44 @@ class UsertoappController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        $userinfo = User::findOne ( [
+				'id' => $model ['userid']
+				] );
+		$appinfo = app::findOne ( [
+				'id' => $model ['appid']
+				] );
+		$model ['userid'] = $userinfo ['phone'];
+		$model ['appid'] = $appinfo ['name'];
+		
+		$data = Yii::$app->request->post ();
+		if ($data != false) {
+			$userinfo = User::findOne ( [
+					'phone' => $data['Usertoapp'] ['userid']
+					] );
+			$appinfo = app::findOne ( [
+					'name' => $data ['Usertoapp']['appid']
+					] );
+				
+			$model->appid=(string)$appinfo ['id'];
+			$model->userid=$userinfo ['id'];
+			$model->created_at=(string)time();
+			
+				
+			if ($model->save()) {
+				return $this->redirect ( [
+						'view',
+						'id' => $model->id
+						] );
+			} else {
+				return $this->render ( 'update', [
+						'model' => $model
+						] );
+			}
+		}else{
+			return $this->render ( 'update', [
+					'model' => $model
+					] );
+		}
     }
 
     /**

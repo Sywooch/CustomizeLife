@@ -32,7 +32,8 @@ class CollectPerson extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'created_at', 'app'], 'required'],
-            [['userid', 'created_at', 'app'], 'integer']
+            [['created_at', 'app'], 'string'],
+            [['userid'],'integer'],
         ];
     }
 
@@ -43,9 +44,9 @@ class CollectPerson extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'userid' => 'Userid',
-            'created_at' => 'Created At',
-            'app' => 'App',
+            'userid' => '用户',
+            'created_at' => '收藏时间',
+            'app' => '应用',
         ];
     }
 

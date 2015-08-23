@@ -41,8 +41,8 @@ class Zan extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'myid' => 'Myid',
-            'msgid' => 'Msgid',
+            'myid' => '用户',
+            'msgid' => '消息ID',
         ];
     }
 

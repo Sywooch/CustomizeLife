@@ -99,7 +99,8 @@ class AdminController extends Controller {
 	public function actionView($id) {
 		if (Yii::$app->session ['var'] === 'admin') {
 			return $this->render ( 'view', [ 
-					'model' => $this->findModel ( $id ) 
+					'model' => $this->findModel ( $id ) ,
+					'apptopicture' => (new \yii\db\Query ())->from('apptopicture')->where(['appid'=>$id])->all(),
 			] );
 		} else {
 			return $this->redirect ( [ 

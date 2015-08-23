@@ -8,6 +8,7 @@ use app\models\ZanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\User;
 
 /**
  * ZanController implements the CRUD actions for Zan model.
@@ -34,6 +35,24 @@ class ZanController extends Controller
     {
         $searchModel = new ZanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$userinfo = User::findOne ( [
+        				'id' => $model ['myid']
+        				] );
+        		$model ['myid'] = $userinfo ['phone'];
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -48,8 +67,14 @@ class ZanController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['myid']
+    			] );
+    	
+    	$model ['myid'] = $userinfo ['phone'];
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -62,13 +87,30 @@ class ZanController extends Controller
     {
         $model = new Zan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+       $data = Yii::$app->request->post ();
+		if ($data != false) {
+			$userinfo = User::findOne ( [ 
+					'phone' => $data['Zan'] ['myid'] 
+			] );
+			
+			$model->myid=(string)$userinfo ['id'];
+			$model->msgid=$data['Zan'] ['msgid'];
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'create', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'create', [
+					'model' => $model
+					] );
+		}
     }
 
     /**
@@ -80,14 +122,35 @@ class ZanController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        $userinfo = User::findOne ( [
+        		'id' => $model ['myid']
+        		] );
+         
+        $model ['myid'] = $userinfo ['phone'];
+        $data = Yii::$app->request->post ();
+    if ($data != false) {
+			$userinfo = User::findOne ( [ 
+					'phone' => $data['Zan'] ['myid'] 
+			] );
+			
+			$model->myid=(string)$userinfo ['id'];
+			$model->msgid=$data['Zan'] ['msgid'];
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'update', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'update', [
+					'model' => $model
+					] );
+		}
     }
 
     /**

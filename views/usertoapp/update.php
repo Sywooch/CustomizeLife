@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Usertoapp */
 
-$this->title = '更新用户下载应用: ' . ' ' . $model->id;
+$this->title = '更新用户下载应用: ';
 $this->params['breadcrumbs'][] = ['label' => 'Usertoapps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
