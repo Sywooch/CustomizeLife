@@ -28,7 +28,7 @@ class Msgtoapp extends \yii\db\ActiveRecord
     {
         return [
             [['msgid', 'appid'], 'required'],
-            [['msgid', 'appid'], 'integer']
+            [['msgid', 'appid'], 'string']
         ];
     }
 
@@ -39,8 +39,8 @@ class Msgtoapp extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'msgid' => 'Msgid',
-            'appid' => 'Appid',
+            'msgid' => '消息ID',
+            'appid' => '应用',
         ];
     }
 }

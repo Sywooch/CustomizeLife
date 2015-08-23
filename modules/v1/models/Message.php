@@ -48,12 +48,12 @@ class Message extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'userid' => 'Userid',
-            'content' => 'Content',
-            'kind' => 'Kind',
-            'area' => 'Area',
-            'created_at' => 'Created At',
+            'id' => '消息ID',
+            'userid' => '用户',
+            'content' => '消息内容',
+            'kind' => '种类',
+            'area' => '可见范围',
+            'created_at' => '创建时间',
         ];
     }
 

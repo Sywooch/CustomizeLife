@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property integer $appid
+ * @property integer $userid
+ * @property string $usernickname
  * @property integer $commentstars
  * @property string $comments
  * @property integer $created_at
@@ -33,7 +35,7 @@ class Appcomments extends \yii\db\ActiveRecord
     {
         return [
             [['appid', 'comments', 'created_at', 'title'], 'required'],
-            [['appid', 'commentstars', 'created_at'], 'integer'],
+            [['appid', 'commentstars', 'created_at'], 'string'],
             [['comments', 'title'], 'string', 'max' => 255]
         ];
     }

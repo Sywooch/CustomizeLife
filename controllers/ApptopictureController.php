@@ -8,6 +8,7 @@ use app\models\ApptopictureSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\app;
 
 /**
  * ApptopictureController implements the CRUD actions for Apptopicture model.
@@ -34,6 +35,24 @@ class ApptopictureController extends Controller
     {
         $searchModel = new ApptopictureSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$appinfo = app::findOne ( [
+        				'id' => $model ['appid']
+        				] );
+        		$model ['appid'] = $appinfo ['name'];
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -48,8 +67,13 @@ class ApptopictureController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$appinfo = app::findOne ( [
+    			'id' => $model ['appid']
+    			] );
+    	$model ['appid'] = $appinfo ['name'];
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -81,6 +105,12 @@ class ApptopictureController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model = $this->findModel ( $id );
+        $appinfo = app::findOne ( [
+        		'id' => $model ['appid']
+        		] );
+        $model ['appid'] = $appinfo ['name'];
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
