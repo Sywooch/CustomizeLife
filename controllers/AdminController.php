@@ -246,9 +246,8 @@ class AdminController extends Controller {
 			foreach ($kind as $index=>$kindname){
 				$kindarray[]=$kindname['kind'];
 			}
-			$allkind=['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育',
-			'旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像'];
-			$data['kindarray'] = ['0'=>'社交'];
+			$data['kindarray'] = $kindarray;
+			//$data['kindarray'][] = '0';
 			//$data = array();
 			if ($model->load ( Yii::$app->request->post () ) && $model->save ()) {
 				return $this->redirect ( [ 
