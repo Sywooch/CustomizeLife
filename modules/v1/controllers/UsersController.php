@@ -159,9 +159,10 @@ class UsersController extends Controller {
 				'phone'=>$data['phone']
 		]);
 		//$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
-		$data = Message::find ([
-				'myid'=>$phone['id']
-		])->select ( '*' );
+		$m=new Message();
+		$data = $m->find()->where([
+				'userid'=>$phone['id']
+		]);
 		$pages = new \yii\data\Pagination ( [
 				'totalCount' => $data->count (),
 				'pageSize' => '10'
@@ -323,13 +324,31 @@ class UsersController extends Controller {
 				'friendid'=>$fid['id']
 		]);
 		$ans=array();
+		if($fid){
 		$ans['id']=$fid['id'];
 		$ans['phone']=$fid['phone'];
 		$ans['thumb']=$fid['thumb'];
 		$ans['nickname']=$fid['nickname'];
+		$ans['gender']=$fid['gender'];
+		$ans['area']=$fid['area'];
+		$ans['job']=$fid['job'];
+		$ans['hobby']=$fid['hobby'];
+		$ans['signature']=$fid['signature'];
 		if($info){
 			$ans['isfriend']=1;
 		}else{
+			$ans['isfriend']=0;
+		}
+		}else{
+			$ans['id']='';
+			$ans['phone']='';
+			$ans['thumb']='';
+			$ans['nickname']='';
+			$ans['gender']='';
+			$ans['area']='';
+			$ans['job']='';
+			$ans['hobby']='';
+			$ans['signature']='';
 			$ans['isfriend']=0;
 		}
 		return $ans;

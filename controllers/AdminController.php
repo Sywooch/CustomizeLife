@@ -135,7 +135,7 @@ class AdminController extends Controller {
 				$model->size = $data ['app'] ['size'];
 				//$model->kind=$data ['app'] ['kind'];
 				$model->icon = $data ['icon'];
-				foreach ( $data ['app'] ['kind'] as $kind ) {
+				foreach ( $data ['app'] ['kindarray'] as $kind ) {
 					$model->kind.=$kind." ";
 				}
 				
@@ -240,7 +240,16 @@ class AdminController extends Controller {
 	public function actionUpdate($id) {
 		if (Yii::$app->session ['var'] === 'admin') {
 			$model = $this->findModel ( $id );
-			
+			$data=$model;
+			$kind = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id])->all();
+			$kindarray = array();
+			foreach ($kind as $index=>$kindname){
+				$kindarray[]=$kindname['kind'];
+			}
+			$allkind=['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育',
+			'旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像'];
+			$data['kindarray'] = ['0'=>'社交'];
+			//$data = array();
 			if ($model->load ( Yii::$app->request->post () ) && $model->save ()) {
 				return $this->redirect ( [ 
 						'view',
@@ -248,9 +257,11 @@ class AdminController extends Controller {
 				] );
 			} else {
 				return $this->render ( 'update', [ 
-						'model' => $model 
+						'model' => $data
+						//'model' => $model 
 				] );
 			}
+			
 		} else {
 			return $this->redirect ( [ 
 					'login' 
@@ -294,4 +305,5 @@ class AdminController extends Controller {
 			throw new NotFoundHttpException ( 'The requested page does not exist.' );
 		}
 	}
+	
 }

@@ -11,6 +11,7 @@ use app\modules\v1\models\User;
 use app\modules\v1\models\Zan;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
+use app\modules\v1\models\Appcomments;
 
 require dirname ( dirname ( dirname ( __FILE__ ) ) ) . '/../vendor/pushserver/sdk.php';
 use PushSDK;
@@ -284,5 +285,34 @@ class MessageController extends ActiveController {
 			print_r ( $rs );
 		}
 		echo "done!";
+	}
+	public function actionTestl(){
+		echo "sss";
+		$dataProvider = new ActiveDataProvider ( [
+		 'query' => Appcomments::find ()
+				] );
+		//$dataProvider->keys;
+		//$dataProvider->models;
+		/*$dataProvider->setPagination(false);
+		$mymodel=$dataProvider->models;
+		foreach ($mymodel as $model){
+			echo $model['appid'];
+			
+		}*/
+		$pagination = $dataProvider->getPagination();
+		var_dump($pagination->page);
+	    $count=0;
+		while ($categories = $dataProvider->models){
+			/*foreach ($categories as $model) {
+				$model['appid']=0;
+			}*/
+			//echo $pagination->page=1+$count;
+			$count++;
+			$dataProvider->setPagination($count);
+		}
+		//$mymodel[4]['kind']="bbbbbb";
+		//$dataProvider->setModels($mymodel);
+		//var_dump($dataProvider->models[4]['kind']);
+		//echo $dataProvider->models;
 	}
 }

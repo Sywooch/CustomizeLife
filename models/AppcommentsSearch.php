@@ -6,6 +6,8 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Appcomments;
+use app\modules\v1\models\User;
+use app\models\app;
 
 /**
  * AppcommentsSearch represents the model behind the search form about `app\modules\v1\models\Appcomments`.
@@ -18,7 +20,8 @@ class AppcommentsSearch extends Appcomments
     public function rules()
     {
         return [
-            [['id', 'appid', 'userid', 'commentstars', 'created_at'], 'integer'],
+        	[['userid','commentstars'],'integer'],
+            [['id', 'appid'], 'string'],
             [['userthumb', 'usernickname', 'comments', 'title'], 'safe'],
         ];
     }
@@ -31,7 +34,8 @@ class AppcommentsSearch extends Appcomments
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
-
+	public $value;
+	public $userinc;
     /**
      * Creates data provider instance with search query applied
      *
@@ -41,6 +45,7 @@ class AppcommentsSearch extends Appcomments
      */
     public function search($params)
     {
+    	
         $query = Appcomments::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -48,6 +53,31 @@ class AppcommentsSearch extends Appcomments
         ]);
 
         $this->load($params);
+        //$value = 0;
+        if($params!=false &&!empty($params['AppcommentsSearch'])){
+        	//$b=$a;
+        	//=app::find()->where("name= :name",[':name'=>'QQ'])->one();
+        //if()
+         foreach ($params['AppcommentsSearch'] as $name => $value1) {
+                if ($name==='appid' && $value1!=null){
+                	$appinfo=app::findOne(['name' => $params['AppcommentsSearch']['appid']]);
+                	
+        			$this->value=$appinfo['id'];
+        			if($appinfo ==null){
+        				$this->value=0;
+        			}
+
+                }
+                if ($name==='userid'&&$value1!=null){
+                	$appinfo=User::findOne(['phone' => $params['AppcommentsSearch']['userid']]);
+                	$this->userinc=$appinfo['id'];
+                	if($appinfo ==null){
+                		$this->userinc=0;
+                	}
+                }
+            }
+        }
+        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -56,9 +86,8 @@ class AppcommentsSearch extends Appcomments
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'appid' => $this->appid,
-            'userid' => $this->userid,
+            'appid' => $this->value,
+            'userid' => $this->userinc,
             'commentstars' => $this->commentstars,
             'created_at' => $this->created_at,
         ]);

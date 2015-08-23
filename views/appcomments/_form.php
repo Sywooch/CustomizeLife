@@ -18,7 +18,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'comments')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

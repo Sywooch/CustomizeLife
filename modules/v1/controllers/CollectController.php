@@ -183,7 +183,11 @@ class CollectController extends Controller {
  			select ( [ 
  					'app.*'
  			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['msg']])->all();
- 			$info['replys'] = (new \yii\db\Query())->select(['reply.*','user1.nickname as fromnickname','user2.nickname as tonickname'])->from ( 'reply' )->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$model ['msg'] ])->join('Left JOIN','user user2','user2.id = reply.toid')->orderBy("reply.created_at")->all();
+ 			$info['replys'] = (new \yii\db\Query())
+ 			->select(['reply.*','user1.nickname as fromnickname','user1.phone as fromphone','user2.nickname as tonickname','user2.phone as tophone'])
+ 			->from ( 'reply' )
+ 			->join('INNER JOIN','user user1','user1.id = reply.fromid and reply.msgid= :id',[':id'=>$model ['msg'] ])
+ 			->join('Left JOIN','user user2','user2.id = reply.toid')->orderBy("reply.created_at")->all();
  			$info['zan']=(new \yii\db\Query())
  			->select('u.phone,u.nickname')->from('zan z')
  			->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['msg'] ])
