@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\data\Pagination;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
+use app\models\app;
+use yii\data\ActiveDataProvider;
 
 class MsgController extends Controller{
     public $layout  = 'layout';
@@ -22,14 +24,14 @@ class MsgController extends Controller{
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['login','test'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
                         'actions' => ['sendmsg','msg','read','mysend','reply','pull'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -179,6 +181,25 @@ class MsgController extends Controller{
         $model=new Msg();
 
         return $this->render('read',['msg'=>$msg,'model'=>$model]);
+    }
+    
+    public function actionTest(){
+    		echo "test";
+    		$dataProvider = new ActiveDataProvider ( [
+    				'query' => app::find ()
+    				] );
+    		$pagination = $dataProvider->getPagination();
+    		$count=$pagination->pageCount;
+    		$count1=0;
+    		while ($categories = $dataProvider->models){
+    			foreach ($categories as $category) {
+    				echo $category['id'];
+    			}
+    			$count1++;
+    			if($count1>$count){
+    				break;
+    			}
+    		}
     }
 
 } 

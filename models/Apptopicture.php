@@ -42,7 +42,7 @@ class Apptopicture extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'appid' => 'Appid',
+            'appid' => '应用',
             'picture' => 'Picture',
         ];
     }
