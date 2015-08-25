@@ -5,7 +5,18 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Message */
-
+//echo $apps;
+function getapps($apps)
+{
+	$msg="";
+	for($i=0;$i<count($apps);$i++) {
+		$msg=$msg.'<a href="/admin/view/'.$apps[$i]['id'].'">';
+		$msg=$msg.Html::img($apps[$i]['icon'],['width'=>'50','height'=>'50']);
+		$msg=$msg. '</a>';
+		$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+	};
+	return $msg;
+}
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,16 +40,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-			[
-				'attribute'=>'ying',
-				'value'=>'<a href='.'/message/viewmsg?id='.$model->id.'>点击这里</a>',
-				'format' => ['html'],
-			],
+			'id',
             'userid',
             'content',
             'kind',
         	'area',
+			[
+				'attribute'=>'应用',
+				'value'=>getapps($apps),
+				'format' => ['html'],
+			],
             'created_at',
         ],
     ]) ?>
