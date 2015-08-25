@@ -58,6 +58,20 @@ class FriendController extends Controller {
 		$model1=new User();
 		$myid = $model1->find()->select('id')->where(['phone'=>$data['myphone']])->one();
 		$fid = $model1->find()->select('id')->where(['phone'=>$data['fphone']])->one();
+		if(!$myid){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'my phone do not exist!'
+			) );
+			return;
+		}
+		if(!$fid){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'friend phone do not exist!'
+			) );
+			return;
+		}
 		$model = new Reqfriend ();
 		$model->myid = $myid ['id'];
 		$model->friendid = $fid ['id'];
