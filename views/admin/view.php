@@ -40,7 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'downloadcount',
             'commentscount',
         	'introduction',
-            'updated_at',
+            [
+				'attribute' => 'updated_at',
+				'label'=>'创建时间',
+				'value'=>date('Y-m-d H:i:s',$model->updated_at),
+				
+				'headerOptions' => ['width' => '170'],
+			],
             'size',
 			[
 					'attribute'=>'图标',
