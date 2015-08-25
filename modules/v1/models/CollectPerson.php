@@ -32,7 +32,7 @@ class CollectPerson extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'created_at', 'app'], 'required'],
-            [['created_at', 'app'], 'string'],
+            [['created_at', 'app'], 'integer'],
             [['userid'],'integer'],
         ];
     }

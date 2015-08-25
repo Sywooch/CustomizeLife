@@ -28,7 +28,7 @@ class Msgtoapp extends \yii\db\ActiveRecord
     {
         return [
             [['msgid', 'appid'], 'required'],
-            [['msgid', 'appid'], 'string']
+            [['msgid', 'appid'], 'integer']
         ];
     }
 
