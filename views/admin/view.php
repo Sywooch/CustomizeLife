@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_log',
     		[
     				'attribute'=>'评论',
-    				'value'=>'<a href='.'/appcomments/index?AppcommentsSearch%5Bappid%5D='.$model->name.'&amp;AppcommentsSearch%5Buserid%5D=&amp;AppcommentsSearch%5Busernickname%5D=&amp;AppcommentsSearch%5Bcommentstars%5D=&amp;AppcommentsSearch%5Bcomments%5D=&amp;sort=appid'.'>点击这里</a>',
+    				'value'=>'<a href='.'/appcomments/index?AppcommentsSearch%5Bappid%5D='.$model->name.'&amp;AppcommentsSearch%5Buserid%5D=&amp;AppcommentsSearch%5Busernickname%5D=&amp;AppcommentsSearch%5Bcommentstars%5D=&amp;AppcommentsSearch%5Bcomments%5D=&amp;sort=created_at'.'>点击这里</a>',
     				'format' => ['html'],
     		],
         ],

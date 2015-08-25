@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AppcommentsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '';
+$this->title = $dataProvider->models[0]['appid'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('创建评论', ['create'], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a('创建评论', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -27,13 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
-            'appid',
+           // 'appid',
             'userid',
             //'userthumb',
             'usernickname',
             'commentstars',
             'comments',
             // 'created_at',
+			[
+				'attribute' => 'created_at',
+				'label'=>'创建时间',
+				'value'=>
+				function($model){
+				return  date('Y-m-d H:i:s',$model->created_at);   //主要通过此种方式实现
+							},
+				'headerOptions' => ['width' => '170'],
+			],
             // 'title',
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -29,6 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
             //'pwd',
             //'authKey',
         	'phone',
+[
+    		'attribute' => 'thumb',
+'label'=>'头像',
+		'value'=>'thumb',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+						],
         	'nickname',
             'famous',
             'shared',

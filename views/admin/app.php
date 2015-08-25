@@ -20,12 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
  		'id' => 'login-form-inline',
  		'type' => ActiveForm::TYPE_INLINE
  		]);?>
- <?=$form->field($model,'name')->textInput(["placeholder"=>"应用名称"]); ?>
- 
- <div class="form-group">
-            <?=  Html::submitButton('搜索', ['class'=>'btn btn-success','name' =>'submit-button']) ?>
-             
-            </div>
+
 <?php ActiveForm::end();?>
  <?= GridView::widget([
         'dataProvider' => $appdata,
@@ -44,7 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'introduction',
              'updated_at',
              'size',
-             'kind',
+			 'icon',
+             //'kind',
             // 'updated_log',
 
             ['class' => 'yii\grid\ActionColumn'],
@@ -61,6 +57,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'name',
+			[
+'attribute' => 'icon',
+				'label'=>'图标',
+				'value'=>'icon',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+				],
             'version',
         		'profile',
             //'android_url:url',
@@ -70,7 +72,8 @@ $this->params['breadcrumbs'][] = $this->title;
         		'commentscount',
             // 'introduction',
              'updated_at',
-             'size',
+              'size',
+            
              'kind',
             // 'updated_log',
 
