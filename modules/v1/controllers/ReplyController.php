@@ -25,18 +25,18 @@ class ReplyController extends ActiveController {
 	public function actionIndex(){
 		
 	}
-	public function actionCreate(){
-		$data = Yii::$app->request->post();
-		$model=new Reply();
-		$model->fromid= Yii::$app->user->id;
-		//if($data['toid'])
-		$model->toid=$data['toid'];
-		$model->msgid=$data['msgid'];
-		$model->content=$data['content'];
-		$model->isread=0;
-		$model->created_at=time();
-		return $model->save();
-	}
+// 	public function actionCreate(){
+// 		$data = Yii::$app->request->post();
+// 		$model=new Reply();
+// 		$model->fromid= Yii::$app->user->id;
+// 		//if($data['toid'])
+// 		$model->toid=$data['toid'];
+// 		$model->msgid=$data['msgid'];
+// 		$model->content=$data['content'];
+// 		$model->isread=0;
+// 		$model->created_at=time();
+// 		return $model->save();
+// 	}
 	public function actionDeletereply(){
 		$data = Yii::$app->request->post ();
 		$id = $data['id'];
@@ -48,7 +48,7 @@ class ReplyController extends ActiveController {
 		}
 		$err=$model->delete();
 		if($err==false){
-			throw new \yii\web\HttpException(404,"recode delete error");
+			//throw new \yii\web\HttpException(404,"recode delete error");
 		}else{
 			echo json_encode ( array (
 					'flag' => 1,
