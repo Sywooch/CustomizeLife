@@ -17,6 +17,7 @@ use Qiniu\json_decode;
 use app\modules\v1\models\User;
 use yii\db\ActiveQuery;
 use app\modules\v1\models\Appofkind;
+use app\models\appSearch;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -54,34 +55,15 @@ class AdminController extends Controller {
 	
 	public function actionApp() {
 		if (Yii::$app->session ['var'] === 'admin') {
-			$dataProvider = new ActiveDataProvider ( [
-					'query' => app::find ()
-			] );
-			$model=new Systemuser();
-			$data = Yii::$app->request->post ();
-				
-			$appdata=new ActiveDataProvider ( [
-					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss@@@Ddd' ] )
-			] );
-				
-			if($data!=false){
-				$appdata=new ActiveDataProvider ( [
-						'query' => app::find()->select("*")->where ( [ 'name' => $data ['Systemuser']['name'] ] )
-				] );
-	
+			
+			$searchModel = new appSearch();
+			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
+			
 				return $this->render ( 'app', [
 						'dataProvider' => $dataProvider,
-						'model'=>$model ,
-						'appdata'=>$appdata
+						'searchModel'=>$searchModel ,
 				] );
-			}else{
-				return $this->render ( 'app', [
-						'dataProvider' => $dataProvider,
-						'model'=>$model ,
-						'appdata'=>$appdata
-				] );
-			}
-				
+			
 		} else {
 			return $this->redirect ( [
 					'login'

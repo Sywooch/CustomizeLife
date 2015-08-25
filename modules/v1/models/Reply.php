@@ -48,12 +48,12 @@ class Reply extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'msgid' => 'Msgid',
-            'content' => 'Content',
-            'fromid' => 'Fromid',
-            'toid' => 'Toid',
-            'isread' => 'Isread',
-            'created_at' => 'Created At',
+            'msgid' => '消息ID',
+            'content' => '消息内容',
+            'fromid' => '回复者',
+            'toid' => '回复给',
+            'isread' => '是否已读',
+            'created_at' => '回复时间',
         ];
     }
 
