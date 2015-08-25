@@ -36,7 +36,7 @@ class Reply extends \yii\db\ActiveRecord
     {
         return [
             [['msgid', 'content', 'fromid', 'toid'], 'required'],
-            [['msgid', 'fromid', 'toid', 'isread', 'created_at'], 'integer'],
+            [['msgid', 'fromid', 'isread', 'created_at'], 'integer'],
             [['content'], 'string', 'max' => 255]
         ];
     }

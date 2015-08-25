@@ -43,9 +43,9 @@ class CollectInteract extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'userid' => 'Userid',
-            'created_at' => 'Created At',
-            'msg' => 'Msg',
+            'userid' => '用户',
+            'created_at' => '收藏时间',
+            'msg' => '消息ID',
         ];
     }
 

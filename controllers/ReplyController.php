@@ -76,8 +76,22 @@ class ReplyController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['fromid']
+    			] );
+    	if ($model ['toid']==0){
+    		$model ['fromid'] = $userinfo ['phone'];
+    		$model ['toid'] = '直接回复消息';
+    	}else{
+    		$appinfo = User::findOne ( [
+    				'id' => $model ['toid']
+    				] );
+    		$model ['fromid'] = $userinfo ['phone'];
+    		$model ['toid'] = $appinfo ['phone'];
+    	}
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -90,12 +104,40 @@ class ReplyController extends Controller
     {
         $model = new Reply();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $data = Yii::$app->request->post ();
+        if ($data != false) {
+        	$userinfo = User::findOne ( [
+        			'phone' => $data['Reply'] ['fromid']
+        			] );
+        	if($data ['Reply']['toid']=='直接回复消息'){
+        		$model->toid=0;
+        	}else{
+        		$appinfo = User::findOne ( [
+        				'name' => $data ['Reply']['toid']
+        				] );
+        		$model->toid=$appinfo['id'];
+        	}
+        	
+        	$model->msgid=$data['Reply'] ['msgid'];
+        	$model->fromid=$userinfo ['id'];
+        	$model->created_at=(string)time();
+        	$model->isread=$data ['Reply']['isread'];
+        	$model->content=$data ['Reply']['content'];
+        		
+        	if ($model->save()) {
+        		return $this->redirect ( [
+        				'view',
+        				'id' => $model->id
+        				] );
+        	} else {
+        		return $this->render ( 'create', [
+        				'model' => $model
+        				] );
+        	}
+        }else{
+        	return $this->render ( 'create', [
+        			'model' => $model
+        			] );
         }
     }
 
@@ -108,13 +150,53 @@ class ReplyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $userinfo = User::findOne ( [
+        		'id' => $model ['fromid']
+        		] );
+        if ($model ['toid']==0){
+        	$model ['fromid'] = $userinfo ['phone'];
+        	$model ['toid'] = '直接回复消息';
+        }else{
+        	$appinfo = User::findOne ( [
+        			'id' => $model ['toid']
+        			] );
+        	$model ['fromid'] = $userinfo ['phone'];
+        	$model ['toid'] = $appinfo ['phone'];
+        }
+     $data = Yii::$app->request->post ();
+        if ($data != false) {
+        	$userinfo = User::findOne ( [
+        			'phone' => $data['Reply'] ['fromid']
+        			] );
+        	if($data ['Reply']['toid']=='直接回复消息'){
+        		$model->toid=0;
+        	}else{
+        		$appinfo = User::findOne ( [
+        				'name' => $data ['Reply']['toid']
+        				] );
+        		$model->toid=$appinfo['id'];
+        	}
+        	
+        	$model->msgid=$data['Reply'] ['msgid'];
+        	$model->fromid=$userinfo ['id'];
+        	$model->created_at=(string)time();
+        	$model->isread=$data ['Reply']['isread'];
+        	$model->content=$data ['Reply']['content'];
+        		
+        	if ($model->save()) {
+        		return $this->redirect ( [
+        				'view',
+        				'id' => $model->id
+        				] );
+        	} else {
+        		return $this->render ( 'update', [
+        				'model' => $model
+        				] );
+        	}
+        }else{
+        	return $this->render ( 'update', [
+        			'model' => $model
+        			] );
         }
     }
 
