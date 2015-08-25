@@ -8,6 +8,7 @@ use app\models\ReplySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\User;
 
 /**
  * ReplyController implements the CRUD actions for Reply model.
@@ -34,6 +35,33 @@ class ReplyController extends Controller
     {
         $searchModel = new ReplySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$userinfo = User::findOne ( [
+        				'id' => $model ['fromid']
+        				] );
+        		if ($model ['toid']==0){
+        			$model ['fromid'] = $userinfo ['phone'];
+        			$model ['toid'] = '直接回复消息';
+        		}else{
+        			$appinfo = User::findOne ( [
+        					'id' => $model ['toid']
+        					] );
+        			$model ['fromid'] = $userinfo ['phone'];
+        			$model ['toid'] = $appinfo ['phone'];
+        		}
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
