@@ -32,7 +32,7 @@ class Usertoapp extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'appid'], 'required'],
-            [['appid', 'created_at'], 'string'],
+            [['appid', 'created_at'], 'integer'],
             [['userid',],'integer']
         ];
     }
