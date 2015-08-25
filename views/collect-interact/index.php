@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('添加互动收藏', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('收藏消息', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
