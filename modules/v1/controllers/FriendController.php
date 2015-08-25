@@ -17,16 +17,18 @@ class FriendController extends Controller {
 	public function actionListenadd() 	// 监听添加好友
 	{
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$model = new Reqfriend ();
+		$model1 = new Reqfriend ();
+		$model=new User();
 		$data = Yii::$app->request->post ();
-		
-		$num = $model->find ()->andWhere ( [ 
-				'friendid' => $data ['myid'] 
+		$myid = $model->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		//$fid = $model->find()->select('id')->where(['phone'=>$data['fphone']])->one();
+		$num = $model1->find ()->andWhere ( [ 
+				'friendid' => $myid['id'] 
 		] )->count ();
 		
 		if ($num > 0) {
-			$aa = (new \yii\db\Query ())->select ( 'myid, thumb, nickname' )->from ( 'reqfriend f' )->join ( 'LEFT JOIN', 'user u', 'f.myid=u.id' )->where ( [ 
-					'friendid' => $data ['myid'] 
+			$aa = (new \yii\db\Query ())->select ( 'phone,thumb,nickname' )->from ( 'reqfriend f' )->join ( 'LEFT JOIN', 'user u', 'f.myid=u.id' )->where ( [ 
+					'f.friendid' => $myid['id'] 
 			] )->all ();
 			
 			return $aa;

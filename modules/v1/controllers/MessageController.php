@@ -61,7 +61,9 @@ class MessageController extends ActiveController {
 		$info ['replys'] = (new \yii\db\Query ())->select ( [ 
 				'reply.*',
 				'user1.nickname as fromnickname',
-				'user2.nickname as tonickname' 
+				'user1.phone as fromphone',
+				'user2.nickname as tonickname',
+				'user2.phone as tophone' 
 		] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
 				':id' => $id 
 		] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
@@ -104,7 +106,9 @@ class MessageController extends ActiveController {
 			$info ['replys'] = (new \yii\db\Query ())->select ( [ 
 					'reply.*',
 					'user1.nickname as fromnickname',
-					'user2.nickname as tonickname' 
+					'user1.phone as fromphone',
+					'user2.nickname as tonickname',
+					'user2.phone as tophone' 
 			] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
 					':id' => $model ['id'] 
 			] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
