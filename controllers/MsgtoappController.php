@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\app;
+use app\controllers\MessageController;
 /**
  * MsgtoappController implements the CRUD actions for Msgtoapp model.
  */

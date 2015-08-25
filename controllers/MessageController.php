@@ -9,7 +9,8 @@ use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\v1\models\User;
-
+use yii\data\ActiveDataProvider;
+use app\models\app;
 /**
  * MessageController implements the CRUD actions for Message model.
  */
@@ -158,6 +159,16 @@ class MessageController extends Controller
 		}
     }
 
+    public function actionViewmsg($id){
+    	$model = $this->findModel($id);
+    	$dataProvider = new ActiveDataProvider ( [
+					'query' => app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])
+			] );
+    	return $this->render ( '../admin/app', [
+    			'dataProvider' => $dataProvider,
+    			'appdata'=> 
+    			] );
+    }
     /**
      * Deletes an existing Message model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
