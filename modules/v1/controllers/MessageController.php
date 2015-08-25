@@ -171,13 +171,22 @@ class MessageController extends ActiveController {
 		] )->one ();
 		if ($msg == null) {
 			// throw new \yii\web\NotFoundHttpException("record not found",401);
-			throw new \yii\web\HttpException ( 404, "recode not found" );
+			//throw new \yii\web\HttpException ( 404, "recode not found" );
 			// return "no record";
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Message do not exist!'
+			) );
+			return;
 		}
 		// $msg->id = $id;
 		$err = $msg->delete ();
 		if ($err == false) {
-			throw new \yii\web\HttpException ( 404, "recode delete error" );
+			//throw new \yii\web\HttpException ( 404, "recode delete error" );
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Delete failed!'
+			) );
 		} else {
 			echo json_encode ( array (
 					'flag' => 1,
@@ -238,10 +247,14 @@ class MessageController extends ActiveController {
 		$data = Yii::$app->request->post ();
 		$user=new User();
 		$fromphone=$user->find()->select('id')->where(['phone'=>$data['fphone']])->one();
-		$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
 		$model=new Reply();
+		if($data['tphone']==''){
+			$model->toid=0;
+		}else{
+			$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
+			$model->toid=$tophone['id'];
+		}
 		$model->fromid=$fromphone['id'];
-		$model->toid=$tophone['id'];
 		$model->msgid=$data['msgid'];
 		$model->content=$data['content'];
 		$model->isread=0;

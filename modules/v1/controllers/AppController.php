@@ -201,6 +201,10 @@ class AppController extends ActiveController {
 	}
 	public function actionGuess(){
 		$data=Yii::$app->request->post();
+		$userinfo=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		$arr=explode(' ', $userinfo['hobby']);
 		$model=new Appl();
 		$app=$model->find()->select('*')->from('app')->limit(6)->all();
 		return $app;
