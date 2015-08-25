@@ -87,20 +87,34 @@ class UsersController extends Controller {
 		}
 	}
 	public function actionLogin() {
-		$model = new UserForm ();
-		if ($model->load ( Yii::$app->request->post (), '' )) {
-			if ($model->login ()) {
-				echo json_encode ( array (
-						'flag' => 1,
-						'msg' => 'Login success!' 
-				) );
-			} else {
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Login failed!' 
-				) );
-			}
+		$data=Yii::$app->request->post();
+		$model=new User();
+		$info=$model->findOne(['phone'=>$data['phone'],'pwd'=>md5($data['pwd'])]);
+		if($info){
+			echo json_encode ( array (
+			 						'flag' => 1,
+			 						'msg' => 'Login success!'
+			 				) );
+		}else{
+			echo json_encode ( array (
+			 						'flag' => 0,
+			 						'msg' => 'Login failed!'
+			 				) );
 		}
+// 		$model = new UserForm ();
+// 		if ($model->load ( Yii::$app->request->post (), '' )) {
+// 			if ($model->login ()) {
+// 				echo json_encode ( array (
+// 						'flag' => 1,
+// 						'msg' => 'Login success!' 
+// 				) );
+// 			} else {
+// 				echo json_encode ( array (
+// 						'flag' => 0,
+// 						'msg' => 'Login failed!' 
+// 				) );
+// 			}
+// 		}
 	}
 	public function actionLogout() {
 		Yii::$app->user->logout ();

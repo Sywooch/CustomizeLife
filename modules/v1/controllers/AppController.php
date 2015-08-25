@@ -94,7 +94,8 @@ class AppController extends ActiveController {
 		$appcomment->title=$data['title'];
 		$appcomment->created_at=time();
 		$appcomment->appid=$data['appid'];
-		$appcomment->save();
+		//var_dump($appcomment);
+		if($appcomment->save()){
 // 		$appl = new Appl ();
 // 		$appinfo = $appl->find ()->where ( [
 // 				'id' => $data ['appid']
@@ -109,6 +110,12 @@ class AppController extends ActiveController {
 				'flag' => 1,
 				'msg' => 'summit success!'
 		) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'summit failed!'
+			) );
+		}
 	}
 	public function actionSearch(){
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -194,6 +201,10 @@ class AppController extends ActiveController {
 	}
 	public function actionGuess(){
 		$data=Yii::$app->request->post();
+		$userinfo=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		$arr=explode(' ', $userinfo['hobby']);
 		$model=new Appl();
 		$app=$model->find()->select('*')->from('app')->limit(6)->all();
 		return $app;

@@ -35,7 +35,7 @@ class Appcomments extends \yii\db\ActiveRecord
     {
         return [
             [['appid', 'comments', 'created_at', 'title'], 'required'],
-            [['appid', 'commentstars', 'created_at'], 'string'],
+            [['appid', 'commentstars', 'created_at'], 'integer'],
             [['comments', 'title'], 'string', 'max' => 255]
         ];
     }
