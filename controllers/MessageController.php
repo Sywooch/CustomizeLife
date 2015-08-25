@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\modules\v1\models\User;
 use yii\data\ActiveDataProvider;
 use app\models\app;
+use app\models\appSearch;
 /**
  * MessageController implements the CRUD actions for Message model.
  */
@@ -164,9 +165,10 @@ class MessageController extends Controller
     	$dataProvider = new ActiveDataProvider ( [
 					'query' => app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])
 			] );
+    	$searchModel = new appSearch();
     	return $this->render ( '../admin/app', [
     			'dataProvider' => $dataProvider,
-    			'appdata'=> 
+    			'searchModel'=>$searchModel,
     			] );
     }
     /**
