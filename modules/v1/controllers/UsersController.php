@@ -304,7 +304,13 @@ class UsersController extends Controller {
 				$model = new User ();
 				$model->phone = $data ['phone'];
 				$model->created_at = time ();
-				$model->save ();
+				if(!$model->save ()){
+					echo json_encode ( array (
+							'flag' => 0,
+							'msg' => 'write in database failed!'
+					) );
+					return;
+				}
 				echo json_encode ( array (
 						'flag' => 1,
 						'msg' => 'Verify success!' 
@@ -333,7 +339,11 @@ class UsersController extends Controller {
 		$myid=$model->find()->select('id')->from('user')->where(['phone'=>$data['myphone']])->one();
 		$fid=$model->find()->select('*')->from('user')->where(['phone'=>$data['fphone']])->one();
 		$model=new Friend();
-		$info=$model->find()->where([
+// 		$info=$model->find()->where([
+// 				'myid'=>$myid['id'],
+// 				'friendid'=>$fid['id']
+// 		]);
+		$info=Friend::findOne([
 				'myid'=>$myid['id'],
 				'friendid'=>$fid['id']
 		]);

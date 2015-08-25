@@ -53,7 +53,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['authKey', 'phone'], 'required'],
+            [['phone'], 'required'],
             [['famous', 'shared', 'follower', 'favour', 'created_at', 'updated_at'], 'integer'],
             [['pwd', 'authKey', 'thumb', 'phone', 'gender', 'area', 'job', 'hobby', 'signature'], 'string', 'max' => 255],
             [['nickname'], 'string', 'max' => 20],
