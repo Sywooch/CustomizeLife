@@ -30,6 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+			[
+				'attribute'=>'ying',
+				'value'=>'<a href='.'/message/viewmsg?id='.$model->id.'>点击这里</a>',
+				'format' => ['html'],
+			],
             'userid',
             'content',
             'kind',
