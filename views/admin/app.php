@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use kartik\form\ActiveForm;
+use app\models\appSearch;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -22,36 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
  		]);?>
 
 <?php ActiveForm::end();?>
- <?= GridView::widget([
-        'dataProvider' => $appdata,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'name',
-            'version',
-        	'profile',
-            //'android_url:url',
-            //'ios_url:url',
-             'stars',
-             'downloadcount',
-            'commentscount',
-            // 'introduction',
-             'updated_at',
-             'size',
-			 'icon',
-             //'kind',
-            // 'updated_log',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<p>&nbsp</p>
 <p>
    <?= Html::a('创建', ['create'], ['class' => 'btn btn-success']) ?>
 </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+    		'filterModel'=>$searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
