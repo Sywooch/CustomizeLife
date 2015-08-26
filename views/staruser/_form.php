@@ -8,7 +8,8 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="user-form">
+<div class="staruser-form">
+
 
     <?php $form = ActiveForm::begin ( [ 
 						'id' => 'form' 
@@ -18,8 +19,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'shared')->textInput() ?>
     <?= $form->field($model, 'favour')->textInput() ?>
+    <?= $form->field($model, 'follower')->textInput() ?>
     
-
     <?= $form->field($model, 'nickname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>

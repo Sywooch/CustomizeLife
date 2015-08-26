@@ -2,16 +2,16 @@
 
 use yii\helpers\Html;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\User */
 
-$this->title = '更新用户: ' . ' ' . $model->nickname;
+$this->title = '创建用户';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
-<div class="user-update">
+<div class="user-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
