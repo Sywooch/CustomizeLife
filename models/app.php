@@ -38,7 +38,8 @@ class app extends \yii\db\ActiveRecord
     {
         return 'app';
     }
-	public $kindarray;
+	public $kind1array;
+	public $kind2array;
     /**
      * @inheritdoc
      */
@@ -73,7 +74,8 @@ class app extends \yii\db\ActiveRecord
             'icon' => '图标',
             'updated_log' => '更新日志',
             'kind' => '种类',
-        	'kindarray'=>'种类',
+        	'kind1array'=>'种类',
+        	'kind2array'=>'标签',
         ];
     }
 

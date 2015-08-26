@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $appid
  * @property string $kind
+ * @property integer $status
  *
  * @property App $app
  */
@@ -30,7 +31,7 @@ class Appofkind extends \yii\db\ActiveRecord
     {
         return [
             [['appid'], 'required'],
-            [['appid'], 'integer'],
+            [['appid','status'], 'integer'],
             [['kind'], 'string', 'max' => 255]
         ];
     }
@@ -44,6 +45,7 @@ class Appofkind extends \yii\db\ActiveRecord
             'id' => 'ID',
             'appid' => 'Appid',
             'kind' => 'Kind',
+            'status' => 'Status',
         ];
     }
 

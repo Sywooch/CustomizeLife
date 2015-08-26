@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\modules\v1\models\User;
-use app\models\UserSearch;
+use app\models\StaruserSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class StaruserController extends Controller
 {
     public function behaviors()
     {
@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new StaruserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -60,14 +60,14 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+    $model = new User();
         
         $data = Yii::$app->request->post ();
         // echo var_dump($data);
         if ($data != false) {
         	$model->pwd = md5($data ['User'] ['pwd']);
         	$model->shared = $data ['User'] ['shared'];
-        	$model->follower = 0;
+        	$model->follower = $data ['User'] ['follower'];
         	$model->favour = $data ['User'] ['favour'];
         	$model->area = $data ['User'] ['area'];
         	$model->gender = $data ['User'] ['gender'];
@@ -96,8 +96,7 @@ class UserController extends Controller
         		'model' => $model
         		] );
      }
-
-   
+    	
 
     /**
      * Updates an existing User model.
@@ -105,7 +104,7 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -114,7 +113,7 @@ class UserController extends Controller
         if ($data != false) {
         	$model->pwd = md5($data ['User'] ['pwd']);
         	$model->shared = $data ['User'] ['shared'];
-        	$model->follower = 0;
+        	$model->follower = 1;
         	$model->favour = $data ['User'] ['favour'];
         	$model->area = $data ['User'] ['area'];
         	$model->gender = $data ['User'] ['gender'];

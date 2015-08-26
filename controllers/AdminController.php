@@ -224,22 +224,76 @@ class AdminController extends Controller {
 		if (Yii::$app->session ['var'] === 'admin') {
 			$model = $this->findModel ( $id );
 			$data=$model;
-			$kind = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id])->all();
-			$kindarray = array();
-			foreach ($kind as $index=>$kindname){
-				$kindarray[]=$kindname['kind'];
+			$kind1 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>1])->all();
+			$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>2])->all();
+			$kind1array = array();
+			$kind2array = array();
+			foreach ($kind1 as $index=>$kindname){
+				$kind1array[]=$kindname['kind'];
 			}
-			$data['kindarray'] = $kindarray;
+			foreach ($kind2 as $index=>$kindname){
+				$kind2array[]=$kindname['kind'];
+			}
+			$data['kind1array'] = $kind1array;
+			$data['kind2array'] = $kind2array;
 			//$data['kindarray'][] = '0';
 			//$data = array();
-			if ($model->load ( Yii::$app->request->post () ) && $model->save ()) {
-				return $this->redirect ( [ 
-						'view',
-						'id' => $model->id 
-				] );
+			if ($model->load ( Yii::$app->request->post () )) {
+				$model->kind1array = Yii::$app->request->post ()['app']['kind1array'];
+				$model->kind2array = Yii::$app->request->post ()['app']['kind2array'];
+				//return var_dump($model);
+				$appofkind1 = Appofkind::find()->where(['appid'=>$id,'status'=>1])->all();
+				foreach ($appofkind1 as $a){
+					$a->delete();
+				}
+				$model->kind = "";
+				foreach ($model->kind1array as $k) {
+					$model->kind = $model->kind . " " .$k;
+					$appofkindnew = new Appofkind();
+					$appofkindnew->kind = $k;
+					$appofkindnew->appid = $id;
+					$appofkindnew->status = 1;
+					$appofkindnew->save();
+					
+				}
+				
+				$appofkind2 = Appofkind::find()->where(['appid'=>$id,'status'=>2])->all();
+				foreach ($appofkind2 as $a){
+					$a->delete();
+				}
+				foreach ($model->kind2array as $k) {
+					$model->kind = $model->kind . " " .$k;
+					$appofkindnew = new Appofkind();
+					$appofkindnew->kind = $k;
+					$appofkindnew->appid = $id;
+					$appofkindnew->status = 2;
+					$appofkindnew->save();
+						
+				}
+				if ($model->save ()) {
+					return $this->redirect ( [
+							'view',
+							'id' => $model->id
+							] );
+				}
 			} else {
+				$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
+				$allkind2 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=2')->all();
+				$checkbox1=array();
+				$checkbox2=array();
+				foreach($allkind1 as $name)
+				{
+					$checkbox1[$name['kind']]=$name['kind'];
+				}
+				foreach($allkind2 as $name)
+				{
+					$checkbox2[$name['kind']]=$name['kind'];
+				}
 				return $this->render ( 'update', [ 
-						'model' => $data
+						'model' => $data,
+						'allkind1' => $checkbox1,
+						'allkind2' => $checkbox2,
+						//['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育','旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像']
 						//'model' => $model 
 				] );
 			}
