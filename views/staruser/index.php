@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
-<div class="user-index">
+<div class="staruser-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => ['image',['width'=>'40','height'=>'40']],
 						],
         	'nickname',
-           // 'famous',
+            //'famous',
             'shared',
             //'thumb',
             'gender',
