@@ -70,12 +70,14 @@ class MessageController extends Controller
     public function actionView($id)
     {
     	$model = $this->findModel ( $id );
+    	$apps=app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])->all();
     	$userinfo = User::findOne ( [
     			'id' => $model ['userid']
     			] );
     	$model ['userid'] = $userinfo ['phone'];
         return $this->render('view', [
             'model' => $model,
+        	'apps' =>$apps,
         ]);
     }
 
@@ -166,7 +168,7 @@ class MessageController extends Controller
 					'query' => app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])
 			] );
     	$searchModel = new appSearch();
-    	return $this->render ( '../admin/app', [
+    	return $this->render ( '/admin/app', [
     			'dataProvider' => $dataProvider,
     			'searchModel'=>$searchModel,
     			] );
