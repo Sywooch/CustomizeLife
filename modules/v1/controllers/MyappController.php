@@ -67,17 +67,17 @@ class MyappController extends Controller {
 			exit ();
 		}
 	}
-	public function actionTag() {
-		$data=Yii::$app->request->post();
-		$appl=new Appl();
-		$ans=(new \yii\db\Query())
-		->select('*')
-		->from('app')
-		->innerJoin('tag','app.id=tag.appid')
-		->where(['tag.tag'=>$data['tag']])
-		->all();
-		return $ans;
-	}
+// 	public function actionTag() {
+// 		$data=Yii::$app->request->post();
+// 		$appl=new Appl();
+// 		$ans=(new \yii\db\Query())
+// 		->select('*')
+// 		->from('app')
+// 		->innerJoin('tag','app.id=tag.appid')
+// 		->where(['tag.tag'=>$data['tag']])
+// 		->all();
+// 		return $ans;
+// 	}
 	public function actionLike(){
 		$data=Yii::$app->request->post();
 		$connection = \Yii::$app->db;
