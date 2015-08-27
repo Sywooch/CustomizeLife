@@ -49,7 +49,7 @@ class Reply extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'msgid' => '消息ID',
-            'content' => '消息内容',
+            'content' => '回复内容',
             'fromid' => '回复者',
             'toid' => '回复给',
             'isread' => '是否已读',

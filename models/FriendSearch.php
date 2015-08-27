@@ -19,7 +19,7 @@ class FriendSearch extends Friend
     public function rules()
     {
         return [
-            [['id', 'myid', 'friendid'], 'integer'],
+            [['id', 'myid', 'friendid','isfriend'], 'integer'],
         ];
     }
 
@@ -85,6 +85,7 @@ class FriendSearch extends Friend
             //'id' => $this->id,
             'myid' => $this->value,
             'friendid' => $this->userinc,
+        	'isfriend'=>$this->isfriend,
         ]);
 
         return $dataProvider;
