@@ -103,22 +103,28 @@ class AdminController extends Controller {
 			$data = Yii::$app->request->post ();
 			// echo var_dump($data);
 			if ($data != false) {
-				echo var_dump ( $data );
-				$model->name = $data ['app'] ['name'];
-				$model->version = $data ['app'] ['version'];
-				$model->profile = $data ['app'] ['profile'];
-				$model->android_url = $data ['android_url'];
-				$model->ios_url = $data ['ios_url'];
-				$model->stars = $data ['app'] ['stars'];
-				$model->downloadcount = $data ['app'] ['downloadcount'];
-				$model->commentscount = $data ['app'] ['commentscount'];
-				$model->introduction = $data ['app'] ['introduction'];
-				$model->updated_at = time ();
-				$model->updated_log = $data ['app'] ['updated_log'];
-				$model->size = $data ['app'] ['size'];
+// 				echo var_dump ( $data );
+// 				$model->name = $data ['app'] ['name'];
+// 				$model->version = $data ['app'] ['version'];
+// 				$model->profile = $data ['app'] ['profile'];
+// 				$model->android_url = $data ['android_url'];
+// 				$model->ios_url = $data ['ios_url'];
+// 				$model->stars = $data ['app'] ['stars'];
+// 				$model->downloadcount = $data ['app'] ['downloadcount'];
+// 				$model->commentscount = $data ['app'] ['commentscount'];
+// 				$model->introduction = $data ['app'] ['introduction'];
+// 				$model->updated_at = time ();
+// 				$model->updated_log = $data ['app'] ['updated_log'];
+// 				$model->size = $data ['app'] ['size'];
 				//$model->kind=$data ['app'] ['kind'];
+				$model->load($data);
+				$model->android_url = $data ['android_url'];
 				$model->icon = $data ['icon'];
-				foreach ( $data ['app'] ['kindarray'] as $kind ) {
+				$model->updated_at = time ();
+				foreach ( $data['kind1array'] as $kind ) {
+					$model->kind.=$kind." ";
+				}
+				foreach ( $data['kind2array'] as $kind ) {
 					$model->kind.=$kind." ";
 				}
 				
@@ -129,14 +135,22 @@ class AdminController extends Controller {
 					
 					foreach ( $data ['pic'] as $pic ) {
 						$apptpic = new Apptopicture ();
-						$apptpic->appid = $appdata [0] ["id"];
+						$apptpic->appid = $model->id;
 						$apptpic->picture = $pic;
 						$apptpic->save ();
 					}
 					
-					foreach ( $data ['app'] ['kind'] as $kind ) {
+					foreach ( $data['kind1array'] as $kind ) {
 						$appkind=new Appofkind();
-						$appkind->appid=$appdata [0] ["id"];
+						$appkind->appid=$model->id;
+						$appkind->status =1;
+						$appkind->kind=$kind;
+						$appkind->save();
+					}
+					foreach ( $data['kind1array'] as $kind ) {
+						$appkind=new Appofkind();
+						$appkind->appid=$model->id;
+						$appkind->status =2;
 						$appkind->kind=$kind;
 						$appkind->save();
 					}
@@ -147,8 +161,22 @@ class AdminController extends Controller {
 					] );
 				}
 			} else {
+				$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
+				$allkind2 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=2')->all();
+				$checkbox1=array();
+				$checkbox2=array();
+				foreach($allkind1 as $name)
+				{
+					$checkbox1[$name['kind']]=$name['kind'];
+				}
+				foreach($allkind2 as $name)
+				{
+					$checkbox2[$name['kind']]=$name['kind'];
+				}
 				return $this->render ( 'create', [ 
-						'model' => $model 
+						'model' => $model ,
+						'allkind1'=>$checkbox1,
+						'allkind2'=>$checkbox2,
 				] );
 			}
 			
@@ -223,24 +251,14 @@ class AdminController extends Controller {
 	public function actionUpdate($id) {
 		if (Yii::$app->session ['var'] === 'admin') {
 			$model = $this->findModel ( $id );
-			$data=$model;
-			$kind1 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>1])->all();
-			$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>2])->all();
-			$kind1array = array();
-			$kind2array = array();
-			foreach ($kind1 as $index=>$kindname){
-				$kind1array[]=$kindname['kind'];
-			}
-			foreach ($kind2 as $index=>$kindname){
-				$kind2array[]=$kindname['kind'];
-			}
-			$data['kind1array'] = $kind1array;
-			$data['kind2array'] = $kind2array;
+			
+
 			//$data['kindarray'][] = '0';
 			//$data = array();
 			if ($model->load ( Yii::$app->request->post () )) {
-				$model->kind1array = Yii::$app->request->post ()['app']['kind1array'];
-				$model->kind2array = Yii::$app->request->post ()['app']['kind2array'];
+				$dada = Yii::$app->request->post ();
+				$model->kind1array = $dada['app']['kind1array'];
+				$model->kind2array = $dada['app']['kind2array'];
 				//return var_dump($model);
 				$appofkind1 = Appofkind::find()->where(['appid'=>$id,'status'=>1])->all();
 				foreach ($appofkind1 as $a){
@@ -261,6 +279,11 @@ class AdminController extends Controller {
 				foreach ($appofkind2 as $a){
 					$a->delete();
 				}
+				if(isset($dada['icon']))
+					$model->icon = $dada['icon'];
+				if(isset($dada['android_url']))
+					$model->android_url =$dada['android_url'];
+				
 				foreach ($model->kind2array as $k) {
 					$model->kind = $model->kind . " " .$k;
 					$appofkindnew = new Appofkind();
@@ -277,6 +300,19 @@ class AdminController extends Controller {
 							] );
 				}
 			} else {
+				$data=$model;
+				$kind1 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>1])->all();
+				$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>2])->all();
+				$kind1array = array();
+				$kind2array = array();
+				foreach ($kind1 as $index=>$kindname){
+					$kind1array[]=$kindname['kind'];
+				}
+				foreach ($kind2 as $index=>$kindname){
+					$kind2array[]=$kindname['kind'];
+				}
+				$data['kind1array'] = $kind1array;
+				$data['kind2array'] = $kind2array;
 				$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
 				$allkind2 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=2')->all();
 				$checkbox1=array();

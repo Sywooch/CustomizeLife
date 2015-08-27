@@ -13,7 +13,6 @@ use yii\widgets\ActiveForm;
 				$form = ActiveForm::begin ( [ 
 						'id' => 'form' 
 				] );
-				$str =json_encode($model->kindarray);
 				?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true])?>
 
@@ -29,33 +28,8 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
     
-    <?= $form->field($model, 'kindarray[]')->checkboxList(['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育',
-			'旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像'])?>
-	<script type="text/javascript">
-	console.log("aa");
-	var kindarray;
-	var kind ='<?php echo $str?>';
-	//console.log(kind[0]);
-	kindarray=JSON.parse(kind);
-	console.log(kindarray[0]);
-	s=document.getElementsByName("app[kindarray][]");
-	console.log(s.length);
-	for (var i = 0;i < s.length;i++)
-	{
-		console.log(kindarray.length);
-		for(var j=0;j<kindarray.length;j++){
-			console.log(s[i].value);
-			console.log(kindarray[j]);
-			console.log(kindarray[0]);
-		    if (s[i].value == kindarray[j])
-		    { 
-		        s[i].checked = true;
-		        break;
-		    }
-	    }
-	}
-	</script>
-	
+    <?= $form->field($model, 'kind1array[]')->checkboxList($allkind1)?>
+    <?= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     
 <div>
