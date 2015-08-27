@@ -31,24 +31,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
 			'nickname',
-           	[
+           		[
 				'attribute'=>'我的好友',
-				'value'=>'<a href='.'/friend/index?FriendSearch%5Bmyid%5D='.$model->phone.'&FriendSearch%5Bfriendid%5D='.'>点击这里</a>',
+				'value'=>'<a href='.'/friend/index?FriendSearch%5Bmyid%5D='.$model->phone.'&FriendSearch%5Bisfriend%5D=1'.'>点击这里</a>',
 				'format' => ['html'],
 			],
     		[
-    			'attribute'=>'我的消息',
+    		'attribute'=>'我的关注',
+    				'value'=>'<a href='.'/friend/index?FriendSearch%5Bmyid%5D='.$model->phone.'&FriendSearch%5Bisfriend%5D=0'.'>点击这里</a>',
+    						'format' => ['html'],
+    								],
+    		[
+    			'attribute'=>'我发表的消息',
     			//'value'=>'<a href='.'/message/index?MessageSearch%5Bid%5D=&MessageSearch%5Buserid%5D=18354765214&MessageSearch%5Bcontent%5D=&MessageSearch%5Bkind%5D=&MessageSearch%5Barea%5D=&MessageSearch%5Bcreated_at%5D='.'>点击这里</a>',
     			'value'=>'<a href='.'/message/index?MessageSearch%5Bid%5D=&MessageSearch%5Buserid%5D='.$model->phone.'&MessageSearch%5Bcontent%5D=&MessageSearch%5Bkind%5D=&MessageSearch%5Barea%5D=&MessageSearch%5Bcreated_at%5D=&sort=-created_at'.'>点击这里</a>',
     			'format' => ['html'],
     		],
     		[
-    			'attribute'=>'我的下载',
+    		'attribute'=>'我收藏的消息',
+    				'value'=>'<a href='.'/collect-interact/index?CollectInteractSearch%5Buserid%5D='.$model->phone.'&CollectInteractSearch%5Bmsg%5D=&CollectInteractSearch%5Bcreated_at%5D=&sort=created_at'.'>点击这里</a>',
+    			'format' => ['html'],
+    		    			],
+    		[
+    			'attribute'=>'我下载的应用',
     			'value'=>'<a href='.'/usertoapp/index?UsertoappSearch%5Buserid%5D='.$model->phone.'&UsertoappSearch%5Bappid%5D=&UsertoappSearch%5Bcreated_at%5D=&sort=created_at'.'>点击这里</a>',
     			'format' => ['html'],
     		],
     		[
-    			'attribute'=>'我的收藏',
+    			'attribute'=>'我收藏的应用',
     			'value'=>'<a href='.'/collect-person/index?CollectPersonSearch%5Buserid%5D='.$model->phone.'&CollectPersonSearch%5Bapp%5D=&CollectPersonSearch%5Bcreated_at%5D=&sort=created_at'.'>点击这里</a>',
     			'format' => ['html'],
     		],

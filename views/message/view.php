@@ -50,7 +50,18 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value'=>getapps($apps),
 				'format' => ['html'],
 			],
-            'created_at',
+			[
+				'attribute'=>'消息回复',
+				'value'=>'<a href='.'/reply/index?ReplySearch%5Bmsgid%5D='.$model->id.'&sort=created_at'.'>点击这里</a>',
+				'format' => ['html'],
+			],
+			[
+				'attribute' => 'created_at',
+				'label'=>'创建时间',
+				'value'=>date('Y-m-d H:i:s',$model->created_at),
+
+				'headerOptions' => ['width' => '170'],
+				],
         ],
     ]) ?>
 
