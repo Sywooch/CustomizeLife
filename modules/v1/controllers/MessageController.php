@@ -9,6 +9,7 @@ use app\modules\v1\models\Message;
 use app\modules\v1\models\Msgtoapp;
 use app\modules\v1\models\User;
 use app\modules\v1\models\Zan;
+use app\modules\v1\models\Notify;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
 use app\modules\v1\models\Appcomments;
@@ -218,6 +219,13 @@ class MessageController extends ActiveController {
 			$model->myid = $phone ['id'];
 			$model->msgid = $data ['msgid'];
 			$model->save ();
+			$to=Message::findOne(['id'=>$data['msgid']]);
+			$model2=new Notify();
+			$model2->from=$phone['id'];
+			$model2->to=$to['userid'];
+			$model2->message='点赞';
+			$model2->created_at=time();
+			$model2->save();
 			echo json_encode ( array (
 					'flag' => 1,
 					'msg' => 'Zan success!' 
@@ -257,12 +265,40 @@ class MessageController extends ActiveController {
 		}else{
 			$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
 			$model->toid=$tophone['id'];
+			$model2=new Notify();
+			$model2->from=$fromphone['id'];
+			$model2->to=$tophone['id'];
+			$model2->message='回复';
+			$model2->created_at=time();
+			if(!$model2->save()){
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Reply failed!'
+				) );
+				return;
+			}
+		}
+		$to=Message::findOne(['id'=>$data['msgid']]);
+		if($fromphone['id']!=$to['id']){
+			$model3=new Notify();
+			$model3->from=$fromphone['id'];
+			$model3->to=$to['userid'];
+			$model3->message='评论';
+			$model3->created_at=time();
+			if(!$model3->save()){
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Reply failed!'
+				));
+				return;
+			}
 		}
 		$model->fromid=$fromphone['id'];
 		$model->msgid=$data['msgid'];
 		$model->content=$data['content'];
 		$model->isread=0;
 		$model->created_at=time();
+		
 		if($model->save()){
 			echo json_encode ( array (
 					'flag' => 1,
