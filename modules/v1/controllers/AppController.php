@@ -10,6 +10,7 @@ use yii\rest\ActiveController;
 //use yii\rest\ActiveController;
 use app\modules\v1\models\Appl;
 use app\modules\v1\models\User;
+use app\modules\v1\models\Tag;
 use app\modules\v1\models\Appofkind;
 use app\modules\v1\models\Apptopicture;
 use app\modules\v1\models\Appcomments;
@@ -50,9 +51,9 @@ class AppController extends ActiveController {
 	}
 	public function actionAllkind(){
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$model=new Appofkind();
+		$model=new Tag();
 		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
-		$aa = $model->findBySql ( "select distinct kind from appofkind" )->all ();
+		$aa = $model->findBySql ( "select distinct second from tag" )->all ();
 		return $aa;
 	}
 	public function actionGetapp(){
