@@ -61,15 +61,18 @@ use yii\widgets\ActiveForm;
     var zan="<?= Yii::$app->urlManager->createUrl('zan/index')?>";
     var collectinteract="<?= Yii::$app->urlManager->createUrl('collect-interact/index')?>";
     var collectperson="<?= Yii::$app->urlManager->createUrl('collect-person/index')?>";
+    var tag="<?= Yii::$app->urlManager->createUrl('tag/index')?>";
     
     BUI.use('common/main',function(){
         var config = [
             {id:'1',menu:[
-				  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom}]},
+				  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用标签',href:tag}]},
                   //{text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
-                  {text:'用户管理',items:[{id:'22',text:'普通用户',href:thumb},{id:'23',text:'明星用户',href:staruser},{id:'24',text:'后台用户',href:sysuser},{id:'25',text:'用户下载的应用',href:usertoapp},{id:'26',text:'用户收藏的应用',href:collectperson}]},
+                  {text:'用户管理',items:[{id:'22',text:'普通用户',href:thumb},{id:'23',text:'明星用户',href:staruser},
+                                      {id:'24',text:'后台用户',href:sysuser},{id:'25',text:'用户下载的应用',href:usertoapp},
+                                      {id:'26',text:'用户收藏的应用',href:collectperson},{id:'27',text:'用户收藏的消息',href:collectinteract}]},
                   {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'35',text:'点赞列表',href:zan}]},
-                  {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply},{id:'47',text:'用户收藏的消息',href:collectinteract}]}
+                  {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply}]}
                 ]},
             {id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:myapp}]}]}
         ];

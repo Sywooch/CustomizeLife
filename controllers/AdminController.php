@@ -162,7 +162,7 @@ class AdminController extends Controller {
 				}
 			} else {
 				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
-				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->all();
+				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->where(['>','second',''])->all();
 				//$checkbox1=array();
 				$checkbox2=array();
 // 				foreach($allkind1 as $name)
@@ -259,7 +259,12 @@ class AdminController extends Controller {
 				$dada = Yii::$app->request->post ();
 				//$model->kind1array = $dada['app']['kind1array'];
 				$model->kind2array = $dada['app']['kind2array'];
-				$pics = $dada['pic'];
+				$pics = array();
+				if(isset($dada['pic']))
+				{
+					$pics = $dada['pic'];
+				}
+				
 				//return var_dump($model);
 // 				$appofkind1 = Appofkind::find()->where(['appid'=>$id,'status'=>1])->all();
 // 				foreach ($appofkind1 as $a){
@@ -322,7 +327,7 @@ class AdminController extends Controller {
 				//$data['kind1array'] = $kind1array;
 				$data['kind2array'] = $kind2array;
 				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
-				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->all();
+				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->where(['>','second',''])->all();
 				//$checkbox1=array();
 				$checkbox2=array();
 				
