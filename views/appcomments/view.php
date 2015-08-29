@@ -32,7 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
            // 'id',
             'appid',
             'userid',
-            'userthumb',
+			[
+				'attribute'=>'头像',
+				'value'=>$model->userthumb,
+				'format' => ['image',['width'=>'50','height'=>'50']],
+			],
             'usernickname',
             'commentstars',
             'comments',
