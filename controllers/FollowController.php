@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\modules\v1\models\Friend;
-use app\models\FriendSearch;
+use app\models\FollowSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use app\modules\v1\models\User;
 /**
  * FriendController implements the CRUD actions for Friend model.
  */
-class FriendController extends Controller
+class FollowController extends Controller
 {
     public function behaviors()
     {
@@ -26,8 +26,6 @@ class FriendController extends Controller
             ],
         ];
     }
-    
-  
 
     /**
      * Lists all Friend models.
@@ -35,7 +33,7 @@ class FriendController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FriendSearch();
+        $searchModel = new FollowSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         $pagination = $dataProvider->getPagination ();
@@ -66,7 +64,7 @@ class FriendController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        	'myselfid' => Yii::$app->request->queryParams['FriendSearch']['myid'],
+        		'myselfid' => Yii::$app->request->queryParams['FollowSearch']['myid'],
         ]);
     }
 
@@ -112,9 +110,7 @@ class FriendController extends Controller
 			
 			$model->myid=(string)$userinfo ['id'];
 			$model->friendid=$appinfo ['id'];
-			$model ['friendnickname'] = $appinfo ['nickname'];
-			$model ['friendicon'] = $appinfo ['thumb'];
-			$model->isfriend= 1;
+			$model->isfriend= 0;
 			
 			if ($model->save()) {
 				return $this->redirect ( [ 
@@ -144,11 +140,11 @@ class FriendController extends Controller
     		$appinfo = User::findOne ( [
     				'phone' => $data ['Friend']['friendid']
     				] );
-    			
+    		 
     		$model->myid=(string)$userinfo ['id'];
     		$model->friendid=$appinfo ['id'];
-    		$model->isfriend= 1;
-    			
+    		$model->isfriend= 0;
+    		 
     		if ($model->save()) {
     			return $this->redirect ( [
     					'view',
@@ -174,7 +170,7 @@ class FriendController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+    $model = $this->findModel($id);
 
        $userinfo = User::findOne ( [
     			'id' => $model ['myid']
@@ -198,7 +194,7 @@ class FriendController extends Controller
 			$model->friendid=$appinfo ['id'];
 			$model ['friendnickname'] = $appinfo ['nickname'];
 			$model ['friendicon'] = $appinfo ['thumb'];
-			$model->isfriend= 1;
+			$model->isfriend= 0;
 				
 			if ($model->save()) {
 				return $this->redirect ( [
@@ -225,10 +221,10 @@ class FriendController extends Controller
      */
     public function actionDelete($id)
     {
-        $model=$this->findModel($id);
+         $model=$this->findModel($id);
         $model->delete();
         $user=User::findOne(['id' => $model->myid]);
-        return $this->redirect(['index?FriendSearch%5Bmyid%5D='.$user->phone]);
+        return $this->redirect(['index?FollowSearch%5Bmyid%5D='.$user->phone]);
     }
 
     /**

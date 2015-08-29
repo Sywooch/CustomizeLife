@@ -32,12 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
            // 'myid',
             'friendid',
-			'friendnickname',
-		[
-			'attribute'=>'图标',
-			'value'=>$model->friendicon,
-			'format' => ['image',['width'=>'100','height'=>'100']],
-		],
+'friendnickname',
+[
+'attribute'=>'图标',
+'value'=>$model->friendicon,
+'format' => ['image',['width'=>'100','height'=>'100']],
+],
         	//'isfriend',
         ],
     ]) ?>

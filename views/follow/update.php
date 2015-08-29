@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Friend */
 
-$this->title = '更新好友关系: ' . ' ' . $model->friendnickname;
+$this->title = '更新关注: ' . ' ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Friends', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
