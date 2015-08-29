@@ -4,20 +4,20 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\v1\models\Friend */
+/* @var $model app\modules\v1\models\Msgtoapp */
 
-$this->title = '';
-$this->params['breadcrumbs'][] = ['label' => 'Friends', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Msgtoapps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
-<div class="friend-view">
+<div class="msgtoapp-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('删除', ['delete', 'id' => $model->id], [
+        <?= Html::a('更新', ['updateofmsg', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['deleteofmsg', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,16 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
-           // 'myid',
-            'friendid',
-			'friendnickname',
-		[
-			'attribute'=>'图标',
-			'value'=>$model->friendicon,
-			'format' => ['image',['width'=>'100','height'=>'100']],
-		],
-        	//'isfriend',
+          //  'id',
+            'msgid',
+            'appid',
         ],
     ]) ?>
 

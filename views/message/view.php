@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Message */
 //echo $apps;
-function getapps($apps)
+function getapps($apps,$msgid)
 {
 	$msg="";
 	for($i=0;$i<count($apps);$i++) {
@@ -15,6 +15,10 @@ function getapps($apps)
 		$msg=$msg. '</a>';
 		$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
 	};
+	$msg=$msg.'<a href="/msgtoapp/indexofmsg?MsgtoappSearch%5Bmsgid%5D='.$msgid.'">';
+	$msg =$msg .'添加删除应用';
+	$msg=$msg. '</a>';
+	$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
 	return $msg;
 }
 $this->title = $model->id;
@@ -47,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
         	'area',
 			[
 				'attribute'=>'应用',
-				'value'=>getapps($apps),
+				'value'=>getapps($apps,$model->id),
 				'format' => ['html'],
 			],
 			[

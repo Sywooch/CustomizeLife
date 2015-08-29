@@ -31,14 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
 			'nickname',
-           	[
+           		[
 				'attribute'=>'我的好友',
-				'value'=>'<a href='.'/friend/index?FriendSearch%5Bmyid%5D='.$model->phone.'&FriendSearch%5Bisfriend%5D=1'.'>点击这里</a>',
+				'value'=>'<a href='.'/friend/index?FriendSearch%5Bmyid%5D='.$model->phone.'>点击这里</a>',
 				'format' => ['html'],
 			],
     		[
     		'attribute'=>'我的关注',
-    				'value'=>'<a href='.'/friend/index?FriendSearch%5Bmyid%5D='.$model->phone.'&FriendSearch%5Bisfriend%5D=0'.'>点击这里</a>',
+    				'value'=>'<a href='.'/follow/index?FollowSearch%5Bmyid%5D='.$model->phone.'>点击这里</a>',
     						'format' => ['html'],
     								],
     		[

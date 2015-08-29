@@ -25,11 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+			'msgid',
             //'id',
-            'msgid',
+            [
+				'attribute' => 'appicon',
+				'label'=>'图标',
+				'value'=>'appicon',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+			],
+            
             'appid',
-
+			
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

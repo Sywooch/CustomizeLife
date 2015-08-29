@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('添加好友关系', ['createfriend?myselfid='.$myselfid], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('添加关注', ['createfriend?myselfid='.$myselfid], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-           // 'myid',
+            //'myid',
             
 			
             'friendid',

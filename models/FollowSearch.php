@@ -11,7 +11,7 @@ use app\modules\v1\models\User;
 /**
  * FriendSearch represents the model behind the search form about `app\modules\v1\models\Friend`.
  */
-class FriendSearch extends Friend
+class FollowSearch extends Friend
 {
     /**
      * @inheritdoc
@@ -52,17 +52,16 @@ class FriendSearch extends Friend
 
         $this->load($params);
         $query->andFilterWhere([
-        		'friends.isfriend' => 1,
+        		'friends.isfriend' => 0,
         		]);
         
-        
-        if($params!=false &&!empty($params['FriendSearch'])){
+        if($params!=false &&!empty($params['FollowSearch'])){
         	//$b=$a;
         	//=app::find()->where("name= :name",[':name'=>'QQ'])->one();
         	//if()
-        	foreach ($params['FriendSearch'] as $name => $value1) {
+        	foreach ($params['FollowSearch'] as $name => $value1) {
         		if ($name==='myid' && $value1!=null){
-        			$appinfo=User::findOne(['phone' => $params['FriendSearch']['myid']]);
+        			$appinfo=User::findOne(['phone' => $params['FollowSearch']['myid']]);
         			 
         			$this->value=$appinfo['id'];
         			if($appinfo ==null){
@@ -71,7 +70,7 @@ class FriendSearch extends Friend
         
         		}
         		if ($name==='friendid'&&$value1!=null){
-        			$appinfo=User::findOne(['phone' => $params['FriendSearch']['friendid']]);
+        			$appinfo=User::findOne(['phone' => $params['FollowSearch']['friendid']]);
         			$this->userinc=$appinfo['id'];
         			if($appinfo ==null){
         				$this->userinc=0;
@@ -92,8 +91,8 @@ class FriendSearch extends Friend
             'friendid' => $this->userinc,
         	//'isfriend'=>$this->isfriend,
         ]);
-        if (isset($params['FriendSearch'])&&isset($params['FriendSearch']['friendnickname'])){
-       	 	$query->andFilterWhere(['like', 'user.nickname', $params['FriendSearch']['friendnickname']]);
+        if (isset($params['FollowSearch'])&&isset($params['FollowSearch']['friendnickname'])){
+       	 	$query->andFilterWhere(['like', 'user.nickname', $params['FollowSearch']['friendnickname']]);
         }
         return $dataProvider;
     }
