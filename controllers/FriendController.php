@@ -50,6 +50,9 @@ class FriendController extends Controller
         				] );
         		$model ['myid'] = $userinfo ['phone'];
         		$model ['friendid'] = $appinfo ['phone'];
+        		$model ['friendnickname'] = $appinfo ['nickname'];
+        		$model ['friendicon'] = $appinfo ['thumb'];
+        		//$model ['']="sss";
         	}
         	$dataProvider->setModels ( $models );
         	$count1 ++;
@@ -93,7 +96,6 @@ class FriendController extends Controller
     public function actionCreate()
     {
         $model = new Friend();
-
         $data = Yii::$app->request->post ();
 		if ($data != false) {
 			$userinfo = User::findOne ( [ 

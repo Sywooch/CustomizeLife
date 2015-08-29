@@ -11,6 +11,8 @@ use Yii;
  * @property integer $myid
  * @property integer $friendid
  * @property integer $isfriend
+ * @property string $friendnickname
+ * @property string $friendicon
  *
  * @property User $friend
  * @property User $my
@@ -24,7 +26,8 @@ class Friend extends \yii\db\ActiveRecord
     {
         return 'friends';
     }
-
+	public $friendnickname;
+	public $friendicon;
     /**
      * @inheritdoc
      */
@@ -32,7 +35,8 @@ class Friend extends \yii\db\ActiveRecord
     {
         return [
             [['myid', 'friendid'], 'required'],
-            [['myid', 'friendid', 'isfriend'], 'integer']
+            [['myid', 'friendid', 'isfriend'], 'integer'],
+            [['friendnickname', 'friendicon'], 'string'],
         ];
     }
 
@@ -46,7 +50,15 @@ class Friend extends \yii\db\ActiveRecord
             'myid' => '用户',
             'friendid' => '好友用户',
             'isfriend' => '是否好友',
+            'friendname' => '好友',
+            'friendnickname'=>'好友昵称',
         ];
+    }
+    
+    public function relations(){
+    	return array(
+    	'Users' => array(self::hasOne, 'User', 'friendid'),
+    			);
     }
 
     /**

@@ -26,10 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
             'myid',
+            
+			
             'friendid',
-        	//'isfriend',
+			'friendnickname',
+            [
+             	'attribute' => 'friendicon',
+				'label'=>'头像',
+				'value'=>'friendicon',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+			],
+        	//'friendname',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -35,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'name',
-			[
-'attribute' => 'icon',
+				[
+				'attribute' => 'icon',
 				'label'=>'图标',
 				'value'=>'icon',
 				'format' => ['image',['width'=>'40','height'=>'40']],

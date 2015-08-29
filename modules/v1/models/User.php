@@ -86,6 +86,12 @@ class User extends \yii\db\ActiveRecord
             'updated_at' => '更新时间',
         ];
     }
+    
+    public function relations(){
+    	return array(
+    			'Friends' => array(self::HAS_ONE, 'Friend', 'friendid'),
+    	);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
