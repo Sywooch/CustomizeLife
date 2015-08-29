@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_log',
     		[
     				'attribute'=>'评论',
-    				'value'=>'<a href='.'/appcomments/index?AppcommentsSearch%5Bappid%5D='.$model->name.'&amp;AppcommentsSearch%5Buserid%5D=&amp;AppcommentsSearch%5Busernickname%5D=&amp;AppcommentsSearch%5Bcommentstars%5D=&amp;AppcommentsSearch%5Bcomments%5D=&amp;sort=created_at'.'>点击这里</a>',
+    				'value'=>'<a href='.'/appcomments/indexofapp?AppcommentsSearch%5Bappid%5D='.$model->name.'&amp;AppcommentsSearch%5Buserid%5D=&amp;AppcommentsSearch%5Busernickname%5D=&amp;AppcommentsSearch%5Bcommentstars%5D=&amp;AppcommentsSearch%5Bcomments%5D=&amp;sort=created_at'.'>点击这里</a>',
     				'format' => ['html'],
     		],
         ],

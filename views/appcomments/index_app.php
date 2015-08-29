@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AppcommentsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-//$this->title = $dataProvider->models[0]['appid'];
+$this->title = $dataProvider->models[0]['appid'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">

@@ -106,7 +106,7 @@ class ApptopictureController extends Controller
         $model = $this->findModel($id);
         $data=Yii::$app->request->post();
         if($data!=false){
-        	$model->appid = $data['Apptopicture']['appid'];
+        	//$model->appid = $data['Apptopicture']['appid'];
         	$model->picture = $data['pic'][0];
         	//echo $data['apptopicture']['pic'][0];
         	if ($model->save()) {

@@ -27,8 +27,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
     
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
-    
-    <?= $form->field($model, 'kind1array[]')->checkboxList($allkind1)?>
     <?= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     

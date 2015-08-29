@@ -64,7 +64,37 @@ class AppcommentsController extends Controller {
 				'dataProvider' => $dataProvider 
 		] );
 	}
+	public function actionIndexofapp() {
+		$searchModel = new AppcommentsSearch ();
+		$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
 	
+		$pagination = $dataProvider->getPagination ();
+		$count = $pagination->pageCount;
+		$count1 = 0;
+		while ( $categories = $dataProvider->models ) {
+			$models = $categories;
+			foreach ( $models as $model ) {
+				$userinfo = User::findOne ( [
+						'id' => $model ['userid']
+						] );
+				$appinfo = app::findOne ( [
+						'id' => $model ['appid']
+						] );
+				$model ['userid'] = $userinfo ['phone'];
+				$model ['appid'] = $appinfo ['name'];
+			}
+			$dataProvider->setModels ( $models );
+			$count1 ++;
+			if ($count1 > $count) {
+				break;
+			}
+		}
+	
+		return $this->render ( 'index_app', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider
+				] );
+	}
 	/**
 	 * Displays a single Appcomments model.
 	 * 
