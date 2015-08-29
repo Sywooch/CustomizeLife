@@ -13,6 +13,7 @@ use yii\rest\Controller;
 use app\modules\v1\models;
 use app;
 use yii\filters\AccessControl;
+use app\modules\v1\models\Notify;
 
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
@@ -49,7 +50,8 @@ class UsersController extends Controller {
 												'send',
 												'verify',
 												'search',
-												'getmsg'
+												'getmsg',
+												'notify'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -247,7 +249,7 @@ class UsersController extends Controller {
 		$model = new User ();
 		if ($model->find ()->where ( [ 
 				'phone' => $ph ['phone'] 
-		] )->one ()) {
+		] )->one () && $ph['find']==0) {
 			echo json_encode ( array (
 					'flag' => 0,
 					'msg' => 'Phone has been registered!' 
@@ -376,6 +378,28 @@ class UsersController extends Controller {
 			$ans['isfriend']=0;
 		}
 		return $ans;
+	}
+	public function actionNotify(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$data=Yii::$app->request->post();
+		$phone=User::findOne(['phone'=>$data['phone']]);
+		if(!$phone){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Phone does not exist!'
+			) );
+			return;
+		}
+		$ans=(new \yii\db\Query())
+		->select('nickname,phone,thumb,message')->from('notify n')
+		->join('INNER JOIN','user u','u.id=n.from and n.to=:id',[':id'=>$phone ['id'] ])
+		->all();
+		$dels=Notify::findAll(['to'=>$phone['id']]);
+		foreach ($dels as $del){
+			$del->delete();
+		}
+		return $ans;
+		
 	}
 }
 class REST {

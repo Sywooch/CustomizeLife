@@ -29,6 +29,19 @@ class CollectController extends Controller {
 			) );
 			return;
 		}
+		$to=Message::findOne(['id'=>$data['msg']]);
+		$model2=new Notify();
+		$model2->from=$phone['id'];
+		$model2->to=$to['userid'];
+		$model2->message='收藏';
+		$model2->created_at=time();
+		if(!$model2->save()){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Collect fail!'
+			) );
+			return;
+		}
 		$model = new CollectInteract ();
 		$model->userid = $phone['id'];
 		$model->msg = $data ['msg'];

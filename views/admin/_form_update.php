@@ -13,8 +13,8 @@ use yii\widgets\ActiveForm;
 				$form = ActiveForm::begin ( [ 
 						'id' => 'form' 
 				] );
-				$str1 =json_encode($model->kind1array);
 				$str2 =json_encode($model->kind2array);
+				$pics =json_encode($apptopicture);
 				?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true])?>
 
@@ -29,32 +29,14 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
     
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
-    <?= $form->field($model, 'kind1array[]')->checkboxList($allkind1)?>
 	<?= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
 	<script type="text/javascript">
 	console.log("aa");
-	var kind1array;
-	var kind1 ='<?php echo $str1?>';
-	kind1array=JSON.parse(kind1);
-	console.log(kind1array[0]);
-	s=document.getElementsByName("app[kind1array][]");
-	console.log(s.length);
-	for (var i = 0;i < s.length;i++)
-	{
-		for(var j=0;j<kind1array.length;j++){
-		    if (s[i].value == kind1array[j])
-		    { 
-		        s[i].checked = true;
-		        break;
-		    }
-	    }
-	}
-
 
 	var kind2array;
 	var kind2 ='<?php echo $str2?>';
 	kind2array=JSON.parse(kind2);
-	console.log(kind2array[0]);
+	//console.log(kind2array[0]);
 	s=document.getElementsByName("app[kind2array][]");
 	console.log(s.length);
 	for (var i = 0;i < s.length;i++)
@@ -109,6 +91,52 @@ use yii\widgets\ActiveForm;
 
 
 <p>&nbsp</p>
+<?php 
+	echo '<h2>图片</h2>';
+    for($i=0;$i<count($apptopicture);$i++) {
+
+
+
+
+    	echo '<a href="/apptopicture/view/'.$apptopicture[$i]['id'].'">';
+    	echo Html::img($apptopicture[$i]['picture'],['width'=>'240','height'=>'400']);
+    	echo '</a>';
+    	echo '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+    }
+?>
+<script type="text/javascript">         
+// 				var pics;
+
+// 				pics=JSON.parse(pic);
+// 				var form=document.forms['form'];
+// 				for(var i=0;i<pics.length;i++)
+// 				{
+//                 	var　tempInput　=　document.createElement("input");　  
+//                　	tempInput.type="hidden";　  
+//                　	tempInput.name="pic[]";
+//                　	tempInput.value=pics[i]["picture"];
+//                 	form.appendChild(tempInput);
+// 				}
+</script>
+                
+                
+ 
+				<div>
+					<div class="col-md-12">
+						<div id="container" style="position: relative;">
+							<a class="btn btn-default btn-lg " id="pic" href="#"
+								style="position: relative; z-index: 1;"> <i
+								class="glyphicon glyphicon-plus"></i> <sapn>Picture</sapn>
+							</a>
+							<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
+								class="moxie-shim moxie-shim-html5"
+								style="position: absolute; top: 0px; left: 0px; width: 167px; height: 46px; overflow: hidden; z-index: 0;">
+								<input id="html5_19rugovp4pupkrh1n901mlkrhd3" type="file"
+									style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+									multiple="" accept="">
+							</div>
+						</div>
+					</div>
 
 				<div>
 					<div style="display: none" id="success1" class="col-md-12">
