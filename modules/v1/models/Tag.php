@@ -30,7 +30,8 @@ class Tag extends \yii\db\ActiveRecord
         return [
             [['commend'], 'integer'],
             [['first'], 'string', 'max' => 50],
-            [['second'], 'string', 'max' => 255]
+            [['second'], 'string', 'max' => 255],
+        	[['first','commend'],'required']
         ];
     }
 
