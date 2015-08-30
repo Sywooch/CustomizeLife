@@ -20,7 +20,7 @@ class FriendSearch extends Friend
     {
         return [
             [['id', 'myid', 'friendid','isfriend'], 'integer'],
-            [['friendnickname'], 'string'],
+            [['friendnickname','mynickname'], 'string'],
         ];
     }
 
@@ -44,13 +44,24 @@ class FriendSearch extends Friend
      */
     public function search($params)
     {
-        $query = Friend::find()->join('INNER JOIN','user','friends.friendid=user.id');
+        
+
+        $this->load($params);
+        
+        if(isset($params['FriendSearch']['mynickname'])&&!empty($params['FriendSearch']['mynickname'])){
+        	$query = Friend::find()->join('INNER JOIN','user','friends.myid=user.id');
+        	$query->andFilterWhere(['like', 'user.nickname', $params['FriendSearch']['mynickname']]);
+        }
+        else{
+        	$query = Friend::find()->join('INNER JOIN','user','friends.friendid=user.id');
+        	
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        $this->load($params);
+        
+        
         $query->andFilterWhere([
         		'friends.isfriend' => 1,
         		]);
@@ -92,9 +103,11 @@ class FriendSearch extends Friend
             'friendid' => $this->userinc,
         	//'isfriend'=>$this->isfriend,
         ]);
+        
         if (isset($params['FriendSearch'])&&isset($params['FriendSearch']['friendnickname'])){
        	 	$query->andFilterWhere(['like', 'user.nickname', $params['FriendSearch']['friendnickname']]);
-        }
+       	 	
+         }
         return $dataProvider;
     }
 }

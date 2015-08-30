@@ -67,6 +67,45 @@ class FollowController extends Controller
         		'myselfid' => Yii::$app->request->queryParams['FollowSearch']['myid'],
         ]);
     }
+    
+    public function actionIndexofall()
+    {
+    	$searchModel = new FollowSearch();
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+    	$pagination = $dataProvider->getPagination ();
+    	$count = $pagination->pageCount;
+    	$count1 = 0;
+    	while ( $categories = $dataProvider->models ) {
+    		$models = $categories;
+    		foreach ( $models as $model ) {
+    			$userinfo = User::findOne ( [
+    					'id' => $model ['myid']
+    					] );
+    			$appinfo = User::findOne ( [
+    					'id' => $model ['friendid']
+    					] );
+    			$model ['myid'] = $userinfo ['phone'];
+    			$model ['mynickname'] = $userinfo ['nickname'];
+    			$model ['myicon'] = $userinfo ['thumb'];
+    			$model ['friendid'] = $appinfo ['phone'];
+    			$model ['friendnickname'] = $appinfo ['nickname'];
+    			$model ['friendicon'] = $appinfo ['thumb'];
+    			//$model ['']="sss";
+    		}
+    		$dataProvider->setModels ( $models );
+    		$count1 ++;
+    		if ($count1 > $count) {
+    			break;
+    		}
+    	}
+    
+    	return $this->render('index_all', [
+    			'searchModel' => $searchModel,
+    			'dataProvider' => $dataProvider,
+    			//'myselfid' => Yii::$app->request->queryParams['FollowSearch']['myid'],
+    			]);
+    }
 
     /**
      * Displays a single Friend model.
