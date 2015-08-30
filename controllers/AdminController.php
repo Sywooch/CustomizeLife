@@ -17,6 +17,7 @@ use Qiniu\json_decode;
 use app\modules\v1\models\User;
 use yii\db\ActiveQuery;
 use app\modules\v1\models\Appofkind;
+use app\models\appSearch;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -54,34 +55,15 @@ class AdminController extends Controller {
 	
 	public function actionApp() {
 		if (Yii::$app->session ['var'] === 'admin') {
-			$dataProvider = new ActiveDataProvider ( [
-					'query' => app::find ()
-			] );
-			$model=new Systemuser();
-			$data = Yii::$app->request->post ();
-				
-			$appdata=new ActiveDataProvider ( [
-					'query' => Systemuser::find()->select("*")->where ( [ 'name' => 'ssssss@@@Ddd' ] )
-			] );
-				
-			if($data!=false){
-				$appdata=new ActiveDataProvider ( [
-						'query' => app::find()->select("*")->where ( [ 'name' => $data ['Systemuser']['name'] ] )
-				] );
-	
+			
+			$searchModel = new appSearch();
+			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
+			
 				return $this->render ( 'app', [
 						'dataProvider' => $dataProvider,
-						'model'=>$model ,
-						'appdata'=>$appdata
+						'searchModel'=>$searchModel ,
 				] );
-			}else{
-				return $this->render ( 'app', [
-						'dataProvider' => $dataProvider,
-						'model'=>$model ,
-						'appdata'=>$appdata
-				] );
-			}
-				
+			
 		} else {
 			return $this->redirect ( [
 					'login'
@@ -99,7 +81,8 @@ class AdminController extends Controller {
 	public function actionView($id) {
 		if (Yii::$app->session ['var'] === 'admin') {
 			return $this->render ( 'view', [ 
-					'model' => $this->findModel ( $id ) 
+					'model' => $this->findModel ( $id ) ,
+					'apptopicture' => (new \yii\db\Query ())->from('apptopicture')->where(['appid'=>$id])->all(),
 			] );
 		} else {
 			return $this->redirect ( [ 
@@ -120,22 +103,28 @@ class AdminController extends Controller {
 			$data = Yii::$app->request->post ();
 			// echo var_dump($data);
 			if ($data != false) {
-				echo var_dump ( $data );
-				$model->name = $data ['app'] ['name'];
-				$model->version = $data ['app'] ['version'];
-				$model->profile = $data ['app'] ['profile'];
-				$model->android_url = $data ['android_url'];
-				$model->ios_url = $data ['ios_url'];
-				$model->stars = $data ['app'] ['stars'];
-				$model->downloadcount = $data ['app'] ['downloadcount'];
-				$model->commentscount = $data ['app'] ['commentscount'];
-				$model->introduction = $data ['app'] ['introduction'];
-				$model->updated_at = time ();
-				$model->updated_log = $data ['app'] ['updated_log'];
-				$model->size = $data ['app'] ['size'];
+// 				echo var_dump ( $data );
+// 				$model->name = $data ['app'] ['name'];
+// 				$model->version = $data ['app'] ['version'];
+// 				$model->profile = $data ['app'] ['profile'];
+// 				$model->android_url = $data ['android_url'];
+// 				$model->ios_url = $data ['ios_url'];
+// 				$model->stars = $data ['app'] ['stars'];
+// 				$model->downloadcount = $data ['app'] ['downloadcount'];
+// 				$model->commentscount = $data ['app'] ['commentscount'];
+// 				$model->introduction = $data ['app'] ['introduction'];
+// 				$model->updated_at = time ();
+// 				$model->updated_log = $data ['app'] ['updated_log'];
+// 				$model->size = $data ['app'] ['size'];
 				//$model->kind=$data ['app'] ['kind'];
+				$model->load($data);
+				$model->android_url = $data ['android_url'];
 				$model->icon = $data ['icon'];
-				foreach ( $data ['app'] ['kind'] as $kind ) {
+				$model->updated_at = time ();
+// 				foreach ( $data['kind1array'] as $kind ) {
+// 					$model->kind.=$kind." ";
+// 				}
+				foreach ( $data['kind2array'] as $kind ) {
 					$model->kind.=$kind." ";
 				}
 				
@@ -146,14 +135,22 @@ class AdminController extends Controller {
 					
 					foreach ( $data ['pic'] as $pic ) {
 						$apptpic = new Apptopicture ();
-						$apptpic->appid = $appdata [0] ["id"];
+						$apptpic->appid = $model->id;
 						$apptpic->picture = $pic;
 						$apptpic->save ();
 					}
 					
-					foreach ( $data ['app'] ['kind'] as $kind ) {
+// 					foreach ( $data['kind1array'] as $kind ) {
+// 						$appkind=new Appofkind();
+// 						$appkind->appid=$model->id;
+// 						$appkind->status =1;
+// 						$appkind->kind=$kind;
+// 						$appkind->save();
+// 					}
+					foreach ( $data['kind1array'] as $kind ) {
 						$appkind=new Appofkind();
-						$appkind->appid=$appdata [0] ["id"];
+						$appkind->appid=$model->id;
+						//$appkind->status =2;
 						$appkind->kind=$kind;
 						$appkind->save();
 					}
@@ -164,8 +161,22 @@ class AdminController extends Controller {
 					] );
 				}
 			} else {
+				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
+				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->where(['>','second',''])->all();
+				//$checkbox1=array();
+				$checkbox2=array();
+// 				foreach($allkind1 as $name)
+// 				{
+// 					$checkbox1[$name['kind']]=$name['kind'];
+// 				}
+				foreach($allkind2 as $name)
+				{
+					$checkbox2[$name['second']]=$name['second'];
+				}
 				return $this->render ( 'create', [ 
-						'model' => $model 
+						'model' => $model ,
+						//'allkind1'=>$checkbox1,
+						'allkind2'=>$checkbox2,
 				] );
 			}
 			
@@ -241,16 +252,104 @@ class AdminController extends Controller {
 		if (Yii::$app->session ['var'] === 'admin') {
 			$model = $this->findModel ( $id );
 			
-			if ($model->load ( Yii::$app->request->post () ) && $model->save ()) {
-				return $this->redirect ( [ 
-						'view',
-						'id' => $model->id 
-				] );
+
+			//$data['kindarray'][] = '0';
+			//$data = array();
+			if ($model->load ( Yii::$app->request->post () )) {
+				$dada = Yii::$app->request->post ();
+				//$model->kind1array = $dada['app']['kind1array'];
+				$model->kind2array = $dada['app']['kind2array'];
+				$pics = array();
+				if(isset($dada['pic']))
+				{
+					$pics = $dada['pic'];
+				}
+				
+				//return var_dump($model);
+// 				$appofkind1 = Appofkind::find()->where(['appid'=>$id,'status'=>1])->all();
+// 				foreach ($appofkind1 as $a){
+// 					$a->delete();
+// 				}
+				$model->kind = "";
+// 				foreach ($model->kind1array as $k) {
+// 					$model->kind = $model->kind . " " .$k;
+// 					$appofkindnew = new Appofkind();
+// 					$appofkindnew->kind = $k;
+// 					$appofkindnew->appid = $id;
+// 					$appofkindnew->status = 1;
+// 					$appofkindnew->save();
+					
+// 				}
+				
+				$appofkind2 = Appofkind::find()->where(['appid'=>$id])->all();
+				foreach ($appofkind2 as $a){
+					$a->delete();
+				}
+				if(isset($dada['icon']))
+					$model->icon = $dada['icon'];
+				if(isset($dada['android_url']))
+					$model->android_url =$dada['android_url'];
+				
+				foreach ($model->kind2array as $k) {
+					$model->kind = $model->kind . " " .$k;
+					$appofkindnew = new Appofkind();
+					$appofkindnew->kind = $k;
+					$appofkindnew->appid = $id;
+					$appofkindnew->status = 2;
+					$appofkindnew->save();
+						
+				}
+				
+				foreach ($pics as $pic){
+					$apptopicture = new Apptopicture();
+					$apptopicture->appid = $id;
+					$apptopicture->picture = $pic;
+					$apptopicture->save();
+				}
+				if ($model->save ()) {
+					return $this->redirect ( [
+							'view',
+							'id' => $model->id
+							] );
+				}
 			} else {
+				$data=$model;
+				//$kind1 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>1])->all();
+				$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id])->all();
+				//$kind1array = array();
+				$kind2array = array();
+// 				foreach ($kind1 as $index=>$kindname){
+// 					$kind1array[]=$kindname['kind'];
+// 				}
+				foreach ($kind2 as $index=>$kindname){
+					$kind2array[]=$kindname['kind'];
+				}
+				//$data['kind1array'] = $kind1array;
+				$data['kind2array'] = $kind2array;
+				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
+				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->where(['>','second',''])->all();
+				//$checkbox1=array();
+				$checkbox2=array();
+				
+				$apptopicture = (new \yii\db\Query ())->from('apptopicture')->where(['appid'=>$id])->all();
+// 				foreach($allkind1 as $name)
+// 				{
+// 					$checkbox1[$name['kind']]=$name['kind'];
+// 				}
+				foreach($allkind2 as $name)
+				{
+					$checkbox2[$name['second']]=$name['second'];
+				}
 				return $this->render ( 'update', [ 
-						'model' => $model 
+						'model' => $data,
+						//'allkind1' => $checkbox1,
+						'allkind2' => $checkbox2,
+						'apptopicture'=>$apptopicture,
+						//['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育','旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像']
+						//'model' => $model 
 				] );
 			}
+			
 		} else {
 			return $this->redirect ( [ 
 					'login' 
@@ -294,4 +393,5 @@ class AdminController extends Controller {
 			throw new NotFoundHttpException ( 'The requested page does not exist.' );
 		}
 	}
+	
 }

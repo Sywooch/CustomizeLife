@@ -48,6 +48,9 @@ class UserSearch extends User
         ]);
 
         $this->load($params);
+        $query->andFilterWhere([
+        		'famous' => 0,
+        		]);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

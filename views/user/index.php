@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('创建用户', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('添加用户', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -29,14 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
             //'pwd',
             //'authKey',
         	'phone',
+[
+    		'attribute' => 'thumb',
+'label'=>'头像',
+		'value'=>'thumb',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+						],
         	'nickname',
-            'famous',
+           // 'famous',
             'shared',
-            'thumb',
+            //'thumb',
             'gender',
             // 'area',
-            // 'job',
-            // 'hobby',
+             'job',
+             'hobby',
             'signature',
             // 'created_at',
             // 'updated_at',

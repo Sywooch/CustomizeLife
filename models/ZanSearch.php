@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Zan;
-
+use app\modules\v1\models\User;
 /**
  * ZanSearch represents the model behind the search form about `app\modules\v1\models\Zan`.
  */
@@ -31,6 +31,7 @@ class ZanSearch extends Zan
         return Model::scenarios();
     }
 
+    public $value;
     /**
      * Creates data provider instance with search query applied
      *
@@ -47,6 +48,23 @@ class ZanSearch extends Zan
         ]);
 
         $this->load($params);
+        //$value = 0;
+        if($params!=false &&!empty($params['ZanSearch'])){
+        	//$b=$a;
+        	//=app::find()->where("name= :name",[':name'=>'QQ'])->one();
+        	//if()
+        	foreach ($params['ZanSearch'] as $name => $value1) {
+        		if ($name==='myid' && $value1!=null){
+        			$appinfo=User::findOne(['phone' => $params['ZanSearch']['myid']]);
+        			 
+        			$this->value=$appinfo['id'];
+        			if($appinfo ==null){
+        				$this->value=0;
+        			}
+        
+        		}
+        	}
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -55,8 +73,8 @@ class ZanSearch extends Zan
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'myid' => $this->myid,
+           // 'id' => $this->id,
+            'myid' => $this->value,
             'msgid' => $this->msgid,
         ]);
 

@@ -20,7 +20,7 @@ class Msgtoapp extends \yii\db\ActiveRecord
     {
         return 'msgtoapp';
     }
-
+	public $appicon;
     /**
      * @inheritdoc
      */
@@ -28,7 +28,7 @@ class Msgtoapp extends \yii\db\ActiveRecord
     {
         return [
             [['msgid', 'appid'], 'required'],
-            [['msgid', 'appid'], 'integer']
+            [['msgid'], 'integer']
         ];
     }
 
@@ -39,8 +39,9 @@ class Msgtoapp extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'msgid' => 'Msgid',
-            'appid' => 'Appid',
+            'msgid' => '消息ID',
+            'appid' => '应用',
+            'appicon' => '图标',
         ];
     }
 }

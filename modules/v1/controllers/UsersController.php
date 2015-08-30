@@ -13,6 +13,7 @@ use yii\rest\Controller;
 use app\modules\v1\models;
 use app;
 use yii\filters\AccessControl;
+use app\modules\v1\models\Notify;
 
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
@@ -49,7 +50,8 @@ class UsersController extends Controller {
 												'send',
 												'verify',
 												'search',
-												'getmsg'
+												'getmsg',
+												'notify'
 										],
 										'allow' => true,
 										'roles' => [ 
@@ -87,20 +89,34 @@ class UsersController extends Controller {
 		}
 	}
 	public function actionLogin() {
-		$model = new UserForm ();
-		if ($model->load ( Yii::$app->request->post (), '' )) {
-			if ($model->login ()) {
-				echo json_encode ( array (
-						'flag' => 1,
-						'msg' => 'Login success!' 
-				) );
-			} else {
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Login failed!' 
-				) );
-			}
+		$data=Yii::$app->request->post();
+		$model=new User();
+		$info=$model->findOne(['phone'=>$data['phone'],'pwd'=>md5($data['pwd'])]);
+		if($info){
+			echo json_encode ( array (
+			 						'flag' => 1,
+			 						'msg' => 'Login success!'
+			 				) );
+		}else{
+			echo json_encode ( array (
+			 						'flag' => 0,
+			 						'msg' => 'Login failed!'
+			 				) );
 		}
+// 		$model = new UserForm ();
+// 		if ($model->load ( Yii::$app->request->post (), '' )) {
+// 			if ($model->login ()) {
+// 				echo json_encode ( array (
+// 						'flag' => 1,
+// 						'msg' => 'Login success!' 
+// 				) );
+// 			} else {
+// 				echo json_encode ( array (
+// 						'flag' => 0,
+// 						'msg' => 'Login failed!' 
+// 				) );
+// 			}
+// 		}
 	}
 	public function actionLogout() {
 		Yii::$app->user->logout ();
@@ -159,9 +175,10 @@ class UsersController extends Controller {
 				'phone'=>$data['phone']
 		]);
 		//$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
-		$data = Message::find ([
-				'myid'=>$phone['id']
-		])->select ( '*' );
+		$m=new Message();
+		$data = $m->find()->where([
+				'userid'=>$phone['id']
+		]);
 		$pages = new \yii\data\Pagination ( [
 				'totalCount' => $data->count (),
 				'pageSize' => '10'
@@ -186,7 +203,7 @@ class UsersController extends Controller {
 			->all();
 			$info['zan']=(new \yii\db\Query())
 			->select('u.phone,u.nickname')->from('zan z')
-			->join('LEFT JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
+			->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
 			->all();
 			$result['item'][]=$info;
 		}
@@ -232,7 +249,7 @@ class UsersController extends Controller {
 		$model = new User ();
 		if ($model->find ()->where ( [ 
 				'phone' => $ph ['phone'] 
-		] )->one ()) {
+		] )->one () && $ph['find']==0) {
 			echo json_encode ( array (
 					'flag' => 0,
 					'msg' => 'Phone has been registered!' 
@@ -289,7 +306,13 @@ class UsersController extends Controller {
 				$model = new User ();
 				$model->phone = $data ['phone'];
 				$model->created_at = time ();
-				$model->save ();
+				if(!$model->save ()){
+					echo json_encode ( array (
+							'flag' => 0,
+							'msg' => 'write in database failed!'
+					) );
+					return;
+				}
 				echo json_encode ( array (
 						'flag' => 1,
 						'msg' => 'Verify success!' 
@@ -318,21 +341,65 @@ class UsersController extends Controller {
 		$myid=$model->find()->select('id')->from('user')->where(['phone'=>$data['myphone']])->one();
 		$fid=$model->find()->select('*')->from('user')->where(['phone'=>$data['fphone']])->one();
 		$model=new Friend();
-		$info=$model->find()->where([
+// 		$info=$model->find()->where([
+// 				'myid'=>$myid['id'],
+// 				'friendid'=>$fid['id']
+// 		]);
+		$info=Friend::findOne([
 				'myid'=>$myid['id'],
 				'friendid'=>$fid['id']
 		]);
 		$ans=array();
+		if($fid){
 		$ans['id']=$fid['id'];
 		$ans['phone']=$fid['phone'];
 		$ans['thumb']=$fid['thumb'];
 		$ans['nickname']=$fid['nickname'];
+		$ans['gender']=$fid['gender'];
+		$ans['area']=$fid['area'];
+		$ans['job']=$fid['job'];
+		$ans['hobby']=$fid['hobby'];
+		$ans['signature']=$fid['signature'];
 		if($info){
 			$ans['isfriend']=1;
 		}else{
 			$ans['isfriend']=0;
 		}
+		}else{
+			$ans['id']='';
+			$ans['phone']='';
+			$ans['thumb']='';
+			$ans['nickname']='';
+			$ans['gender']='';
+			$ans['area']='';
+			$ans['job']='';
+			$ans['hobby']='';
+			$ans['signature']='';
+			$ans['isfriend']=0;
+		}
 		return $ans;
+	}
+	public function actionNotify(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$data=Yii::$app->request->post();
+		$phone=User::findOne(['phone'=>$data['phone']]);
+		if(!$phone){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Phone does not exist!'
+			) );
+			return;
+		}
+		$ans=(new \yii\db\Query())
+		->select('nickname,phone,thumb,message')->from('notify n')
+		->join('INNER JOIN','user u','u.id=n.from and n.to=:id',[':id'=>$phone ['id'] ])
+		->all();
+		$dels=Notify::findAll(['to'=>$phone['id']]);
+		foreach ($dels as $del){
+			$del->delete();
+		}
+		return $ans;
+		
 	}
 }
 class REST {

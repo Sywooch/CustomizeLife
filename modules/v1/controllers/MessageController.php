@@ -9,8 +9,10 @@ use app\modules\v1\models\Message;
 use app\modules\v1\models\Msgtoapp;
 use app\modules\v1\models\User;
 use app\modules\v1\models\Zan;
+use app\modules\v1\models\Notify;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
+use app\modules\v1\models\Appcomments;
 
 require dirname ( dirname ( dirname ( __FILE__ ) ) ) . '/../vendor/pushserver/sdk.php';
 use PushSDK;
@@ -53,18 +55,23 @@ class MessageController extends ActiveController {
 		] )->one ();
 		$info = $msg;
 		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
-				'msgtoapp.appid',
-				'app.icon' 
+				'app.*' 
 		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
 				':id' => $id 
 		] )->all ();
 		$info ['replys'] = (new \yii\db\Query ())->select ( [ 
 				'reply.*',
 				'user1.nickname as fromnickname',
-				'user2.nickname as tonickname' 
+				'user1.phone as fromphone',
+				'user2.nickname as tonickname',
+				'user2.phone as tophone' 
 		] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
 				':id' => $id 
 		] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
+		$info['zan']=(new \yii\db\Query())
+		->select('u.phone,u.nickname')->from('zan z')
+		->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$id ])
+		->all();
 		return $info;
 	}
 	public function actionGet() {
@@ -73,7 +80,7 @@ class MessageController extends ActiveController {
 				'phone' => $data ['phone'] 
 		] );
 		// $data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
-		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [ 
+		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and friends.myid = :id ', [ 
 				':id' => $phone ['id'] 
 		] );
 		$pages = new \yii\data\Pagination ( [ 
@@ -93,18 +100,24 @@ class MessageController extends ActiveController {
 			] )->one ();
 			$info = $msg;
 			$info ['apps'] = (new \yii\db\Query ())->select ( [ 
-					'msgtoapp.appid',
-					'app.icon' 
+					'app.*' 
 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
 					':id' => $model ['id'] 
 			] )->all ();
 			$info ['replys'] = (new \yii\db\Query ())->select ( [ 
 					'reply.*',
 					'user1.nickname as fromnickname',
-					'user2.nickname as tonickname' 
+					'user1.phone as fromphone',
+					'user2.nickname as tonickname',
+					'user2.phone as tophone' 
 			] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
 					':id' => $model ['id'] 
 			] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
+			$info['zan']=(new \yii\db\Query())
+			->select('u.phone,u.nickname')->from('zan z')
+			->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$model ['id'] ])
+			->all();
+			
 			$result ['item'] [] = $info;
 		}
 		$result ['_meta'] = array (
@@ -163,13 +176,22 @@ class MessageController extends ActiveController {
 		] )->one ();
 		if ($msg == null) {
 			// throw new \yii\web\NotFoundHttpException("record not found",401);
-			throw new \yii\web\HttpException ( 404, "recode not found" );
+			//throw new \yii\web\HttpException ( 404, "recode not found" );
 			// return "no record";
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Message do not exist!'
+			) );
+			return;
 		}
 		// $msg->id = $id;
 		$err = $msg->delete ();
 		if ($err == false) {
-			throw new \yii\web\HttpException ( 404, "recode delete error" );
+			//throw new \yii\web\HttpException ( 404, "recode delete error" );
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Delete failed!'
+			) );
 		} else {
 			echo json_encode ( array (
 					'flag' => 1,
@@ -197,6 +219,13 @@ class MessageController extends ActiveController {
 			$model->myid = $phone ['id'];
 			$model->msgid = $data ['msgid'];
 			$model->save ();
+			$to=Message::findOne(['id'=>$data['msgid']]);
+			$model2=new Notify();
+			$model2->from=$phone['id'];
+			$model2->to=$to['userid'];
+			$model2->message='点赞';
+			$model2->created_at=time();
+			$model2->save();
 			echo json_encode ( array (
 					'flag' => 1,
 					'msg' => 'Zan success!' 
@@ -230,14 +259,46 @@ class MessageController extends ActiveController {
 		$data = Yii::$app->request->post ();
 		$user=new User();
 		$fromphone=$user->find()->select('id')->where(['phone'=>$data['fphone']])->one();
-		$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
 		$model=new Reply();
+		if($data['tphone']==''){
+			$model->toid=0;
+		}else{
+			$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
+			$model->toid=$tophone['id'];
+			$model2=new Notify();
+			$model2->from=$fromphone['id'];
+			$model2->to=$tophone['id'];
+			$model2->message='回复';
+			$model2->created_at=time();
+			if(!$model2->save()){
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Reply failed!'
+				) );
+				return;
+			}
+		}
+		$to=Message::findOne(['id'=>$data['msgid']]);
+		if($fromphone['id']!=$to['id']){
+			$model3=new Notify();
+			$model3->from=$fromphone['id'];
+			$model3->to=$to['userid'];
+			$model3->message='评论';
+			$model3->created_at=time();
+			if(!$model3->save()){
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Reply failed!'
+				));
+				return;
+			}
+		}
 		$model->fromid=$fromphone['id'];
-		$model->toid=$tophone['id'];
 		$model->msgid=$data['msgid'];
 		$model->content=$data['content'];
 		$model->isread=0;
 		$model->created_at=time();
+		
 		if($model->save()){
 			echo json_encode ( array (
 					'flag' => 1,
@@ -277,5 +338,34 @@ class MessageController extends ActiveController {
 			print_r ( $rs );
 		}
 		echo "done!";
+	}
+	public function actionTestl(){
+		echo "sss";
+		$dataProvider = new ActiveDataProvider ( [
+		 'query' => Appcomments::find ()
+				] );
+		//$dataProvider->keys;
+		//$dataProvider->models;
+		/*$dataProvider->setPagination(false);
+		$mymodel=$dataProvider->models;
+		foreach ($mymodel as $model){
+			echo $model['appid'];
+			
+		}*/
+		$pagination = $dataProvider->getPagination();
+		var_dump($pagination->page);
+	    $count=0;
+		while ($categories = $dataProvider->models){
+			/*foreach ($categories as $model) {
+				$model['appid']=0;
+			}*/
+			//echo $pagination->page=1+$count;
+			$count++;
+			$dataProvider->setPagination($count);
+		}
+		//$mymodel[4]['kind']="bbbbbb";
+		//$dataProvider->setModels($mymodel);
+		//var_dump($dataProvider->models[4]['kind']);
+		//echo $dataProvider->models;
 	}
 }

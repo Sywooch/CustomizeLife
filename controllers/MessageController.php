@@ -8,7 +8,10 @@ use app\models\MessageSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\modules\v1\models\User;
+use yii\data\ActiveDataProvider;
+use app\models\app;
+use app\models\appSearch;
 /**
  * MessageController implements the CRUD actions for Message model.
  */
@@ -34,6 +37,24 @@ class MessageController extends Controller
     {
         $searchModel = new MessageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$userinfo = User::findOne ( [
+        				'id' => $model ['userid']
+        				] );
+        		$model ['userid'] = $userinfo ['phone'];
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -48,8 +69,15 @@ class MessageController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$apps=app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])->all();
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['userid']
+    			] );
+    	$model ['userid'] = $userinfo ['phone'];
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+        	'apps' =>$apps,
         ]);
     }
 
@@ -62,13 +90,33 @@ class MessageController extends Controller
     {
         $model = new Message();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $data = Yii::$app->request->post ();
+		if ($data != false) {
+			$userinfo = User::findOne ( [ 
+					'phone' => $data['Message'] ['userid'] 
+			] );
+			
+			$model->userid=$userinfo ['id'];
+			$model->content=$data ['Message']['content'];
+			$model->kind=$data ['Message']['kind'];
+			$model->area=$data ['Message']['area'];
+			$model->created_at=(string)time();
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'create', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'create', [
+					'model' => $model
+					] );
+		}
     }
 
     /**
@@ -80,16 +128,51 @@ class MessageController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $userinfo = User::findOne ( [
+        		'id' => $model ['userid']
+        		] );
+        $model ['userid'] = $userinfo ['phone'];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+     $data = Yii::$app->request->post ();
+		if ($data != false) {
+			$userinfo = User::findOne ( [ 
+					'phone' => $data['Message'] ['userid'] 
+			] );
+			
+			$model->userid=$userinfo ['id'];
+			$model->content=$data ['Message']['content'];
+			$model->kind=$data ['Message']['kind'];
+			$model->area=$data ['Message']['area'];
+			$model->created_at=(string)time();
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'update', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'update', [
+					'model' => $model
+					] );
+		}
     }
 
+    public function actionViewmsg($id){
+    	$model = $this->findModel($id);
+    	$dataProvider = new ActiveDataProvider ( [
+					'query' => app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])
+			] );
+    	$searchModel = new appSearch();
+    	return $this->render ( '/admin/app', [
+    			'dataProvider' => $dataProvider,
+    			'searchModel'=>$searchModel,
+    			] );
+    }
     /**
      * Deletes an existing Message model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

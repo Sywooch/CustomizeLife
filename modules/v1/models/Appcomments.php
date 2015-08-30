@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property integer $appid
+ * @property integer $userid
+ * @property string $usernickname
  * @property integer $commentstars
  * @property string $comments
  * @property integer $created_at
@@ -45,11 +47,13 @@ class Appcomments extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'appid' => 'Appid',
-            'commentstars' => 'Commentstars',
-            'comments' => 'Comments',
-            'created_at' => 'Created At',
-            'title' => 'Title',
+            'appid' => '应用',
+            'userid'=>'用户',
+            'usernickname'=>'用户昵称',
+            'commentstars' => '评星',
+            'comments' => '评论',
+            'created_at' => '评论时间',
+            'title' => '主题',
         ];
     }
 

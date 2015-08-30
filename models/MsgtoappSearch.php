@@ -18,7 +18,7 @@ class MsgtoappSearch extends Msgtoapp
     public function rules()
     {
         return [
-            [['id', 'msgid', 'appid'], 'integer'],
+            [['id', 'msgid', 'appid'], 'string'],
         ];
     }
 
@@ -30,6 +30,7 @@ class MsgtoappSearch extends Msgtoapp
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+    public $value;
 
     /**
      * Creates data provider instance with search query applied
@@ -47,6 +48,23 @@ class MsgtoappSearch extends Msgtoapp
         ]);
 
         $this->load($params);
+        
+        if($params!=false &&!empty($params['MsgtoappSearch'])){
+        	//$b=$a;
+        	//=app::find()->where("name= :name",[':name'=>'QQ'])->one();
+        	//if()
+        	foreach ($params['MsgtoappSearch'] as $name => $value1) {
+        		if ($name==='appid' && $value1!=null){
+        			$appinfo=app::findOne(['name' => $params['MsgtoappSearch']['appid']]);
+        			 
+        			$this->value=$appinfo['id'];
+        			if($appinfo ==null){
+        				$this->value=0;
+        			}
+        
+        		}
+        	}
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -57,7 +75,7 @@ class MsgtoappSearch extends Msgtoapp
         $query->andFilterWhere([
             'id' => $this->id,
             'msgid' => $this->msgid,
-            'appid' => $this->appid,
+            'appid' => $this->value,
         ]);
 
         return $dataProvider;

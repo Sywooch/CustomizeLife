@@ -5,7 +5,22 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Message */
-
+//echo $apps;
+function getapps($apps,$msgid)
+{
+	$msg="";
+	for($i=0;$i<count($apps);$i++) {
+		$msg=$msg.'<a href="/admin/view/'.$apps[$i]['id'].'">';
+		$msg=$msg.Html::img($apps[$i]['icon'],['width'=>'50','height'=>'50']);
+		$msg=$msg. '</a>';
+		$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+	};
+	$msg=$msg.'<a href="/msgtoapp/indexofmsg?MsgtoappSearch%5Bmsgid%5D='.$msgid.'">';
+	$msg =$msg .'添加删除应用';
+	$msg=$msg. '</a>';
+	$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+	return $msg;
+}
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,8 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,12 +44,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+			'id',
             'userid',
             'content',
             'kind',
         	'area',
-            'created_at',
+			[
+				'attribute'=>'应用',
+				'value'=>getapps($apps,$model->id),
+				'format' => ['html'],
+			],
+			[
+				'attribute'=>'消息回复',
+				'value'=>'<a href='.'/reply/index?ReplySearch%5Bmsgid%5D='.$model->id.'&sort=created_at'.'>点击这里</a>',
+				'format' => ['html'],
+			],
+			[
+				'attribute' => 'created_at',
+				'label'=>'创建时间',
+				'value'=>date('Y-m-d H:i:s',$model->created_at),
+
+				'headerOptions' => ['width' => '170'],
+				],
         ],
     ]) ?>
 

@@ -10,6 +10,7 @@ use yii\rest\ActiveController;
 //use yii\rest\ActiveController;
 use app\modules\v1\models\Appl;
 use app\modules\v1\models\User;
+use app\modules\v1\models\Tag;
 use app\modules\v1\models\Appofkind;
 use app\modules\v1\models\Apptopicture;
 use app\modules\v1\models\Appcomments;
@@ -50,9 +51,9 @@ class AppController extends ActiveController {
 	}
 	public function actionAllkind(){
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$model=new Appofkind();
+		$model=new Tag();
 		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
-		$aa = $model->findBySql ( "select distinct kind from appofkind" )->all ();
+		$aa = $model->findBySql ( "select distinct second from tag" )->all ();
 		return $aa;
 	}
 	public function actionGetapp(){
@@ -94,7 +95,8 @@ class AppController extends ActiveController {
 		$appcomment->title=$data['title'];
 		$appcomment->created_at=time();
 		$appcomment->appid=$data['appid'];
-		$appcomment->save();
+		//var_dump($appcomment);
+		if($appcomment->save()){
 // 		$appl = new Appl ();
 // 		$appinfo = $appl->find ()->where ( [
 // 				'id' => $data ['appid']
@@ -109,6 +111,12 @@ class AppController extends ActiveController {
 				'flag' => 1,
 				'msg' => 'summit success!'
 		) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'summit failed!'
+			) );
+		}
 	}
 	public function actionSearch(){
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -140,7 +148,7 @@ class AppController extends ActiveController {
 	}
 	public function actionRecommendAll(){
 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->join('INNER JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'famous' => 1
 		] )
@@ -152,7 +160,7 @@ class AppController extends ActiveController {
 	}
 	public function actionRecommendHot(){
 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->join('INNER JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'famous' => 1
 		] )
@@ -164,7 +172,7 @@ class AppController extends ActiveController {
 	}
 	public function actionRecommendNew(){
 		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('LEFT JOIN', 'msg m','m.userid=u.id')
+		->join('INNER JOIN', 'msg m','m.userid=u.id')
 		->where ( [
 				'u.famous' => 1
 		] )
@@ -194,8 +202,36 @@ class AppController extends ActiveController {
 	}
 	public function actionGuess(){
 		$data=Yii::$app->request->post();
-		$model=new Appl();
-		$app=$model->find()->select('*')->from('app')->limit(6)->all();
-		return $app;
+		$userinfo=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		$arrs=explode(' ', $userinfo['hobby']);
+		$ans=array();
+		$num=0;
+		for($i=0;$i<count($arrs);$i++,$num++){
+			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+			->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
+			->where ( [
+				'ak.kind' => $arrs[$i]
+			] )
+			->all();
+			if($aa){
+			foreach($aa as $a){
+				$point=0;
+				for($j=0;$j<count($ans);$j++){
+					if($a['id']==$ans[$j]['id']){
+						$point=1;
+						break;
+					}
+				}
+				if($point==0){
+					$ans[]=$a;
+				}
+			}
+			}
+		}
+		//$ans=array_unique($ans);
+		
+		return $ans;
 	}
 }

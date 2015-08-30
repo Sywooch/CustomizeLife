@@ -8,6 +8,7 @@ use app\models\FriendSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\User;
 
 /**
  * FriendController implements the CRUD actions for Friend model.
@@ -25,6 +26,8 @@ class FriendController extends Controller
             ],
         ];
     }
+    
+  
 
     /**
      * Lists all Friend models.
@@ -34,11 +37,77 @@ class FriendController extends Controller
     {
         $searchModel = new FriendSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $pagination = $dataProvider->getPagination ();
+        $count = $pagination->pageCount;
+        $count1 = 0;
+        while ( $categories = $dataProvider->models ) {
+        	$models = $categories;
+        	foreach ( $models as $model ) {
+        		$userinfo = User::findOne ( [
+        				'id' => $model ['myid']
+        				] );
+        		$appinfo = User::findOne ( [
+        				'id' => $model ['friendid']
+        				] );
+        		$model ['myid'] = $userinfo ['phone'];
+        		
+        		$model ['friendid'] = $appinfo ['phone'];
+        		$model ['friendnickname'] = $appinfo ['nickname'];
+        		$model ['friendicon'] = $appinfo ['thumb'];
+        		//$model ['']="sss";
+        	}
+        	$dataProvider->setModels ( $models );
+        	$count1 ++;
+        	if ($count1 > $count) {
+        		break;
+        	}
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        	'myselfid' => Yii::$app->request->queryParams['FriendSearch']['myid'],
         ]);
+    }
+    
+    public function actionIndexofall()
+    {
+    	$searchModel = new FriendSearch();
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+    	$pagination = $dataProvider->getPagination ();
+    	$count = $pagination->pageCount;
+    	$count1 = 0;
+    	while ( $categories = $dataProvider->models ) {
+    		$models = $categories;
+    		foreach ( $models as $model ) {
+    			$userinfo = User::findOne ( [
+    					'id' => $model ['myid']
+    					] );
+    			$appinfo = User::findOne ( [
+    					'id' => $model ['friendid']
+    					] );
+    			$model ['myid'] = $userinfo ['phone'];
+    			$model ['mynickname'] = $userinfo ['nickname'];
+    			$model ['myicon'] = $userinfo ['thumb'];
+    			$model ['friendid'] = $appinfo ['phone'];
+    			$model ['friendnickname'] = $appinfo ['nickname'];
+    			$model ['friendicon'] = $appinfo ['thumb'];
+    			//$model ['']="sss";
+    		}
+    		$dataProvider->setModels ( $models );
+    		$count1 ++;
+    		if ($count1 > $count) {
+    			break;
+    		}
+    	}
+    
+    	return $this->render('index_all', [
+    			'searchModel' => $searchModel,
+    			'dataProvider' => $dataProvider,
+    			//'myselfid' => Yii::$app->request->queryParams['FriendSearch']['myid'],
+    			]);
     }
 
     /**
@@ -48,8 +117,19 @@ class FriendController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel ( $id );
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['myid']
+    			] );
+    	$appinfo = User::findOne ( [
+    			'id' => $model ['friendid']
+    			] );
+    	$model ['myid'] = $userinfo ['phone'];
+    	$model ['friendid'] = $appinfo ['phone'];
+    	$model ['friendnickname'] = $appinfo ['nickname'];
+    	$model ['friendicon'] = $appinfo ['thumb'];
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -61,14 +141,69 @@ class FriendController extends Controller
     public function actionCreate()
     {
         $model = new Friend();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $data = Yii::$app->request->post ();
+		if ($data != false) {
+			$userinfo = User::findOne ( [ 
+					'phone' => $data['Friend'] ['myid'] 
+			] );
+			$appinfo = User::findOne ( [ 
+					'phone' => $data ['Friend']['friendid'] 
+			] );
+			
+			$model->myid=(string)$userinfo ['id'];
+			$model->friendid=$appinfo ['id'];
+			$model ['friendnickname'] = $appinfo ['nickname'];
+			$model ['friendicon'] = $appinfo ['thumb'];
+			$model->isfriend= 1;
+			
+			if ($model->save()) {
+				return $this->redirect ( [ 
+						'view',
+						'id' => $model->id 
+				] );
+			} else {
+				return $this->render ( 'create', [ 
+						'model' => $model 
+				] );
+			}
+		}else{
+			return $this->render ( 'create', [
+					'model' => $model
+					] );
+		}
+    }
+    
+    public function actionCreatefriend($myselfid)
+    {
+    	$model = new Friend();
+    	$data = Yii::$app->request->post ();
+    	if ($data != false) {
+    		$userinfo = User::findOne ( [
+    				'phone' => $myselfid
+    				] );
+    		$appinfo = User::findOne ( [
+    				'phone' => $data ['Friend']['friendid']
+    				] );
+    			
+    		$model->myid=(string)$userinfo ['id'];
+    		$model->friendid=$appinfo ['id'];
+    		$model->isfriend= 1;
+    			
+    		if ($model->save()) {
+    			return $this->redirect ( [
+    					'view',
+    					'id' => $model->id
+    					] );
+    		} else {
+    			return $this->render ( 'create', [
+    					'model' => $model
+    					] );
+    		}
+    	}else{
+    		return $this->render ( 'create', [
+    				'model' => $model
+    				] );
+    	}
     }
 
     /**
@@ -81,13 +216,45 @@ class FriendController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+       $userinfo = User::findOne ( [
+    			'id' => $model ['myid']
+    			] );
+    	$appinfo = User::findOne ( [
+    			'id' => $model ['friendid']
+    			] );
+    	//$model ['myid'] = $userinfo ['phone'];
+    	$model ['friendid'] = $appinfo ['phone'];
+    	$model ['friendnickname'] = $appinfo ['nickname'];
+    	$model ['friendicon'] = $appinfo ['thumb'];
+		
+		$data = Yii::$app->request->post ();
+		if ($data != false) {
+			
+			$appinfo = User::findOne ( [ 
+					'phone' => $data ['Friend']['friendid'] 
+			] );
+			
+			//$model->myid=(string)$userinfo ['id'];
+			$model->friendid=$appinfo ['id'];
+			$model ['friendnickname'] = $appinfo ['nickname'];
+			$model ['friendicon'] = $appinfo ['thumb'];
+			$model->isfriend= 1;
+				
+			if ($model->save()) {
+				return $this->redirect ( [
+						'view',
+						'id' => $model->id
+						] );
+			} else {
+				return $this->render ( 'update', [
+						'model' => $model
+						] );
+			}
+		}else{
+			return $this->render ( 'update', [
+					'model' => $model
+					] );
+		}
     }
 
     /**
@@ -98,9 +265,10 @@ class FriendController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model=$this->findModel($id);
+        $model->delete();
+        $user=User::findOne(['id' => $model->myid]);
+        return $this->redirect(['index?FriendSearch%5Bmyid%5D='.$user->phone]);
     }
 
     /**

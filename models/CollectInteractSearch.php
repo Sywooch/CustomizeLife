@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\CollectInteract;
+use app\modules\v1\models\User;
 
 /**
  * CollectInteractSearch represents the model behind the search form about `app\modules\v1\models\CollectInteract`.
@@ -30,6 +31,7 @@ class CollectInteractSearch extends CollectInteract
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+    public $userinc;
 
     /**
      * Creates data provider instance with search query applied
@@ -47,6 +49,21 @@ class CollectInteractSearch extends CollectInteract
         ]);
 
         $this->load($params);
+        
+        if($params!=false &&!empty($params['CollectInteractSearch'])){
+        	//$b=$a;
+        	//=app::find()->where("name= :name",[':name'=>'QQ'])->one();
+        	//if()
+        	foreach ($params['CollectInteractSearch'] as $name => $value1) {
+        		if ($name==='userid'&&$value1!=null){
+        			$appinfo=User::findOne(['phone' => $params['CollectInteractSearch']['userid']]);
+        			$this->userinc=$appinfo['id'];
+        			if($appinfo ==null){
+        				$this->userinc=0;
+        			}
+        		}
+        	}
+        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -56,7 +73,7 @@ class CollectInteractSearch extends CollectInteract
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'userid' => $this->userid,
+            'userid' => $this->userinc,
             'created_at' => $this->created_at,
             'msg' => $this->msg,
         ]);

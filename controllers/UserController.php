@@ -61,15 +61,43 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        
+        $data = Yii::$app->request->post ();
+        // echo var_dump($data);
+        if ($data != false) {
+        	$model->pwd = md5($data ['User'] ['pwd']);
+        	$model->shared = $data ['User'] ['shared'];
+        	$model->follower = 0;
+        	$model->favour = $data ['User'] ['favour'];
+        	$model->area = $data ['User'] ['area'];
+        	$model->gender = $data ['User'] ['gender'];
+        	$model->hobby = $data ['User'] ['hobby'];
+        	$model->nickname = $data ['User'] ['nickname'];
+        	$model->phone = $data ['User'] ['phone'];
+        	$model->signature = $data ['User'] ['signature'];
+        	$model->created_at=time();
+        	$model->updated_at=time();
+        	$model->thumb = $data ['icon'];
+        	$model->job=$data ['User'] ['job'];
+        	
+        	if ($model->save ()) {
+        		return $this->redirect ( [
+        				'view',
+        				'id' => $model->id
+        				] );
+        	}
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        	return $this->render ( 'create', [
+        			'model' => $model
+        			] );
         }
-    }
+        	
+        return $this->render ( 'create', [
+        		'model' => $model
+        		] );
+     }
+
+   
 
     /**
      * Updates an existing User model.
@@ -81,12 +109,37 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $data = Yii::$app->request->post ();
+        // echo var_dump($data);
+        if ($data != false) {
+        	$model->pwd = md5($data ['User'] ['pwd']);
+        	$model->shared = $data ['User'] ['shared'];
+        	$model->follower = 0;
+        	$model->favour = $data ['User'] ['favour'];
+        	$model->area = $data ['User'] ['area'];
+        	$model->gender = $data ['User'] ['gender'];
+        	$model->hobby = $data ['User'] ['hobby'];
+        	$model->nickname = $data ['User'] ['nickname'];
+        	$model->phone = $data ['User'] ['phone'];
+        	$model->signature = $data ['User'] ['signature'];
+        	$model->created_at=time();
+        	$model->updated_at=time();
+        	$model->job=$data ['User'] ['job'];
+        	
+        	if(!empty($data ['icon'])){
+        		$model->thumb =$data ['icon'];
+        	}
+        	
+        	if ($model->save ()) {
+        		return $this->redirect ( [
+        				'view',
+        				'id' => $model->id
+        				] );
+        	}
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        	return $this->render ( 'update', [
+        			'model' => $model
+        			] );
         }
     }
 

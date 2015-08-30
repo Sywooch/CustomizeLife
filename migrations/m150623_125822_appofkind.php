@@ -12,6 +12,7 @@ class m150623_125822_appofkind extends Migration
     			'id' => Schema::TYPE_PK,
     			'appid' => Schema::TYPE_INTEGER . ' NOT NULL',
     			'kind' => Schema::TYPE_STRING,
+    			'status'=>Schema::TYPE_BIGINT . ' DEFAULT 1',
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('appofkindKey', 'appofkind', 'appid', 'app', 'id','CASCADE','CASCADE');
     }

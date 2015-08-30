@@ -49,7 +49,7 @@ var domain="http://7xkbeq.com1.z0.glb.clouddn.com";
                　tempInput.type="hidden";　  
                　tempInput.name="icon";　　  
                　tempInput.value=domain+"/"+obj.key;
-                form.appendChild(tempInput);
+                 form.appendChild(tempInput);
                 
             },
             'Error': function(up, err, errTip) {

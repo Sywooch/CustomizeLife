@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "usertoapp".
  *
  * @property integer $id
- * @property integer $userid
- * @property integer $appid
- * @property integer $created_at
+ * @property string $userid
+ * @property string $appid
+ * @property string $created_at
  *
  * @property App $app
  * @property User $user
@@ -32,7 +32,8 @@ class Usertoapp extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'appid'], 'required'],
-            [['userid', 'appid', 'created_at'], 'integer']
+            [['appid', 'created_at'], 'integer'],
+            [['userid',],'integer']
         ];
     }
 
@@ -43,9 +44,9 @@ class Usertoapp extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'userid' => 'Userid',
-            'appid' => 'Appid',
-            'created_at' => 'Created At',
+            'userid' => '用户',
+            'appid' => '应用',
+            'created_at' => '下载时间',
         ];
     }
 

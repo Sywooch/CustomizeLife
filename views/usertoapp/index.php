@@ -29,7 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'userid',
             'appid',
-            'created_at',
+            //'created_at',
+        	[
+        	'attribute' => 'created_at',
+        				'label'=>'下载时间',
+        						'value'=>
+        						function($model){
+        						return  date('Y-m-d H:i:s',$model->created_at);   //主要通过此种方式实现
+        		},
+        		'headerOptions' => ['width' => '170'],
+        	],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

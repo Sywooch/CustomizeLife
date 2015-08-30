@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use kartik\form\ActiveForm;
+use app\models\appSearch;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -20,47 +21,26 @@ $this->params['breadcrumbs'][] = $this->title;
  		'id' => 'login-form-inline',
  		'type' => ActiveForm::TYPE_INLINE
  		]);?>
- <?=$form->field($model,'name')->textInput(["placeholder"=>"应用名称"]); ?>
- 
- <div class="form-group">
-            <?=  Html::submitButton('搜索', ['class'=>'btn btn-success','name' =>'submit-button']) ?>
-             
-            </div>
+
 <?php ActiveForm::end();?>
- <?= GridView::widget([
-        'dataProvider' => $appdata,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'name',
-            'version',
-        	'profile',
-            //'android_url:url',
-            //'ios_url:url',
-             'stars',
-             'downloadcount',
-            'commentscount',
-            // 'introduction',
-             'updated_at',
-             'size',
-             'kind',
-            // 'updated_log',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<p>&nbsp</p>
 <p>
    <?= Html::a('创建', ['create'], ['class' => 'btn btn-success']) ?>
 </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+    		'filterModel'=>$searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
             'name',
+				[
+				'attribute' => 'icon',
+				'label'=>'图标',
+				'value'=>'icon',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+				],
             'version',
         		'profile',
             //'android_url:url',
@@ -69,8 +49,17 @@ $this->params['breadcrumbs'][] = $this->title;
              'downloadcount',
         		'commentscount',
             // 'introduction',
-             'updated_at',
-             'size',
+             [
+				'attribute' => 'updated_at',
+				'label'=>'创建时间',
+				'value'=>
+				function($model){
+				return  date('Y-m-d H:i:s',$model->updated_at);   //主要通过此种方式实现
+							},
+				'headerOptions' => ['width' => '170'],
+			],
+              'size',
+            
              'kind',
             // 'updated_log',
 

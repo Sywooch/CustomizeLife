@@ -8,10 +8,9 @@ use Yii;
  * This is the model class for table "tag".
  *
  * @property integer $id
- * @property integer $appid
- * @property string $tag
- *
- * @property App $app
+ * @property string $first
+ * @property string $second
+ * @property integer $commend
  */
 class Tag extends \yii\db\ActiveRecord
 {
@@ -29,9 +28,10 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['appid'], 'required'],
-            [['appid'], 'integer'],
-            [['tag'], 'string', 'max' => 255]
+            [['commend'], 'integer'],
+            [['first'], 'string', 'max' => 50],
+            [['second'], 'string', 'max' => 255],
+        	[['first','commend'],'required']
         ];
     }
 
@@ -42,16 +42,9 @@ class Tag extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'appid' => 'Appid',
-            'tag' => 'Tag',
+            'first' => 'First',
+            'second' => 'Second',
+            'commend' => 'Commend',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getApp()
-    {
-        return $this->hasOne(App::className(), ['id' => 'appid']);
     }
 }
