@@ -46,8 +46,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'signature',
             // 'created_at',
             // 'updated_at',
-
+    		[
+    		//if ($date->famous==0){
+    		'label'=>'是否推荐',
+			//}
+    				'format'=>'raw',
+    				'value' => function($data){
+    						$url = "recom";
+    						$recom="";
+    						//var_dump($data->phone);
+    						if($data->authKey==0){
+								$recom="推荐";
+								}else{
+									$recom="取消推荐";
+								}
+							
+    						return Html::a($recom, "recom/".$data->id, ['title' => '审核']);
+    		}
+    		],
             ['class' => 'yii\grid\ActionColumn'],
+    		
+    		    
         ],
     ]); ?>
 

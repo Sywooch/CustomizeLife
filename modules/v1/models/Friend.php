@@ -28,6 +28,8 @@ class Friend extends \yii\db\ActiveRecord
     }
 	public $friendnickname;
 	public $friendicon;
+	public $mynickname;
+	public $myicon;
     /**
      * @inheritdoc
      */
@@ -52,6 +54,7 @@ class Friend extends \yii\db\ActiveRecord
             'isfriend' => '是否好友',
             'friendname' => '好友',
             'friendnickname'=>'对方昵称',
+            'mynickname'=>'昵称',
         ];
     }
     

@@ -73,7 +73,7 @@ class app extends \yii\db\ActiveRecord
             'size' => '大小',
             'icon' => '图标',
             'updated_log' => '更新日志',
-            'kind' => '种类',
+            'kind' => '标签',
         	'kind1array'=>'种类',
         	'kind2array'=>'标签',
         ];

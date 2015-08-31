@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $pwd
- * @property string $authKey
+ * @property integer $authKey
  * @property integer $famous
  * @property integer $shared
  * @property integer $follower
@@ -54,8 +54,8 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['phone'], 'required'],
-            [['famous', 'shared', 'follower', 'favour', 'created_at', 'updated_at'], 'integer'],
-            [['pwd', 'authKey', 'thumb', 'phone', 'gender', 'area', 'job', 'hobby', 'signature'], 'string', 'max' => 255],
+            [['famous','authKey','shared', 'follower', 'favour', 'created_at', 'updated_at'], 'integer'],
+            [['pwd',  'thumb', 'phone', 'gender', 'area', 'job', 'hobby', 'signature'], 'string', 'max' => 255],
             [['nickname'], 'string', 'max' => 20],
             [['phone'], 'unique']
         ];
@@ -69,7 +69,7 @@ class User extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'pwd' => '密码',
-            'authKey' => 'Auth Key',
+            'authKey' => '是否推荐',
             'famous' => '是否明星',
             'shared' => '应用被分享次数',
             'follower' => '关注者数',
