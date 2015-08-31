@@ -141,7 +141,7 @@ class AppController extends ActiveController {
 		->where ( [
 			'famous' => 1
 		] )
-		->orderBy('shared desc')
+		->orderBy('authKey desc')
 		->limit(6)
  		->all ();
 		return $aa;
@@ -232,6 +232,20 @@ class AppController extends ActiveController {
 		}
 		//$ans=array_unique($ans);
 		
+		return $ans;
+	}
+	public function actionTagCommend(){
+		$model=new Tag();
+		$Tag1s=$model->findBySql ( "select distinct first from tag where commend=1" )->all ();
+		$ans=array();
+		foreach ($Tag1s as $Tag1){
+			$model2=new Tag();
+			$Tag2s=$model2->find()->select('second')->from('tag')->where('second>\'\' and first=:id',['id'=>$Tag1->first])->all();
+			$ans[$Tag1->first]=array();
+			for($i=0;$i<count($Tag2s);$i++){
+				$ans[$Tag1->first][$i]=$Tag2s[$i]['second'];
+			}
+		}
 		return $ans;
 	}
 }

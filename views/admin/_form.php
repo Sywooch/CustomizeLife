@@ -29,6 +29,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
+    <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>
     
 <div>
 		<div class="col-md-12">
