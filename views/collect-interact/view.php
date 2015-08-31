@@ -31,7 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
           //  'id',
             'userid',
-            'created_at',
+            [
+				'attribute' => 'created_at',
+				'label'=>'创建时间',
+				'value'=>date('Y-m-d H:i:s',$model->created_at),
+
+				'headerOptions' => ['width' => '170'],
+				],
             'msg',
         ],
     ]) ?>

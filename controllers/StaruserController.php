@@ -25,6 +25,16 @@ class StaruserController extends Controller
             ],
         ];
     }
+    
+    public function actionRecom($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->authKey=$model->authKey?0:1;
+    	//echo $model->authKey;
+    	$model->save();
+    	return $this->redirect(['index']);
+    	//echo $id;
+    }
 
     /**
      * Lists all User models.
@@ -34,7 +44,7 @@ class StaruserController extends Controller
     {
         $searchModel = new StaruserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+		$dataProvider->query = $dataProvider->query->orderBy("authKey desc");
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
