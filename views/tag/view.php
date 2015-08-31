@@ -5,18 +5,34 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\Tag */
-
+function getkinds($tags,$first)
+{
+	$tag="";
+	for($i=0;$i<count($tags);$i++) {
+// 		$msg=$msg.'<a href="/admin/view/'.$apps[$i]['id'].'">';
+// 		$msg=$msg.Html::img($apps[$i]['icon'],['width'=>'50','height'=>'50']);
+// 		$msg=$msg. '</a>';
+// 		$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+	$tag=$tag.$tags[$i]['second'].' ';
+	};
+	$tag=$tag.'<a href="/tag/indexoftag?TagSearch%5Bfirst%5D='.$first.'">';
+	$tag =$tag .'添加删除二级标签';
+	$tag=$tag. '</a>';
+	$tag=$tag. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+	return $tag;
+}
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Tags', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<html lang="en-US" style="padding-left:15px">
 <div class="tag-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -30,7 +46,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'first',
-            'second',
+            //'second',
+        	[
+        	'attribute'=>'二级标签',
+        			'value'=>getkinds($tags,$model->first),
+        			'format' => ['html'],
+			],
             'commend',
         ],
     ]) ?>

@@ -12,11 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'first')->textInput(['maxlength' => true]) ?>
+    <?//= $form->field($model, 'first')->textInput(['maxlength' => true]) ?>
 
-    <?//= $form->field($model, 'second')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'second')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'commend')->textInput() ?>
+    <?//= $form->field($model, 'commend')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? '创建' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
