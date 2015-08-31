@@ -89,6 +89,7 @@ class StaruserController extends Controller
         	$model->updated_at=time();
         	$model->thumb = $data ['icon'];
         	$model->job=$data ['User'] ['job'];
+        	$model->authKey=0;
         	
         	if ($model->save ()) {
         		return $this->redirect ( [
