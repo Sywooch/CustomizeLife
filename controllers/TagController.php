@@ -26,6 +26,15 @@ class TagController extends Controller
         ];
     }
 
+    public function actionRecom($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->commend=$model->commend?0:1;
+    	//echo $model->authKey;
+    	$model->save();
+    	return $this->redirect(['index']);
+    	//echo $id;
+    }
     /**
      * Lists all Tag models.
      * @return mixed

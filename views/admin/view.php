@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'format' => ['image',['width'=>'100','height'=>'100']],
 			],
 			'kind',
+        	'package',
             'updated_log',
     		[
     				'attribute'=>'评论',
