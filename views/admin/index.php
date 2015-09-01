@@ -64,6 +64,7 @@ use yii\widgets\ActiveForm;
     var collectperson="<?= Yii::$app->urlManager->createUrl('collect-person/index')?>";
     var tag="<?= Yii::$app->urlManager->createUrl('tag/index')?>";
     var tag2="<?= Yii::$app->urlManager->createUrl('tag2/index')?>";
+    var push="<?= Yii::$app->urlManager->createUrl('push/create')?>";
     
     BUI.use('common/main',function(){
         var config = [
@@ -76,8 +77,8 @@ use yii\widgets\ActiveForm;
                                       {id:'24',text:'后台用户',href:sysuser},{id:'25',text:'用户下载的应用',href:usertoapp},
                                       {id:'26',text:'用户收藏的应用',href:collectperson},{id:'27',text:'用户收藏的消息',href:collectinteract}]},
                   {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'35',text:'关注关系',href:follow}]},
-                  {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply}]}
-
+                  {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply}]},
+                  {text:'推送',items:[{id:'55',text:'推送消息',href:push}]},
                 ]},
             {id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:myapp}]}]}
         ];

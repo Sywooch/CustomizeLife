@@ -122,7 +122,10 @@ public function actionUpdate($id)
         $data = Yii::$app->request->post ();
         // echo var_dump($data);
         if ($data != false) {
-        	$model->pwd = md5($data ['User'] ['pwd']);
+        	if ($data ['User'] ['pwd']!=false){
+        		$model->pwd = md5($data ['User'] ['pwd']);
+        	}
+        	
         	$model->shared = $data ['User'] ['shared'];
         	$model->follower = 1;
         	$model->favour = $data ['User'] ['favour'];
@@ -147,6 +150,7 @@ public function actionUpdate($id)
         				] );
         	}
         } else {
+        	unset($model->pwd);
         	return $this->render ( 'update', [
         			'model' => $model
         			] );
