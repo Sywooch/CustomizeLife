@@ -191,20 +191,19 @@ class FriendController extends Controller {
 		}
 	}
 	public function actionExist(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$data = Yii::$app->request->post ();
-		$model=new User();
-		$id = $model->find()->select('phone')->where(['phone'=>$data['phone']])->one();
-		if($id){
-			echo json_encode ( array (
-					'flag' => 1,
-					'msg' => 'Exist'
-			) );
-		}else{
-			echo json_encode ( array (
-					'flag' => 0,
-					'msg' => 'Not exist'
-			) );
+		
+		$ans=array();
+		for($i=0;$i<count($data['phone']);$i++){
+			$model=new User();
+			$id = $model->find()->select('phone')->where(['phone'=>$data['phone'][$i]])->one();
+			if($id){
+				$ans[$i]=1;
+			}else 
+				$ans[$i]=0;
 		}
+		return $ans;
 	}
 	public function actionInvite() {
 		$ph = Yii::$app->request->post ();
@@ -239,5 +238,16 @@ class FriendController extends Controller {
 					'msg' => 'Send message failed!'
 			) );
 		}
+	}
+	public function actionLike(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$data=Yii::$app->request->post();
+		$model=new User();
+		$myid = $model->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'friends f' )
+		->join ( 'INNER JOIN', 'usertoapp ua', 'f.friendid=ua.userid and f.friendid <> f.myid and f.myid=:id',['id'=>$myid['id']] )
+		->join('INNER JOIN','app a','ua.appid=a.id')
+		->all ();
+		return $aa;
 	}
 }

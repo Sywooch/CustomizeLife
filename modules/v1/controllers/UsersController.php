@@ -8,6 +8,7 @@ use app\modules\v1\models\Friend;
 use app\modules\v1\models\UserForm;
 use app\modules\v1\models\Vercode;
 use app\modules\v1\models\Message;
+use app\modules\v1\models\Channel;
 // use yii\web\Controller;
 use yii\rest\Controller;
 use app\modules\v1\models;
@@ -17,51 +18,7 @@ use app\modules\v1\models\Notify;
 
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
-	/**
-	 * accesscontrol
-	 */
 	
-	/**
-	 * @用户授权规则
-	 */
-	public function behaviors() {
-		return [ 
-				'access' => [ 
-						'class' => AccessControl::className (),
-						'rules' => [ 
-								[ 
-										'actions' => [ 
-												'login',
-												'signup',
-												'forgetpwd',
-												'resetpwd' 
-										],
-										'allow' => true,
-										'roles' => [ 
-												'?' 
-										] 
-								],
-								[ 
-										'actions' => [ 
-												'logout',
-												'test',
-												'getinfo',
-												'modify',
-												'send',
-												'verify',
-												'search',
-												'getmsg',
-												'notify'
-										],
-										'allow' => true,
-										'roles' => [ 
-												'?' 
-										] 
-								] 
-						] 
-				] 
-		];
-	}
 	public function actionSignup() {
 		$model = new User ();
 		$data = Yii::$app->request->post ();
@@ -400,6 +357,29 @@ class UsersController extends Controller {
 		}
 		return $ans;
 		
+	}
+	public function actionChannel(){
+		$data=Yii::$app->request->post();
+		$phone=User::findOne(['phone'=>$data['phone']]);
+		$del=Channel::find(['userid'=>$phone['id']])->one();
+		if($del)
+			$del->delete();
+		$model=new Channel();
+		$model->userid=$phone->id;
+		$model->channel=$data['channel'];
+		$model->platform=$data['platform'];
+		$model->updated_at=time();
+		if($model->save()){
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Upload success!'
+			) );
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Upload failed!'
+			) );
+		}
 	}
 }
 class REST {
