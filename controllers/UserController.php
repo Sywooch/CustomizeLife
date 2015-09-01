@@ -115,7 +115,9 @@ class UserController extends Controller
         $data = Yii::$app->request->post ();
         // echo var_dump($data);
         if ($data != false) {
-        	$model->pwd = md5($data ['User'] ['pwd']);
+        if ($data ['User'] ['pwd']!=false){
+        		$model->pwd = md5($data ['User'] ['pwd']);
+        	}
         	$model->shared = $data ['User'] ['shared'];
         	$model->follower = 0;
         	$model->favour = $data ['User'] ['favour'];
@@ -140,6 +142,7 @@ class UserController extends Controller
         				] );
         	}
         } else {
+        	unset($model->pwd);
         	return $this->render ( 'update', [
         			'model' => $model
         			] );
