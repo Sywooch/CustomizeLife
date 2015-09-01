@@ -44,6 +44,26 @@ $this->params['breadcrumbs'][] = $this->title;
              'job',
              'hobby',
             'signature',
+    		[
+    		//if ($date->famous==0){
+    		'label'=>'升级明星用户',
+    				//}
+    				'format'=>'raw',
+    				'value' => function($data){
+    						$url = "recom";
+    						$recom="升级";
+    							//var_dump($data->phone);
+//     							if($data->authKey==0){
+//     							$recom="推荐";
+//     						}else{
+//     						$recom="取消推荐";
+//     						}
+    						
+    									return Html::a($recom, "upgrade/".$data->id, ['title' => '升级']);
+    									
+    						}
+    						
+    						],
             // 'created_at',
             // 'updated_at',
 

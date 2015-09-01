@@ -8,6 +8,7 @@ use app\models\UserSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -27,7 +28,16 @@ class UserController extends Controller
     }
     
     
-    
+    public function actionUpgrade($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->famous=1;
+    	//echo $model->authKey;
+    	$model->save();
+    	
+    	return $this->redirect(['index']);
+    	//echo $id;
+    }
 
     /**
      * Lists all User models.
@@ -127,7 +137,7 @@ class UserController extends Controller
         	$model->nickname = $data ['User'] ['nickname'];
         	$model->phone = $data ['User'] ['phone'];
         	$model->signature = $data ['User'] ['signature'];
-        	$model->created_at=time();
+        	//$model->created_at=time();
         	$model->updated_at=time();
         	$model->job=$data ['User'] ['job'];
         	
