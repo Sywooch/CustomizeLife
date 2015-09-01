@@ -132,7 +132,7 @@ public function actionUpdate($id)
         	$model->nickname = $data ['User'] ['nickname'];
         	$model->phone = $data ['User'] ['phone'];
         	$model->signature = $data ['User'] ['signature'];
-        	$model->created_at=time();
+        	//$model->created_at=time();
         	$model->updated_at=time();
         	$model->job=$data ['User'] ['job'];
         	
