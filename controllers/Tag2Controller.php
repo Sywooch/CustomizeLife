@@ -4,15 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\modules\v1\models\Tag;
-use app\models\TagSearch;
+use app\models\Tag2Search;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TagController implements the CRUD actions for Tag model.
+ * Tag2Controller implements the CRUD actions for Tag model.
  */
-class TagController extends Controller
+class Tag2Controller extends Controller
 {
     public function behaviors()
     {
@@ -26,7 +26,7 @@ class TagController extends Controller
         ];
     }
 
-    public function actionRecom($id){
+    public function actionRecom2($id){
     	$model = $this->findModel($id);
     	//echo $model->authKey;
     	$model->commend=$model->commend?0:1;
@@ -41,31 +41,13 @@ class TagController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TagSearch();
+        $searchModel = new Tag2Search();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->query=$dataProvider->query->andWhere(['=','second',''])->orderBy('commend desc');
-       // $models=$searchModel->find()->where(['=','second',''])->orderBy('commend desc')->all();
-		//$pagination = $dataProvider->getPagination ();
-		//$dataProvider->setModels($models);
-		//var_dump($pagination->pageCount);
+        $dataProvider->query=$dataProvider->query->andWhere(['>','second',''])->orderBy('commend desc');
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
-    public function actionIndexoftag()
-    {
-    	$searchModel = new TagSearch();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    	$first= Yii::$app->request->queryParams['TagSearch']['first'];
-    	$dataProvider->query = $dataProvider->query->andWhere(['>','second','']);
-    	//$models=$searchModel->find()->where(['>','second',''])->all();
-    	//$dataProvider->setModels($models);
-    	return $this->render('index_tag', [
-    			'searchModel' => $searchModel,
-    			'dataProvider' => $dataProvider,
-    			'first'=>$first,
-    	]);
     }
 
     /**
@@ -75,21 +57,11 @@ class TagController extends Controller
      */
     public function actionView($id)
     {
-    	$model=$this->findModel($id);
-    	$tags=Tag::find()->where('second>\'\' and first=:id',['id'=>$model->first])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
-        	'tags'=>$tags,
         ]);
     }
-    public function actionViewoftag($id)
-    {
-    	$model=$this->findModel($id);
-    	//$tags=Tag::find()->where('second>\'\' and first=:id',['id'=>$model->first])->all();
-    	return $this->render('view_tag', [
-    			'model' => $this->findModel($id)
-    	]);
-    }
+
     /**
      * Creates a new Tag model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -108,27 +80,6 @@ class TagController extends Controller
         }
     }
 
-    public function actionCreateoftag($first)
-    {
-    	$model = new Tag();
-    
-    	if ($model->load(Yii::$app->request->post())) {
-    		$model->first =$first;
-    		$model->commend=0;
-    		if($model->save())
-    			return $this->redirect(['indexoftag?TagSearch%5Bfirst%5D='.$first]);
-    		else 
-    			return $this->render('create_tag', [
-    					'model' => $model,
-    					'first'=>$first,
-    			]);
-    	} else {
-    		return $this->render('create_tag', [
-    				'model' => $model,
-    				'first'=>$first,
-    		]);
-    	}
-    }
     /**
      * Updates an existing Tag model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -147,19 +98,7 @@ class TagController extends Controller
             ]);
         }
     }
-    public function actionUpdateoftag($id)
-    {
-    	$model = $this->findModel($id);
-    
-    	if ($model->load(Yii::$app->request->post()) && $model->save()) {
-    		return $this->redirect(['indexoftag?TagSearch%5Bfirst%5D='.$model->first]);
-    	} else {
-    		return $this->render('update_tag', [
-    				'model' => $model,
-    		]);
-    	}
-    }
-    
+
     /**
      * Deletes an existing Tag model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -173,13 +112,6 @@ class TagController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionDeleteoftag($id)
-    {
-    	$first=  $this->findModel($id)->first;
-    	$this->findModel($id)->delete();
-    
-    	return $this->redirect(['indexoftag?TagSearch%5Bfirst%5D='.$first]);
-    }
     /**
      * Finds the Tag model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -236,7 +236,7 @@ class AppController extends ActiveController {
 	}
 	public function actionTagCommend(){
 		$model=new Tag();
-		$Tag1s=$model->findBySql ( "select distinct first from tag where commend=1" )->all ();
+		$Tag1s=$model->findBySql ( "select distinct first from tag where commend=1 and second='' limit 2" )->all ();
 		$ans=array();
 		foreach ($Tag1s as $Tag1){
 			$model2=new Tag();

@@ -6,6 +6,7 @@ use Yii;
 use app\modules\v1\models\Usertoapp;
 use app\modules\v1\models\Appl;
 use app\modules\v1\models\User;
+use app\modules\v1\models\Tag;
 use yii\rest\Controller;
 use app;
 use app\modules\v1\models;
@@ -114,5 +115,21 @@ class MyappController extends Controller {
 		] )
 		->all ();
 		return $aa;
+	}
+	public function actionTag8(){
+		$model=new Tag();
+		$tag=$model->find()->select('second')->from('tag')->where('second > \'\' and commend=1')->all();
+		$ans=array();
+		for($i=0;$i<count($tag);$i++){
+			//$ans[$i]=$tag[$i]['second'];
+			//$ans[$tag[$i]['second']]=array();
+			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+			->join ( 'INNER JOIN', 'appofkind ak', 'a.id=ak.appid and ak.kind=:id',['id'=>$tag[$i]['second']] )
+			->orderBy('a.downloadcount desc')
+			->limit(3)
+			->all ();
+			$ans[$tag[$i]['second']]=$aa;
+		}
+		return $ans;
 	}
 }

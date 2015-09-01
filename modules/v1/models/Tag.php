@@ -43,7 +43,7 @@ class Tag extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'first' => '顶级标签',
-            'second' => '二类标签',
+            'second' => '二级标签',
             'commend' => '是否推荐',
         ];
     }

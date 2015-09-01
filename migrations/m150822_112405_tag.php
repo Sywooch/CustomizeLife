@@ -11,7 +11,7 @@ class m150822_112405_tag extends Migration
     	$this->createTable('tag', [
     			'id' => Schema::TYPE_PK,
     			'first' => Schema::TYPE_STRING,
-    			'second' => Schema::TYPE_STRING,
+    			'second' => Schema::TYPE_STRING . 'DEFAULT \'\'',
     			'commend'=>Schema::TYPE_INTEGER . ' DEFAULT 0',
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	//$this->addForeignKey('appoftagKey', 'tag', 'appid', 'app', 'id','CASCADE','CASCADE');
