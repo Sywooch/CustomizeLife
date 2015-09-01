@@ -28,4 +28,5 @@ return [
         'db' => $db,
     ],
     'params' => $params,
+    'language' => 'zh-CN',
 ];
