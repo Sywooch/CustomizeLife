@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
         <!--<img src="/chinapost/Public/assets/img/top.png">-->
     </div>
 
-    <div class="dl-log">欢迎您！ <a href="<?=Yii::$app->urlManager->createUrl(['admin/index/logout'])?>" title="退出系统" class="dl-log-quit">[退出]</a>
+    <div class="dl-log">欢迎您！ <a href="<?=Yii::$app->urlManager->createUrl(['admin/login'])?>" title="退出系统" class="dl-log-quit">[退出]</a>
     </div>
 </div>
 <div class="content">
