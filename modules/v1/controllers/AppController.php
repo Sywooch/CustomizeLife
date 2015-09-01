@@ -53,7 +53,7 @@ class AppController extends ActiveController {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new Tag();
 		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
-		$aa = $model->findBySql ( "select distinct second from tag" )->all ();
+		$aa = $model->findBySql ( "select distinct second from tag where second >''" )->all ();
 		return $aa;
 	}
 	public function actionGetapp(){
@@ -122,8 +122,8 @@ class AppController extends ActiveController {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new Appl();
 		$data=Yii::$app->request->post();
-		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
-		$aa = $model->find()->where(['like','name',$data['name']])->all();
+		$aa = $model->find()->where(['like','name',$data['name']])->orWhere(['like','kind',$data['name']])->all();
+		//$aa =$model->find()->where( 'kind LIKE \'%:id%\'',['id'=>$data['name']] )->all();
 		return $aa;
 	}
 	public function actionRecommend(){
@@ -245,6 +245,48 @@ class AppController extends ActiveController {
 			for($i=0;$i<count($Tag2s);$i++){
 				$ans[$Tag1->first][$i]=$Tag2s[$i]['second'];
 			}
+		}
+		return $ans;
+	}
+	public function  actionWork(){
+		$model=new Appl();
+		$ans=array();
+		$a1s=$model->find()->where('kind LIKE \'%工作%\'')->all();
+		foreach ($a1s as $a1){
+			$ans[]=$a1;
+		}
+		$a2s=$model->find()->where('kind LIKE \'%出差%\'')->all();
+		foreach ($a2s as $a1){
+			$p=0;
+			foreach ($ans as $an){
+				if ($an['id']==$a1['id']){
+					$p=1;
+				}
+			}
+			if($p==0)
+				$ans[]=$a1;
+		}
+		$a3s=$model->find()->where('kind LIKE \'%学习%\'')->all();
+		foreach ($a3s as $a1){
+			$p=0;
+			foreach ($ans as $an){
+				if ($an['id']==$a1['id']){
+					$p=1;
+				}
+			}
+			if($p==0)
+				$ans[]=$a1;
+		}
+		$a4s=$model->find()->where('kind LIKE \'%办公%\'')->all();
+		foreach ($a4s as $a1){
+			$p=0;
+			foreach ($ans as $an){
+				if ($an['id']==$a1['id']){
+					$p=1;
+				}
+			}
+			if($p==0)
+				$ans[]=$a1;
 		}
 		return $ans;
 	}
