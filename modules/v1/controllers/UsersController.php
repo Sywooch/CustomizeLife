@@ -15,6 +15,7 @@ use app\modules\v1\models;
 use app;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Notify;
+use app\modules\v1\models\Judge;
 
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
@@ -378,6 +379,33 @@ class UsersController extends Controller {
 			echo json_encode ( array (
 					'flag' => 0,
 					'msg' => 'Upload failed!'
+			) );
+		}
+	}
+	
+	public function actionJudge(){
+		$data=Yii::$app->request->post();
+		$phone=User::findOne(['phone'=>$data['phone']]);
+		$model=new Judge();
+		if ($data!=false){
+			$model->userid=$phone->id;
+			$model->message=$data['message'];
+			$model->created_at=time();
+			if($model->save()){
+				echo json_encode ( array (
+						'flag' => 1,
+						'msg' => 'Judge success!'
+				) );
+			}else{
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Judge failed!'
+				) );
+			}
+		}else{
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Judge failed!'
 			) );
 		}
 	}
