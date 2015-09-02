@@ -21,6 +21,7 @@ use Yii;
  * @property string $size
  * @property string $icon
  * @property string $updated_log
+ * @property string $package
  *
  * @property Appcomments[] $appcomments
  * @property Appofkind[] $appofkinds
@@ -46,7 +47,7 @@ class Appl extends \yii\db\ActiveRecord
         return [
             [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'updated_at', 'size', 'icon'], 'required'],
             [['stars', 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
-            [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log'], 'string', 'max' => 255]
+            [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log','package'], 'string', 'max' => 255]
         ];
     }
 
@@ -70,6 +71,7 @@ class Appl extends \yii\db\ActiveRecord
             'size' => 'Size',
             'icon' => 'Icon',
             'updated_log' => 'Updated Log',
+        	'package'=>'Package',
         ];
     }
 

@@ -318,7 +318,7 @@ class MessageController extends ActiveController {
 				// 消息的标题.
 				'title' => 'Hi!.',
 				// 消息内容
-				'description' => "hello!, this message from baidu push service." 
+				'description' => "杨老板卧槽" 
 		);
 		
 		// 设置消息类型为 通知类型.
@@ -327,7 +327,8 @@ class MessageController extends ActiveController {
 		);
 		
 		// 向目标设备发送一条消息
-		$rs = $sdk->pushMsgToSingleDevice ( $channelId, $message, $opts );
+		$rs = $sdk->pushMsgToAll($message, $opts);
+		//pushMsgToSingleDevice ( $channelId, $message, $opts );
 		
 		// 判断返回值,当发送失败时, $rs的结果为false, 可以通过getError来获得错误信息.
 		if ($rs === false) {

@@ -131,9 +131,10 @@ class ApptopictureController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model=$this->findModel($id);
+        $app=Apptopicture::findOne(['id' => $id]);
+        $model->delete();
+        return $this->redirect(['admin/update/'.$app->appid]);
     }
 
     /**

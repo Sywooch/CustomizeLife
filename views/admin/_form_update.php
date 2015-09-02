@@ -27,8 +27,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'downloadcount')->textInput()?>
     <?= $form->field($model, 'commentscount')->textInput()?>
 
-    <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
-    
+    <?= $form->field($model, 'introduction')->textarea(['rows'=>6])?>
+    <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
     <?php 
     	echo '<label class="control-label">'.'一级标签:'.'</label>';

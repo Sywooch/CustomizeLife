@@ -70,7 +70,8 @@ $config = [
 				
 				'db' => require (__DIR__ . '/db.php') 
 		],
-		'params' => $params 
+		'params' => $params,
+		'language' => 'zh-CN',
 ];
 if (YII_ENV_DEV) {
 	// configuration adjustments for 'dev' environment

@@ -54,6 +54,7 @@ class Friend extends \yii\db\ActiveRecord
             'isfriend' => '是否好友',
             'friendname' => '好友',
             'friendnickname'=>'对方昵称',
+            'mynickname'=>'昵称',
         ];
     }
     

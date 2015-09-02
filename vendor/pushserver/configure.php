@@ -31,14 +31,14 @@ class BAIDU_PUSH_CONFIG {
      * 当代码中未设置apikey时,使用此apikey
      * @var string
      */
-    const default_apiKey = 'zCesjckHKKctu9X95r6gRXYS';
+    const default_apiKey = '0q0u5yGZiI7GaQWF5T68CsmS';
     
     /**
      * 开发者当前secretKey, 在应用重新生成secret key后, 旧的secret key将失效, 由开发者中心(http://developer.baidu.com)获取.
      * 当代码中未设置apikey时,使用此secretkey
      * @var string
      */
-    const default_secretkey = 'A4PYsYcYCQqS6dzgbHaV8cqFm9lX07en';
+    const default_secretkey = 'pfWaFh51TmRPzTrWFNbIzPWKgSpiuv6z';
     
     /**
      * 默认发送的devicetype

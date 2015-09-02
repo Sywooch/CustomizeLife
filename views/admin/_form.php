@@ -25,8 +25,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'downloadcount')->textInput()?>
     <?= $form->field($model, 'commentscount')->textInput()?>
 
-    <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
-   
+    <?= $form->field($model, 'introduction')->textarea(['rows'=>6])?>
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
     <?php 
 //     	foreach ($allkind2 as $first=>$second)
@@ -111,6 +110,8 @@ use yii\widgets\ActiveForm;
     
     <?//= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
+    <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>
+    <?= $form->field($model, 'ios_url')->textInput(['maxlength' => true])?>
     
 <div>
 		<div class="col-md-12">
@@ -130,27 +131,6 @@ use yii\widgets\ActiveForm;
 		</div>
 
 <p>&nbsp</p>
-
-		<div>
-			<div class="col-md-12">
-				<div id="container" style="position: relative;">
-					<a class="btn btn-default btn-lg " id="ios" href="#"
-						style="position: relative; z-index: 1;"> <i
-						class="glyphicon glyphicon-plus"></i> <sapn>Ios_app</sapn>
-					</a>
-					<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
-						class="moxie-shim moxie-shim-html5"
-						style="position: absolute; top: 0px; left: 0px; width: 167px; height: 46px; overflow: hidden; z-index: 0;">
-						<input id="html5_19rugovp4pupkrh1n901mlkrhd3" type="file"
-							style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
-							multiple="" accept="">
-					</div>
-				</div>
-			</div>
-
-<p>&nbsp</p>
-
-
 			<div>
 				<div class="col-md-12">
 					<div id="container" style="position: relative;">

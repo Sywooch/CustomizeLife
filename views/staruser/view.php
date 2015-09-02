@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '确定要删除该条记录?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -86,12 +86,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'created_at',
 				//'label'=>'创建时间',
+    	    //	date_default_timezone_set(’PRC’),
 				'value'=>date('Y-m-d H:i:s',$model->created_at),
 				'headerOptions' => ['width' => '170'],
 			],
 			[
 					'attribute' => 'updated_at',
 					//'label'=>'创建时间',
+    		//date_default_timezone_set(’PRC’),
 					'value'=>date('Y-m-d H:i:s',$model->updated_at),
 					'headerOptions' => ['width' => '170'],
 			],

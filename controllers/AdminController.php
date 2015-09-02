@@ -234,7 +234,7 @@ class AdminController extends Controller {
 		if ($model->name === 'admin' && $model->pwd === 'admin') {
 			Yii::$app->session ['var'] = 'admin';
 			return $this->redirect ( [ 
-					'index' 
+					'admin/index#1/11' 
 			] );
 		} else {
 			return $this->render ( 'login', [ 

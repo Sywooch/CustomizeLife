@@ -102,7 +102,6 @@ class FriendController extends Controller
     			break;
     		}
     	}
-    
     	return $this->render('index_all', [
     			'searchModel' => $searchModel,
     			'dataProvider' => $dataProvider,
@@ -125,12 +124,33 @@ class FriendController extends Controller
     			'id' => $model ['friendid']
     			] );
     	$model ['myid'] = $userinfo ['phone'];
+    	
     	$model ['friendid'] = $appinfo ['phone'];
     	$model ['friendnickname'] = $appinfo ['nickname'];
     	$model ['friendicon'] = $appinfo ['thumb'];
         return $this->render('view', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionViewall($id)
+    {
+    	$model = $this->findModel ( $id );
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['myid']
+    			] );
+    	$appinfo = User::findOne ( [
+    			'id' => $model ['friendid']
+    			] );
+    	$model ['myid'] = $userinfo ['phone'];
+    	$model ['mynickname'] = $userinfo ['nickname'];
+    	$model ['myicon'] = $userinfo ['thumb'];
+    	$model ['friendid'] = $appinfo ['phone'];
+    	$model ['friendnickname'] = $appinfo ['nickname'];
+    	$model ['friendicon'] = $appinfo ['thumb'];
+    	return $this->render('view_all', [
+    			'model' => $model,
+    			]);
     }
 
     /**
@@ -158,16 +178,16 @@ class FriendController extends Controller
 			
 			if ($model->save()) {
 				return $this->redirect ( [ 
-						'view',
+						'viewall',
 						'id' => $model->id 
 				] );
 			} else {
-				return $this->render ( 'create', [ 
+				return $this->render ( 'create_all', [ 
 						'model' => $model 
 				] );
 			}
 		}else{
-			return $this->render ( 'create', [
+			return $this->render ( 'create_all', [
 					'model' => $model
 					] );
 		}
@@ -256,6 +276,53 @@ class FriendController extends Controller
 					] );
 		}
     }
+    
+    public function actionUpdateall($id)
+    {
+    	$model = $this->findModel($id);
+    
+    	$userinfo = User::findOne ( [
+    			'id' => $model ['myid']
+    			] );
+    	$appinfo = User::findOne ( [
+    			'id' => $model ['friendid']
+    			] );
+    	$model ['myid'] = $userinfo ['phone'];
+    	$model ['friendid'] = $appinfo ['phone'];
+    	$model ['friendnickname'] = $appinfo ['nickname'];
+    	$model ['friendicon'] = $appinfo ['thumb'];
+    
+    	$data = Yii::$app->request->post ();
+    	if ($data != false) {
+    		$userinfo = User::findOne ( [
+    				'phone' => $data ['Friend']['myid']
+    				] );
+    		$appinfo = User::findOne ( [
+    				'phone' => $data ['Friend']['friendid']
+    				] );
+    			
+    		$model->myid=(string)$userinfo ['id'];
+    		$model->friendid=$appinfo ['id'];
+    		//$model ['friendnickname'] = $appinfo ['nickname'];
+    		//$model ['friendicon'] = $appinfo ['thumb'];
+    		$model->isfriend= 1;
+    
+    		if ($model->save()) {
+    			return $this->redirect ( [
+    					'viewall',
+    					'id' => $model->id
+    					] );
+    		} else {
+    			return $this->render ( 'update_all', [
+    					'model' => $model
+    					] );
+    		}
+    	}else{
+    		return $this->render ( 'update_all', [
+    				'model' => $model
+    				] );
+    	}
+    }
 
     /**
      * Deletes an existing Friend model.
@@ -269,6 +336,14 @@ class FriendController extends Controller
         $model->delete();
         $user=User::findOne(['id' => $model->myid]);
         return $this->redirect(['index?FriendSearch%5Bmyid%5D='.$user->phone]);
+    }
+    
+    public function actionDeleteall($id)
+    {
+    	$model=$this->findModel($id);
+    	$model->delete();
+    	$user=User::findOne(['id' => $model->myid]);
+    	return $this->redirect(['indexofall']);
     }
 
     /**
