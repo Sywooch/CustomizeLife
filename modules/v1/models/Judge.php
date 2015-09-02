@@ -24,6 +24,7 @@ class Judge extends \yii\db\ActiveRecord
         return 'judge';
     }
 
+    public $usernickname;
     /**
      * @inheritdoc
      */
@@ -44,6 +45,7 @@ class Judge extends \yii\db\ActiveRecord
             'id' => 'ID',
             'userid' => '用户',
             'message' => '评价',
+            'usernickname'=>'用户昵称',
             'created_at' => '评价时间',
         ];
     }
