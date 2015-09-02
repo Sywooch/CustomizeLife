@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
 				$form = ActiveForm::begin ( [ 
 						'id' => 'form' 
 				] );
+				$str3 = json_encode($allkind2);
 				?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true])?>
 
@@ -25,9 +26,90 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'commentscount')->textInput()?>
 
     <?= $form->field($model, 'introduction')->textInput(['maxlength' => true])?>
-    
+   
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
-    <?= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
+    <?php 
+//     	foreach ($allkind2 as $first=>$second)
+//     	{
+//     		echo $form->field($model, 'kind2array[]')->checkboxList($second)->label($first);
+//     	}
+    ?>
+    <?php 
+    	echo '<label class="control-label">'.'一级标签:'.'</label>';
+    	echo '         ';
+    	foreach ($allkind2 as $first=>$second)
+    	{
+    		echo '<label onclick=change(\''.$first.'\')>'.$first.'</label>';
+    		echo '    ';
+    		//echo $form->field($model, 'kind2array[]')->checkboxList($second)->label($first);
+    	}
+    ?>
+    <div id="panel"></div>
+	<?//= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
+	<script type="text/javascript">
+	console.log("bb");
+	var allkind;
+	var all = '<?php echo $str3?>';
+	allkind=JSON.parse(all);
+	//console.log(allkind);
+ 	var allkind1={};
+ 	//console.log(allkind);
+ 	for(var kind in allkind){
+ 		allkind1[kind]=0;//[kind]=0;
+ 	}
+ 	for(var kind in allkind){
+		for (var kind2 in allkind[kind])
+ 			{
+				var l = document.createElement("label");
+				l.setAttribute("style","display:none");
+				l.setAttribute("name",kind);
+				var　tempInput　=　document.createElement("input");　  
+           　	tempInput.type="checkbox";
+           　	tempInput.name="app[kind2array][]";
+           　	tempInput.value=kind2;
+            // tempInput.onclick = "checkboxclicked(kind2)";
+             //console.log(allkind2[kind2]);
+//            		if(allkind2[kind2]==true){
+//         	   		console.log(kind2);
+//         	   		tempInput.setAttribute("checked",true);
+//            		}
+	             l.appendChild(tempInput);
+	             l.innerHTML+=" "+kind2;
+	             panel.appendChild(l);
+	             panel.innerHTML+=" ";
+ 			}
+ 	}
+	function change(kind){
+		//panel=document.getElementById('panel');
+		//panel.innerHTML="";
+		if(allkind1[kind]==0)
+			allkind1[kind]=1;
+		else
+			allkind1[kind]=0;
+		//s=document.getElementsByName("app[kind2array][]");
+		for(var kind in allkind1){
+			if(allkind1[kind]==1)
+			{
+				console.log(kind);
+				items=document.getElementsByName(kind);
+				console.log(items);
+				for(var i=0;i< items.length;i++){
+					items[i].setAttribute("style","display");
+				}
+			}else{
+				items=document.getElementsByName(kind);
+				console.log(items);
+				for(var i=0;i< items.length;i++){
+					items[i].setAttribute("style","display:none");
+				}
+			}
+		}
+	}
+	</script>
+    
+    
+    
+    <?//= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     
 <div>
