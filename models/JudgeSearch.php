@@ -19,7 +19,7 @@ class JudgeSearch extends Judge
     public function rules()
     {
         return [
-            [['id', 'created_at'], 'integer'],
+            [['id'], 'integer'],
             [['message'], 'safe'],
             [['usernickname','userid'], 'string'],
         ];
