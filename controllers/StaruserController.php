@@ -35,6 +35,17 @@ class StaruserController extends Controller
     	return $this->redirect(['index']);
     	//echo $id;
     }
+    
+    public function actionDown($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->famous=0;
+    	//echo $model->authKey;
+    	$model->save();
+    	 
+    	return $this->redirect(['index']);
+    	//echo $id;
+    }
 
     /**
      * Lists all User models.

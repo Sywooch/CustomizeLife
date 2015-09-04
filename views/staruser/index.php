@@ -64,6 +64,26 @@ $this->params['breadcrumbs'][] = $this->title;
     						return Html::a($recom, "recom/".$data->id, ['title' => '审核']);
     		}
     		],
+    		[
+    		//if ($date->famous==0){
+    		'label'=>'转为普通用户',
+    				//}
+    				'format'=>'raw',
+    				'value' => function($data){
+    				$url = "recom";
+    				$recom="转换";
+    			//var_dump($data->phone);
+    			//     							if($data->authKey==0){
+    			//     							$recom="推荐";
+    			//     						}else{
+    			//     						$recom="取消推荐";
+    			//     						}
+    		
+    			return Html::a($recom, "down/".$data->id, ['title' => '转换']);
+    				
+    		}
+    		
+    		],
             ['class' => 'yii\grid\ActionColumn'],
     		
     		    
