@@ -11,6 +11,7 @@ use app\modules\v1\models\User;
 use yii\db\ActiveRecord;
 use app\modules\v1\models\app\modules\v1\models;
 use app\models\app;
+use app\modules\v1\controllers\REST;
 
 class FriendController extends Controller {
 	public $enableCsrfValidation = false;
@@ -188,5 +189,65 @@ class FriendController extends Controller {
 					'msg' => 'You are not friend.' 
 			) );
 		}
+	}
+	public function actionExist(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$data = Yii::$app->request->post ();
+		
+		$ans=array();
+		for($i=0;$i<count($data['phone']);$i++){
+			$model=new User();
+			$id = $model->find()->select('phone')->where(['phone'=>$data['phone'][$i]])->one();
+			if($id){
+				$ans[$i]=1;
+			}else 
+				$ans[$i]=0;
+		}
+		return $ans;
+	}
+	public function actionInvite() {
+		$ph = Yii::$app->request->post ();
+		$model = new User ();
+		if ($model->find ()->where ( [
+				'phone' => $ph ['phone']
+		] )->one ()) {
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Phone has been registered!'
+			) );
+			return;
+		}
+		$output = "app url";
+		$rest = new REST ();
+		$apikey = '7d4294b4e224bd57377c85873b3e8430';
+		$mobile = $ph ['phone'];
+		$tpl_id = 2; // 对应默认模板 【#company#】您的验证码是#code#
+		$tpl_value = "#company#=云片网&#code#=" . $output;
+		// $rest->send_sms($apikey,$text, $mobile);
+		$data = $rest->tpl_send_sms ( $apikey, $tpl_id, $tpl_value, $mobile );
+		$obj = json_decode ( $data );
+		if ($obj->msg === 'OK') {
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Invite success!'
+			) );
+		} else {
+			var_dump ( $data );
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Send message failed!'
+			) );
+		}
+	}
+	public function actionLike(){
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$data=Yii::$app->request->post();
+		$model=new User();
+		$myid = $model->find()->select('id')->where(['phone'=>$data['phone']])->one();
+		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'friends f' )
+		->join ( 'INNER JOIN', 'usertoapp ua', 'f.friendid=ua.userid and f.friendid <> f.myid and f.myid=:id',['id'=>$myid['id']] )
+		->join('INNER JOIN','app a','ua.appid=a.id')
+		->all ();
+		return $aa;
 	}
 }

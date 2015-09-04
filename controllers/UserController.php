@@ -8,6 +8,7 @@ use app\models\UserSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -24,6 +25,18 @@ class UserController extends Controller
                 ],
             ],
         ];
+    }
+    
+    
+    public function actionUpgrade($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->famous=1;
+    	//echo $model->authKey;
+    	$model->save();
+    	
+    	return $this->redirect(['index']);
+    	//echo $id;
     }
 
     /**
@@ -112,7 +125,9 @@ class UserController extends Controller
         $data = Yii::$app->request->post ();
         // echo var_dump($data);
         if ($data != false) {
-        	$model->pwd = md5($data ['User'] ['pwd']);
+        if ($data ['User'] ['pwd']!=false){
+        		$model->pwd = md5($data ['User'] ['pwd']);
+        	}
         	$model->shared = $data ['User'] ['shared'];
         	$model->follower = 0;
         	$model->favour = $data ['User'] ['favour'];
@@ -122,7 +137,7 @@ class UserController extends Controller
         	$model->nickname = $data ['User'] ['nickname'];
         	$model->phone = $data ['User'] ['phone'];
         	$model->signature = $data ['User'] ['signature'];
-        	$model->created_at=time();
+        	//$model->created_at=time();
         	$model->updated_at=time();
         	$model->job=$data ['User'] ['job'];
         	
@@ -137,6 +152,7 @@ class UserController extends Controller
         				] );
         	}
         } else {
+        	unset($model->pwd);
         	return $this->render ( 'update', [
         			'model' => $model
         			] );

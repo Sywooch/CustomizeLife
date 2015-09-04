@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('创建', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '确定要删除该条记录?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -35,7 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'fromid',
             'toid',
             'isread',
-            'created_at',
+            [
+				'attribute' => 'created_at',
+				'label'=>'创建时间',
+				'value'=>date('Y-m-d H:i:s',$model->created_at),
+
+				'headerOptions' => ['width' => '170'],
+				],
         ],
     ]) ?>
 

@@ -53,7 +53,7 @@ class AppController extends ActiveController {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new Tag();
 		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
-		$aa = $model->findBySql ( "select distinct second from tag" )->all ();
+		$aa = $model->findBySql ( "select distinct second from tag where second >''" )->all ();
 		return $aa;
 	}
 	public function actionGetapp(){
@@ -122,8 +122,8 @@ class AppController extends ActiveController {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new Appl();
 		$data=Yii::$app->request->post();
-		//$aa = (new \yii\db\Query ())->select ( 'kind' )->from ( 'appofkind f' )->all ();
-		$aa = $model->find()->where(['like','name',$data['name']])->all();
+		$aa = $model->find()->where(['like','name',$data['name']])->orWhere(['like','kind',$data['name']])->all();
+		//$aa =$model->find()->where( 'kind LIKE \'%:id%\'',['id'=>$data['name']] )->all();
 		return $aa;
 	}
 	public function actionRecommend(){
@@ -141,7 +141,7 @@ class AppController extends ActiveController {
 		->where ( [
 			'famous' => 1
 		] )
-		->orderBy('shared desc')
+		->orderBy('authKey desc')
 		->limit(6)
  		->all ();
 		return $aa;
@@ -232,6 +232,62 @@ class AppController extends ActiveController {
 		}
 		//$ans=array_unique($ans);
 		
+		return $ans;
+	}
+	public function actionTagCommend(){
+		$model=new Tag();
+		$Tag1s=$model->findBySql ( "select distinct first from tag where commend=1 and second='' limit 2" )->all ();
+		$ans=array();
+		foreach ($Tag1s as $Tag1){
+			$model2=new Tag();
+			$Tag2s=$model2->find()->select('second')->from('tag')->where('second>\'\' and first=:id',['id'=>$Tag1->first])->all();
+			$ans[$Tag1->first]=array();
+			for($i=0;$i<count($Tag2s);$i++){
+				$ans[$Tag1->first][$i]=$Tag2s[$i]['second'];
+			}
+		}
+		return $ans;
+	}
+	public function  actionWork(){
+		$model=new Appl();
+		$ans=array();
+		$a1s=$model->find()->where('kind LIKE \'%工作%\'')->all();
+		foreach ($a1s as $a1){
+			$ans[]=$a1;
+		}
+		$a2s=$model->find()->where('kind LIKE \'%出差%\'')->all();
+		foreach ($a2s as $a1){
+			$p=0;
+			foreach ($ans as $an){
+				if ($an['id']==$a1['id']){
+					$p=1;
+				}
+			}
+			if($p==0)
+				$ans[]=$a1;
+		}
+		$a3s=$model->find()->where('kind LIKE \'%学习%\'')->all();
+		foreach ($a3s as $a1){
+			$p=0;
+			foreach ($ans as $an){
+				if ($an['id']==$a1['id']){
+					$p=1;
+				}
+			}
+			if($p==0)
+				$ans[]=$a1;
+		}
+		$a4s=$model->find()->where('kind LIKE \'%办公%\'')->all();
+		foreach ($a4s as $a1){
+			$p=0;
+			foreach ($ans as $an){
+				if ($an['id']==$a1['id']){
+					$p=1;
+				}
+			}
+			if($p==0)
+				$ans[]=$a1;
+		}
 		return $ans;
 	}
 }

@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '确定要删除该条记录?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'format' => ['image',['width'=>'100','height'=>'100']],
 			],
 			'kind',
+        	'package',
             'updated_log',
     		[
     				'attribute'=>'评论',

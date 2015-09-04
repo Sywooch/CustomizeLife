@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\TagSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<html lang="en-US" style="padding-left:15px">
 <div class="tag-search">
 
     <?php $form = ActiveForm::begin([

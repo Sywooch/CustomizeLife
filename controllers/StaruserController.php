@@ -25,6 +25,16 @@ class StaruserController extends Controller
             ],
         ];
     }
+    
+    public function actionRecom($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->authKey=$model->authKey?0:1;
+    	//echo $model->authKey;
+    	$model->save();
+    	return $this->redirect(['index']);
+    	//echo $id;
+    }
 
     /**
      * Lists all User models.
@@ -34,7 +44,7 @@ class StaruserController extends Controller
     {
         $searchModel = new StaruserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+		$dataProvider->query = $dataProvider->query->orderBy("authKey desc");
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -79,6 +89,7 @@ class StaruserController extends Controller
         	$model->updated_at=time();
         	$model->thumb = $data ['icon'];
         	$model->job=$data ['User'] ['job'];
+        	$model->authKey=0;
         	
         	if ($model->save ()) {
         		return $this->redirect ( [
@@ -111,7 +122,10 @@ public function actionUpdate($id)
         $data = Yii::$app->request->post ();
         // echo var_dump($data);
         if ($data != false) {
-        	$model->pwd = md5($data ['User'] ['pwd']);
+        	if ($data ['User'] ['pwd']!=false){
+        		$model->pwd = md5($data ['User'] ['pwd']);
+        	}
+        	
         	$model->shared = $data ['User'] ['shared'];
         	$model->follower = 1;
         	$model->favour = $data ['User'] ['favour'];
@@ -121,7 +135,7 @@ public function actionUpdate($id)
         	$model->nickname = $data ['User'] ['nickname'];
         	$model->phone = $data ['User'] ['phone'];
         	$model->signature = $data ['User'] ['signature'];
-        	$model->created_at=time();
+        	//$model->created_at=time();
         	$model->updated_at=time();
         	$model->job=$data ['User'] ['job'];
         	
@@ -136,6 +150,7 @@ public function actionUpdate($id)
         				] );
         	}
         } else {
+        	unset($model->pwd);
         	return $this->render ( 'update', [
         			'model' => $model
         			] );

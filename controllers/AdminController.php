@@ -99,9 +99,21 @@ class AdminController extends Controller {
 	 */
 	public function actionCreate() {
 		if (Yii::$app->session ['var'] === 'admin') {
+			
 			$model = new app ();
 			$data = Yii::$app->request->post ();
 			// echo var_dump($data);
+			$allkind2 = (new \yii\db\Query ())->distinct(true)->from('tag')->where(['>','second',''])->all();
+			//$checkbox1=array();
+			$checkbox2=array();
+			// 				foreach($allkind1 as $name)
+				// 				{
+				// 					$checkbox1[$name['kind']]=$name['kind'];
+				// 				}
+			foreach($allkind2 as $name)
+			{
+				$checkbox2[$name['first']][$name['second']]=$name['second'];
+			}
 			if ($data != false) {
 // 				echo var_dump ( $data );
 // 				$model->name = $data ['app'] ['name'];
@@ -124,7 +136,7 @@ class AdminController extends Controller {
 // 				foreach ( $data['kind1array'] as $kind ) {
 // 					$model->kind.=$kind." ";
 // 				}
-				foreach ( $data['kind2array'] as $kind ) {
+				foreach ( $data['app']['kind2array'] as $kind ) {
 					$model->kind.=$kind." ";
 				}
 				
@@ -147,7 +159,7 @@ class AdminController extends Controller {
 // 						$appkind->kind=$kind;
 // 						$appkind->save();
 // 					}
-					foreach ( $data['kind1array'] as $kind ) {
+					foreach ( $data['app']['kind2array'] as $kind ) {
 						$appkind=new Appofkind();
 						$appkind->appid=$model->id;
 						//$appkind->status =2;
@@ -162,17 +174,6 @@ class AdminController extends Controller {
 				}
 			} else {
 				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
-				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->where(['>','second',''])->all();
-				//$checkbox1=array();
-				$checkbox2=array();
-// 				foreach($allkind1 as $name)
-// 				{
-// 					$checkbox1[$name['kind']]=$name['kind'];
-// 				}
-				foreach($allkind2 as $name)
-				{
-					$checkbox2[$name['second']]=$name['second'];
-				}
 				return $this->render ( 'create', [ 
 						'model' => $model ,
 						//'allkind1'=>$checkbox1,
@@ -181,7 +182,8 @@ class AdminController extends Controller {
 			}
 			
 			return $this->render ( 'create', [ 
-					'model' => $model 
+					'model' => $model ,
+					'allkind2'=>$checkbox2,
 			] );
 		} else {
 			return $this->redirect ( [ 
@@ -232,7 +234,7 @@ class AdminController extends Controller {
 		if ($model->name === 'admin' && $model->pwd === 'admin') {
 			Yii::$app->session ['var'] = 'admin';
 			return $this->redirect ( [ 
-					'index' 
+					'admin/index#1/11' 
 			] );
 		} else {
 			return $this->render ( 'login', [ 
@@ -327,7 +329,7 @@ class AdminController extends Controller {
 				//$data['kind1array'] = $kind1array;
 				$data['kind2array'] = $kind2array;
 				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
-				$allkind2 = (new \yii\db\Query ())->select ('second')->distinct(true)->from('tag')->where(['>','second',''])->all();
+				$allkind2 = (new \yii\db\Query ())->distinct(true)->from('tag')->where(['>','second',''])->all();
 				//$checkbox1=array();
 				$checkbox2=array();
 				
@@ -338,7 +340,7 @@ class AdminController extends Controller {
 // 				}
 				foreach($allkind2 as $name)
 				{
-					$checkbox2[$name['second']]=$name['second'];
+					$checkbox2[$name['first']][$name['second']]=$name['second'];
 				}
 				return $this->render ( 'update', [ 
 						'model' => $data,
