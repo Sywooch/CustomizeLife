@@ -3,15 +3,15 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\v1\models\Tag */
+/* @var $model app\models\Push */
 
-$this->title = '更新: ';
-$this->params['breadcrumbs'][] = ['label' => 'Tags', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->title = '再次推送: ';
+$this->params['breadcrumbs'][] = ['label' => 'Pushes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <html lang="en-US" style="padding-left:15px">
-<div class="tag-update">
+<div class="push-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
