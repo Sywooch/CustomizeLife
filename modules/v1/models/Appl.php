@@ -45,7 +45,7 @@ class Appl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'updated_at', 'size', 'icon'], 'required'],
+            [['name'], 'required'],
             [['stars', 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
             [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log','package'], 'string', 'max' => 255]
         ];

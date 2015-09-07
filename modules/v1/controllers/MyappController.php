@@ -110,9 +110,7 @@ class MyappController extends Controller {
 		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
 		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'usertoapp u' )
 		->join('LEFT JOIN','app a','a.id=u.appid')
-		->where ( [
-				'u.userid' => $phone['id']
-		] )
+		->where ('a.version >\'\' and u.userid=:id',['id'=>$phone['id']])
 		->all ();
 		return $aa;
 	}
@@ -131,5 +129,70 @@ class MyappController extends Controller {
 // 			$ans[$tag[$i]['second']]=$aa;
 		}
 		return $ans;
+	}
+	public function actionTagToApps(){
+		$model=new Tag();
+		$data=Yii::$app->request->post();
+		//$tag=$model->find()->select('second')->from('tag')->where('second > \'\' and commend=1')->all();
+		//return var_dump($data['tag'][0]);
+		$ans=array();
+		for($i=0;$i<count($data['tag']);$i++){
+			//$ans[$i]=$tag[$i]['second'];
+			$ans[$data['tag'][$i]]=array();
+			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+			->where(['like','kind',$data['tag'][$i]])
+			->limit(10)
+			->all ();
+			$ans[$data['tag'][$i]]=$aa;
+		}
+		return $ans;
+	}
+	public function actionUpload(){
+		$data=Yii::$app->request->post();
+		$phone=User::findOne(['phone'=>$data['phone']]);
+		foreach ($data['apps'] as $app){
+			$a=Appl::findOne(['package'=>$app[1]]);
+			if($a){
+				$model=new Usertoapp();
+				$model->userid=$phone->id;
+				$model->appid=$a->id;
+				$model->created_at=time();
+				if(!$model->save()){
+					echo json_encode ( array (
+							'flag' => 0,
+							'msg' => 'Upload your app failed!'
+					) );
+					return;
+				}
+			}else{
+				$model1=new Appl();
+				$model1->name=$app[0];
+				$model1->package=$app[1];
+				$model1->updated_at=time();
+				if(!$model1->save()){
+					echo json_encode ( array (
+							'flag' => 0,
+							'msg' => 'Upload your app failed!'
+					) );
+					return;
+				}
+				$a1=Appl::findOne(['package'=>$app[1]]);
+				$model2=new Usertoapp();
+				$model2->userid=$phone->id;
+				$model2->appid=$a1->id;
+				$model2->created_at=time();
+				if(!$model2->save()){
+					echo json_encode ( array (
+							'flag' => 0,
+							'msg' => 'Upload your app failed!'
+					) );
+					return;
+				}
+			}
+		}
+		echo json_encode ( array (
+							'flag' => 1,
+							'msg' => 'Upload your app success!'
+					) );
 	}
 }

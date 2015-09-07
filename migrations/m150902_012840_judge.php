@@ -33,7 +33,7 @@ class m150902_012840_judge extends Migration
     
     public function safeDown()
     {
-    	$this->dropForeignKey('judge', 'judge');
+    	//$this->dropForeignKey('judge', 'judge');
     	$this->dropTable('judge');
     }
    

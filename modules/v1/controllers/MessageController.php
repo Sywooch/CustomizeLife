@@ -16,6 +16,7 @@ use app\modules\v1\models\Appcomments;
 
 require dirname ( dirname ( dirname ( __FILE__ ) ) ) . '/../vendor/pushserver/sdk.php';
 use PushSDK;
+use app\modules\v1\models\Appl;
 
 class MessageController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Message';
@@ -56,7 +57,7 @@ class MessageController extends ActiveController {
 		$info = $msg;
 		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 				'app.*' 
-		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
+		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
 				':id' => $id 
 		] )->all ();
 		$info ['replys'] = (new \yii\db\Query ())->select ( [ 
@@ -101,7 +102,7 @@ class MessageController extends ActiveController {
 			$info = $msg;
 			$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 					'app.*' 
-			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
+			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
 					':id' => $model ['id'] 
 			] )->all ();
 			$info ['replys'] = (new \yii\db\Query ())->select ( [ 
@@ -265,18 +266,6 @@ class MessageController extends ActiveController {
 		}else{
 			$tophone=$user->find()->select('id')->where(['phone'=>$data['tphone']])->one();
 			$model->toid=$tophone['id'];
-			$model2=new Notify();
-			$model2->from=$fromphone['id'];
-			$model2->to=$tophone['id'];
-			$model2->message='回复';
-			$model2->created_at=time();
-			if(!$model2->save()){
-				echo json_encode ( array (
-						'flag' => 0,
-						'msg' => 'Reply failed!'
-				) );
-				return;
-			}
 		}
 		$to=Message::findOne(['id'=>$data['msgid']]);
 		if($fromphone['id']!=$to['id']){
@@ -310,6 +299,22 @@ class MessageController extends ActiveController {
 					'msg' => 'Reply failed!'
 					));
 		}
+	}
+	public function actionBeforeSend(){
+		$data=Yii::$app->request->post();
+		$ans=array();
+		foreach ($data['packages'] as $package){
+			$ans[$package]=array();
+			$app=Appl::findOne(['package'=>$package]);
+			if($app){
+				$ans[$package]['appid']=$app->id;
+				$ans[$package]['exist']=1;
+			}else{
+				$ans[$package]['appid']=0;
+				$ans[$package]['exist']=0;
+			}
+		}
+		return $ans;
 	}
 	public function actionPush() {
 		$sdk = new PushSDK ();

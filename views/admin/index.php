@@ -79,7 +79,7 @@ use yii\widgets\ActiveForm;
                   {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'35',text:'关注关系',href:follow}]},
                   {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply}]},
                   {text:'推送',items:[{id:'55',text:'推送消息',href:push}]},
-                  {text:'用户评价',items:[{id:'66',text:'评价',href:judge}]},
+                  {text:'意见反馈',items:[{id:'66',text:'评价',href:judge}]},
                 ]},
             {id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:myapp}]}]}
         ];

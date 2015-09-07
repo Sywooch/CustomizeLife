@@ -195,7 +195,7 @@ class CollectController extends Controller {
  			$info['apps'] = (new \yii\db\Query())->
  			select ( [ 
  					'app.*'
- 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['msg']])->all();
+ 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['msg']])->all();
  			$info['replys'] = (new \yii\db\Query())
  			->select(['reply.*','user1.nickname as fromnickname','user1.phone as fromphone','user2.nickname as tonickname','user2.phone as tophone'])
  			->from ( 'reply' )

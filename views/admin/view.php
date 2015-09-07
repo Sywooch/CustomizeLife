@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'version',
         	'profile',
             'android_url:url',
-            'ios_url:url',
+            'ios_url',
             'stars',
             'downloadcount',
             'commentscount',

@@ -409,6 +409,14 @@ class UsersController extends Controller {
 			) );
 		}
 	}
+	public function actionSearchStar(){
+	
+		$data=Yii::$app->request->post();
+		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$model=new User();
+		$ans=$model->find()->select('*')->from('user')->where('famous=1')->andWhere(['like','nickname',$data['name']])->all();
+		return $ans;
+	}
 }
 class REST {
 	// 模板接口样例（不推荐。需要测试请将注释去掉。)

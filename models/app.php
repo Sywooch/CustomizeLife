@@ -47,7 +47,7 @@ class app extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'version', 'android_url', 'ios_url', 'introduction', 'updated_at', 'size', 'icon'], 'required'],
+            [['name'], 'required'],
             [['stars', 'downloadcount', 'commentscount'], 'integer'],
             [['updated_at'], 'safe'],
             [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log', 'kind','package'], 'string', 'max' => 255]
@@ -65,7 +65,7 @@ class app extends \yii\db\ActiveRecord
             'version' => '版本',
             'profile' => '简介',
             'android_url' => 'Android应用地址',
-            'ios_url' => 'Ios应用地址',
+            'ios_url' => 'App store ID',
             'stars' => '评星',
             'downloadcount' => '下载次数',
             'commentscount' => '评论数量',
