@@ -5,13 +5,13 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "follow".
+ * This is the model class for table "push".
  *
+ * @property integer $id
  * @property string $title
- * @property string $content
- * 
- *
- * @property User $my
+ * @property string $message
+ * @property string $label
+ * @property integer $created_at
  */
 class Push extends \yii\db\ActiveRecord
 {
@@ -20,10 +20,8 @@ class Push extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'follow';
+        return 'push';
     }
-	public $title;
-	public $content;
 
     /**
      * @inheritdoc
@@ -31,8 +29,8 @@ class Push extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           // [['myid', 'followid'], 'required'],
-            [['title', 'content'], 'string']
+            [['created_at'], 'integer'],
+            [['title', 'message', 'label'], 'string', 'max' => 255]
         ];
     }
 
@@ -42,10 +40,11 @@ class Push extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            //'id' => 'ID',
+            'id' => 'ID',
             'title' => '标题',
-            'content' => '内容',
+            'message' => '消息',
+            'label' => '标签',
+            'created_at' => '推送时间',
         ];
     }
-
 }

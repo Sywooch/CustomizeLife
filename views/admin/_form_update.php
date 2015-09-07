@@ -150,7 +150,7 @@ use yii\widgets\ActiveForm;
 			<div id="container" style="position: relative;">
 				<a class="btn btn-default btn-lg " id="android" href="#"
 					style="position: relative; z-index: 1;"> <i
-					class="glyphicon glyphicon-plus"></i> <sapn>Android_app</sapn>
+					class="glyphicon glyphicon-plus"></i> <sapn>更新安卓应用</sapn>
 				</a>
 				<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
 					class="moxie-shim moxie-shim-html5"
@@ -168,7 +168,7 @@ use yii\widgets\ActiveForm;
 					<div id="container" style="position: relative;">
 						<a class="btn btn-default btn-lg " id="icon" href="#"
 							style="position: relative; z-index: 1;"> <i
-							class="glyphicon glyphicon-plus"></i> <sapn>Icon</sapn>
+							class="glyphicon glyphicon-plus"></i> <sapn>更新应用图标</sapn>
 						</a>
 						<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
 							class="moxie-shim moxie-shim-html5"
@@ -217,7 +217,7 @@ use yii\widgets\ActiveForm;
 						<div id="container" style="position: relative;">
 							<a class="btn btn-default btn-lg " id="pic" href="#"
 								style="position: relative; z-index: 1;"> <i
-								class="glyphicon glyphicon-plus"></i> <sapn>Picture</sapn>
+								class="glyphicon glyphicon-plus"></i> <sapn>更新应用图片</sapn>
 							</a>
 							<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
 								class="moxie-shim moxie-shim-html5"
