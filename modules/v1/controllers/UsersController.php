@@ -16,6 +16,7 @@ use app;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Notify;
 use app\modules\v1\models\Judge;
+use Qiniu\Auth;
 
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
@@ -417,6 +418,14 @@ class UsersController extends Controller {
 		$ans=$model->find()->select('*')->from('user')->where('famous=1')
 		->andWhere(['like','nickname',$data['name']])->all();
 		return $ans;
+	}
+	public function actionToken() {
+		$accessKey = '6dnAU0jREe7QO0nD1ujr6CizVZ87HGhivNS1W9hR';
+		$secretKey = 'RYuzaeIJDvFb8KOa9OSlsmlVs7j9A6oFbzwjh9Z0';
+		$auth = new Auth ( $accessKey, $secretKey );
+		$bucket = 'customizelife';
+		$token = $auth->uploadToken ( $bucket );
+		return $token;
 	}
 }
 class REST {
