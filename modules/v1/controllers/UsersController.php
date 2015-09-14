@@ -414,7 +414,8 @@ class UsersController extends Controller {
 		$data=Yii::$app->request->post();
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new User();
-		$ans=$model->find()->select('*')->from('user')->where('famous=1')->andWhere(['like','nickname',$data['name']])->all();
+		$ans=$model->find()->select('*')->from('user')->where('famous=1')
+		->andWhere(['like','nickname',$data['name']])->all();
 		return $ans;
 	}
 }

@@ -109,7 +109,7 @@ class MyappController extends Controller {
 		$user=new User();
 		$phone=$user->find()->select('id')->where(['phone'=>$data['phone']])->one();
 		$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'usertoapp u' )
-		->join('LEFT JOIN','app a','a.id=u.appid')
+		->join('INNER JOIN','app a','a.id=u.appid')
 		->where ('a.version >\'\' and u.userid=:id',['id'=>$phone['id']])
 		->all ();
 		return $aa;
