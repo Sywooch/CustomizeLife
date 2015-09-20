@@ -224,8 +224,9 @@ class MessageController extends ActiveController {
 			$model2=new Notify();
 			$model2->from=$phone['id'];
 			$model2->to=$to['userid'];
-			$model2->message='点赞';
+			$model2->kind='点赞';
 			$model2->created_at=time();
+			$model2->msg_id=$data['msgid'];
 			$model2->save();
 			echo json_encode ( array (
 					'flag' => 1,
@@ -272,8 +273,9 @@ class MessageController extends ActiveController {
 			$model3=new Notify();
 			$model3->from=$fromphone['id'];
 			$model3->to=$to['userid'];
-			$model3->message='评论';
+			$model3->kind='评论';
 			$model3->created_at=time();
+			$model3->msg_id=$data['msgid'];
 			if(!$model3->save()){
 				echo json_encode ( array (
 						'flag' => 0,

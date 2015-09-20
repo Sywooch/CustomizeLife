@@ -33,7 +33,8 @@ class CollectController extends Controller {
 		$model2=new Notify();
 		$model2->from=$phone['id'];
 		$model2->to=$to['userid'];
-		$model2->message='收藏';
+		$model2->kind='收藏';
+		$model2->msg_id=$data['msg'];
 		$model2->created_at=time();
 		if(!$model2->save()){
 			echo json_encode ( array (

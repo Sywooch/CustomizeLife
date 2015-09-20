@@ -10,7 +10,8 @@ use Yii;
  * @property integer $id
  * @property integer $from
  * @property integer $to
- * @property string $message
+ * @property string $kind
+ * @property integer $msg_id
  * @property integer $created_at
  *
  * @property User $from0
@@ -32,8 +33,8 @@ class Notify extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['from', 'to', 'created_at'], 'integer'],
-            [['message'], 'string', 'max' => 255]
+            [['from', 'to', 'created_at','msg_id'], 'integer'],
+            [['kind'], 'string', 'max' => 255]
         ];
     }
 
@@ -46,8 +47,9 @@ class Notify extends \yii\db\ActiveRecord
             'id' => 'ID',
             'from' => 'From',
             'to' => 'To',
-            'message' => 'Message',
+            'kind' => 'Kind',
             'created_at' => 'Created At',
+        	'msg_id'=> 'Msg Id'
         ];
     }
 
