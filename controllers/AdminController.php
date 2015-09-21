@@ -18,6 +18,7 @@ use app\modules\v1\models\User;
 use yii\db\ActiveQuery;
 use app\modules\v1\models\Appofkind;
 use app\models\appSearch;
+use app\models\userappSearch;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -64,6 +65,24 @@ class AdminController extends Controller {
 						'searchModel'=>$searchModel ,
 				] );
 			
+		} else {
+			return $this->redirect ( [
+					'login'
+			] );
+		}
+	}
+	
+	public function actionUserapp() {
+		if (Yii::$app->session ['var'] === 'admin') {
+				
+			$searchModel = new userappSearch();
+			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
+				
+			return $this->render ( 'userapp', [
+					'dataProvider' => $dataProvider,
+					'searchModel'=>$searchModel ,
+			] );
+				
 		} else {
 			return $this->redirect ( [
 					'login'
@@ -359,6 +378,115 @@ class AdminController extends Controller {
 		}
 	}
 	
+	public function actionUserupdate($id) {
+		if (Yii::$app->session ['var'] === 'admin') {
+			$model = $this->findModel ( $id );
+				
+	
+			//$data['kindarray'][] = '0';
+			//$data = array();
+			if ($model->load ( Yii::$app->request->post () )) {
+				$dada = Yii::$app->request->post ();
+				//$model->kind1array = $dada['app']['kind1array'];
+				$model->kind2array = $dada['app']['kind2array'];
+				$pics = array();
+				if(isset($dada['pic']))
+				{
+					$pics = $dada['pic'];
+				}
+	
+				//return var_dump($model);
+				// 				$appofkind1 = Appofkind::find()->where(['appid'=>$id,'status'=>1])->all();
+				// 				foreach ($appofkind1 as $a){
+				// 					$a->delete();
+				// 				}
+				$model->kind = "";
+				// 				foreach ($model->kind1array as $k) {
+				// 					$model->kind = $model->kind . " " .$k;
+				// 					$appofkindnew = new Appofkind();
+				// 					$appofkindnew->kind = $k;
+				// 					$appofkindnew->appid = $id;
+				// 					$appofkindnew->status = 1;
+				// 					$appofkindnew->save();
+					
+				// 				}
+	
+				$appofkind2 = Appofkind::find()->where(['appid'=>$id])->all();
+				foreach ($appofkind2 as $a){
+					$a->delete();
+				}
+				if(isset($dada['icon']))
+					$model->icon = $dada['icon'];
+				if(isset($dada['android_url']))
+					$model->android_url =$dada['android_url'];
+	
+				foreach ($model->kind2array as $k) {
+					$model->kind = $model->kind . " " .$k;
+					$appofkindnew = new Appofkind();
+					$appofkindnew->kind = $k;
+					$appofkindnew->appid = $id;
+					$appofkindnew->status = 2;
+					$appofkindnew->save();
+	
+				}
+	
+				foreach ($pics as $pic){
+					$apptopicture = new Apptopicture();
+					$apptopicture->appid = $id;
+					$apptopicture->picture = $pic;
+					$apptopicture->save();
+				}
+				if ($model->save ()) {
+					return $this->redirect ( [
+							'view',
+							'id' => $model->id
+					] );
+				}
+			} else {
+				$data=$model;
+				//$kind1 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>1])->all();
+				$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id])->all();
+				//$kind1array = array();
+				$kind2array = array();
+				// 				foreach ($kind1 as $index=>$kindname){
+				// 					$kind1array[]=$kindname['kind'];
+				// 				}
+				foreach ($kind2 as $index=>$kindname){
+					$kind2array[]=$kindname['kind'];
+				}
+				//$data['kind1array'] = $kind1array;
+				$data['kind2array'] = $kind2array;
+				//$allkind1 = (new \yii\db\Query ())->select ('kind')->distinct(true)->from('appofkind')->where('status=1')->all();
+				$allkind2 = (new \yii\db\Query ())->distinct(true)->from('tag')->where(['>','second',''])->all();
+				//$checkbox1=array();
+				$checkbox2=array();
+	
+				$apptopicture = (new \yii\db\Query ())->from('apptopicture')->where(['appid'=>$id])->all();
+				// 				foreach($allkind1 as $name)
+					// 				{
+					// 					$checkbox1[$name['kind']]=$name['kind'];
+					// 				}
+						foreach($allkind2 as $name)
+						{
+							$checkbox2[$name['first']][$name['second']]=$name['second'];
+						}
+						return $this->render ( 'userupdate', [
+								'model' => $data,
+								//'allkind1' => $checkbox1,
+								'allkind2' => $checkbox2,
+								'apptopicture'=>$apptopicture,
+								//['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育','旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像']
+								//'model' => $model
+						] );
+			}
+				
+		} else {
+			return $this->redirect ( [
+					'login'
+			] );
+		}
+	}
+	
 	/**
 	 * Deletes an existing app model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -371,11 +499,25 @@ class AdminController extends Controller {
 			$this->findModel ( $id )->delete ();
 			
 			return $this->redirect ( [ 
-					'index' 
+					'app' 
 			] );
 		} else {
 			return $this->redirect ( [ 
 					'login' 
+			] );
+		}
+	}
+	
+	public function actionUserdelete($id) {
+		if (Yii::$app->session ['var'] === 'admin') {
+			$this->findModel ( $id )->delete ();
+				
+			return $this->redirect ( [
+					'userapp'
+			] );
+		} else {
+			return $this->redirect ( [
+					'login'
 			] );
 		}
 	}
