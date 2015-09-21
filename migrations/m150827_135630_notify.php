@@ -15,6 +15,7 @@ class m150827_135630_notify extends Migration
     			'kind'=>Schema::TYPE_STRING,
     			'msg_id' => Schema::TYPE_INTEGER,
     			'created_at'=>Schema::TYPE_BIGINT,
+    			'isread'=>Schema::TYPE_INTEGER . ' DEFAULT 0',
     	],'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     	$this->addForeignKey('fromsdf', 'notify', 'from', 'user', 'id','CASCADE','CASCADE');
     	$this->addForeignKey('tosdf', 'notify', 'to', 'user', 'id','CASCADE','CASCADE');

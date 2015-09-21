@@ -350,13 +350,14 @@ class UsersController extends Controller {
 			return;
 		}
 		$ans=(new \yii\db\Query())
-		->select('nickname,phone,thumb,n.kind,n.created_at,m.id as msg_id,m.content')->from('notify n')
+		->select('nickname,phone,thumb,n.kind,n.created_at,m.id as msg_id,m.content,n.isread')->from('notify n')
 		->join('INNER JOIN','user u','u.id=n.from and n.to=:id',[':id'=>$phone ['id'] ])
 		->join('INNER JOIN', 'msg m','m.id=n.msg_id')
 		->all();
 		$dels=Notify::findAll(['to'=>$phone['id']]);
 		foreach ($dels as $del){
-			$del->delete();
+			$del->isread=1;
+			$del->save();
 		}
 		return $ans;
 		

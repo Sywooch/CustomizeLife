@@ -273,7 +273,8 @@ class MessageController extends ActiveController {
 			$model3=new Notify();
 			$model3->from=$fromphone['id'];
 			$model3->to=$to['userid'];
-			$model3->kind='评论';
+			//$model3->kind='评论';
+			$model3->kind=$data['content'];
 			$model3->created_at=time();
 			$model3->msg_id=$data['msgid'];
 			if(!$model3->save()){
