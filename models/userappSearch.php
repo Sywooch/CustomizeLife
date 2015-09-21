@@ -10,7 +10,7 @@ use app\models\app;
 /**
  * appSearch represents the model behind the search form about `app\models\app`.
  */
-class appSearch extends app
+class userappSearch extends app
 {
     /**
      * @inheritdoc
@@ -41,14 +41,16 @@ class appSearch extends app
      */
     public function search($params)
     {
-        //$query = app::find();
-    	$query = app::find()->where('version IS NOT NULL');
+        $query = app::find()->where('version IS NULL');
         
-        
+//         $query->andFilterWhere([
+//         		'version' => 'IS NULL',
+//         ]);
+
         $dataProvider = new ActiveDataProvider([
-        		'query' => $query,
+            'query' => $query,
         ]);
-       
+
         $this->load($params);
 
         if (!$this->validate()) {
