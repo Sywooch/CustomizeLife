@@ -87,7 +87,7 @@ class AdminController extends Controller {
 				
 			$searchModel = new appSearch();
 			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
-				
+			$dataProvider->query = $dataProvider->query->orderBy("commend desc");
 			return $this->render ( 'tagrecom', [
 					'dataProvider' => $dataProvider,
 					'searchModel'=>$searchModel ,
