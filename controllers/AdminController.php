@@ -37,6 +37,16 @@ class AdminController extends Controller {
 		];
 	}
 	
+	public function actionRecom($id){
+		$model = $this->findModel($id);
+		//echo $model->authKey;
+		$model->commend=$model->commend?0:1;
+		//echo $model->authKey;
+		$model->save();
+		$arr=explode('/',$_SERVER['HTTP_REFERER']);
+		return $this->redirect([$arr[4]]);
+	}
+	
 	/**
 	 * Lists all app models.
 	 *
@@ -69,6 +79,24 @@ class AdminController extends Controller {
 			return $this->redirect ( [
 					'login'
 			] );
+		}
+	}
+	
+	public function actionTagrecom() {
+		if (Yii::$app->session ['var'] === 'admin') {
+				
+			$searchModel = new appSearch();
+			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
+				
+			return $this->render ( 'tagrecom', [
+					'dataProvider' => $dataProvider,
+					'searchModel'=>$searchModel ,
+					] );
+				
+		} else {
+			return $this->redirect ( [
+					'login'
+					] );
 		}
 	}
 	

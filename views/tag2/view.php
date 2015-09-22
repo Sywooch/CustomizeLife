@@ -32,7 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'first',
             'second',
-            'commend',
+			[
+               'attribute'=>'应用',
+               //'value'=>'<a href='.'/admin/app?AppcommentsSearch%5Bappid%5D='.$model->name.'&amp;AppcommentsSearch%5Buserid%5D=&amp;AppcommentsSearch%5Busernickname%5D=&amp;AppcommentsSearch%5Bcommentstars%5D=&amp;AppcommentsSearch%5Bcomments%5D=&amp;sort=created_at'.'>点击这里</a>',
+		       'value'=>'<a href='.'/admin/tagrecom?appSearch%5Bkind%5D='.$model->second.'>二级标签的应用</a>',
+               'format' => ['html'],
+		    ],
+            //'commend',
         ],
     ]) ?>
 
