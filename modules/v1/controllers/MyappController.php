@@ -141,7 +141,8 @@ class MyappController extends Controller {
 			$ans[$data['tag'][$i]]=array();
 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
 			->where(['like','kind',$data['tag'][$i]])
-			->limit(10)
+			->where('a.commend=1')
+			->limit(3)
 			->all ();
 			$ans[$data['tag'][$i]]=$aa;
 		}

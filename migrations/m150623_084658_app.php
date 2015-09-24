@@ -21,6 +21,7 @@ class m150623_084658_app extends Migration {
 				'updated_log' => Schema::TYPE_STRING,
 				'kind' => Schema::TYPE_STRING,
 				'package' => Schema::TYPE_STRING,
+				'stars' => Schema::TYPE_BIGINT . ' DEFAULT 0',
 		], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB' );
 	}
 	public function safeDown() {

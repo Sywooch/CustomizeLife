@@ -222,8 +222,15 @@ class UsersController extends Controller {
 		$rest = new REST ();
 		$apikey = '7d4294b4e224bd57377c85873b3e8430';
 		$mobile = $ph ['phone'];
-		$tpl_id = 2; // 对应默认模板 【#company#】您的验证码是#code#
-		$tpl_value = "#company#=云片网&#code#=" . $output;
+		$tpl_id=0;
+		$tpl_value="";
+		if($ph['find']==0){
+			$tpl_id = 5; // 对应默认模板 【#company#】您的验证码是#code#
+			$tpl_value = "#company#=我的APP&#app#=我的APP&#code#=" . $output;
+		}else{
+			$tpl_id = 7; // 对应默认模板 【#company#】您的验证码是#code#
+			$tpl_value = "#company#=我的APP&#code#=" . $output;
+		}
 		// $rest->send_sms($apikey,$text, $mobile);
 		$data = $rest->tpl_send_sms ( $apikey, $tpl_id, $tpl_value, $mobile );
 		$obj = json_decode ( $data );
