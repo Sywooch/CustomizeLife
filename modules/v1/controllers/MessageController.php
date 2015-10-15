@@ -84,11 +84,12 @@ class MessageController extends ActiveController {
 		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and friends.myid = :id ', [ 
 				':id' => $phone ['id'] 
 		] );
-		$pages = new \yii\data\Pagination ( [ 
-				'totalCount' => $data->count (),
-				'pageSize' => '10' 
-		] );
-		$models = $data->orderBy ( "msg.created_at desc" )->offset ( $pages->offset )->limit ( $pages->limit )->all ();
+// 		$pages = new \yii\data\Pagination ( [ 
+// 				'totalCount' => $data->count (),
+// 				'pageSize' => '10' 
+// 		] );
+		//$models = $data->orderBy ( "msg.created_at desc" )->offset ( $pages->offset )->limit ( $pages->limit )->all ();
+		$models = $data->orderBy ( "msg.created_at desc" )->limit ( $pages->limit )->all ();
 		$result = array ();
 		$result ['item'] = array ();
 		foreach ( $models as $model ) {
@@ -121,10 +122,10 @@ class MessageController extends ActiveController {
 			
 			$result ['item'] [] = $info;
 		}
-		$result ['_meta'] = array (
-				'pageCount' => $pages->pageCount,
-				'currentPage' => $pages->page + 1 
-		);
+// 		$result ['_meta'] = array (
+// 				'pageCount' => $pages->pageCount,
+// 				'currentPage' => $pages->page + 1 
+// 		);
 		return $result;
 		// return $model;
 	}
