@@ -11,7 +11,10 @@ use app\modules\v1\models\User;
 use yii\db\ActiveRecord;
 use app\modules\v1\models\app\modules\v1\models;
 use app\models\app;
+use app\modules\v1\models\Channel;
 use app\modules\v1\controllers\REST;
+require dirname ( __FILE__ ) . '/../vendor/pushserver/sdk.php';
+use PushSDK;
 
 class FriendController extends Controller {
 	public $enableCsrfValidation = false;
@@ -94,11 +97,17 @@ class FriendController extends Controller {
 		] )->count ();
 		
 		if ($num == 0) {
-			$model->save ();
-			echo json_encode ( array (
-					'flag' => 1,
-					'msg' => 'ReqSuccessfully' 
-			) );
+			$cha=new Channel();
+			$fcha=$cha->find()->andWhere (['userid' => $fid ['id']])->one();
+			
+			if ($model->save ()){
+				$aa = (new \yii\db\Query ())->select ( 'phone, thumb, nickname' )->from ( 'user' )->where ( ['myid' => $myid['id'],] ) ->one;
+				$this->push($fcha->channel, "Reqadd",$aa );
+				echo json_encode ( array (
+						'flag' => 1,
+						'msg' => 'ReqSuccessfully'
+				) );
+			}
 		} else {
 			echo json_encode ( array (
 					'flag' => 0,
@@ -106,6 +115,42 @@ class FriendController extends Controller {
 			) );
 		}
 	}
+	
+	public function push($channel,$title,$message){
+		$sdk = new PushSDK ();
+		//$channelId = '4483825412066692748';
+		$optmessage = array (
+				// 消息的标题.
+				'title' => $title,
+				// 消息内容
+				'description' => $message
+		);
+	
+		// 设置消息类型为 通知类型.
+		$opts = array (
+				'msg_type' => 0
+		);
+	
+		// 向目标设备发送一条消息
+		$rs = $sdk->pushMsgToSingleDevice ( $channel, $optmessage, $opts );
+		//pushMsgToSingleDevice ( $channelId, $message, $opts );
+	
+		// 判断返回值,当发送失败时, $rs的结果为false, 可以通过getError来获得错误信息.
+		//     	if ($rs === false) {
+		//     		echo "<script language='javascript'>;alert('推送失败');</script>";
+		//     		return $this->render ( 'create', [
+		//     				'model' => $model
+		//     				] );
+		//     	} else {
+		//     		echo "<script language='javascript'>;alert('推送成功');</script>";
+		//     		$model->title='';
+		//     		$model->content='';
+		//     		return $this->render ( 'create', [
+		//     				'model' => $model
+		//     				] );
+		//     	}
+	    }
+	
 	public function actionRequestresult() 	// 返回请求添加的结果
 	{
 		$app=new app();
