@@ -89,7 +89,8 @@ class MessageController extends ActiveController {
 // 				'pageSize' => '10' 
 // 		] );
 		//$models = $data->orderBy ( "msg.created_at desc" )->offset ( $pages->offset )->limit ( $pages->limit )->all ();
-		$models = $data->orderBy ( "msg.created_at desc" )->limit ( $pages->limit )->all ();
+		//$models = $data->orderBy ( "msg.created_at desc" )->limit ( $pages->limit )->all ();
+		$models = $data->orderBy ( "msg.created_at desc" )->all ();
 		$result = array ();
 		$result ['item'] = array ();
 		foreach ( $models as $model ) {

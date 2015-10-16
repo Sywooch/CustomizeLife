@@ -11,7 +11,7 @@ class m150623_084658_app extends Migration {
 				'profile' => Schema::TYPE_STRING,
 				'android_url' => Schema::TYPE_STRING . ' NOT NULL',
 				'ios_url' => Schema::TYPE_STRING . ' NOT NULL',
-				'stars' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
+				'stars' => Schema::TYPE_DOUBLE . ' NOT NULL DEFAULT 0',
 				'downloadcount' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
 				'commentscount' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
 				'introduction' => Schema::TYPE_STRING . ' NOT NULL',

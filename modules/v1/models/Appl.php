@@ -13,7 +13,7 @@ use Yii;
  * @property string $profile
  * @property string $android_url
  * @property string $ios_url
- * @property integer $stars
+ * @property double $stars
  * @property integer $downloadcount
  * @property integer $commentscount
  * @property string $introduction
@@ -46,7 +46,8 @@ class Appl extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['stars', 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
+            [[ 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
+        	[['stars'],'double'],
             [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log','package'], 'string', 'max' => 255]
         ];
     }

@@ -104,7 +104,8 @@ class AppController extends ActiveController {
 		$appinfo=Appl::findOne([
 				'id' => $data ['appid']
 		]);
-		$appinfo->stars=($appinfo->stars*$appinfo->commentscount+$data['commentstars'])/($appinfo->commentscount+1);
+		$appinfo->stars=($appinfo->stars*$appinfo->commentscount+$data['commentstars']*2)/($appinfo->commentscount+1);
+		$appinfo->stars=number_format($appinfo->stars,1);
 		$appinfo['commentscount']+=1;
 		$appinfo->save();
 		echo json_encode ( array (
