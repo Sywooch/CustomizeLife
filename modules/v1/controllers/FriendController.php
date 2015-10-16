@@ -13,7 +13,7 @@ use app\modules\v1\models\app\modules\v1\models;
 use app\models\app;
 use app\modules\v1\models\Channel;
 use app\modules\v1\controllers\REST;
-require dirname ( __FILE__ ) . '/../vendor/pushserver/sdk.php';
+require dirname ( __FILE__ ) . '/../../../vendor/pushserver/sdk.php';
 use PushSDK;
 
 class FriendController extends Controller {
@@ -101,8 +101,10 @@ class FriendController extends Controller {
 			$fcha=$cha->find()->andWhere (['userid' => $fid ['id']])->one();
 			
 			if ($model->save ()){
-				$aa = (new \yii\db\Query ())->select ( 'phone, thumb, nickname' )->from ( 'user' )->where ( ['myid' => $myid['id'],] ) ->one;
-				$this->push($fcha->channel, "Reqadd",$aa );
+				$aa = (new \yii\db\Query ())->select ( 'phone, thumb, nickname' )->from ( 'user' )->where ( ['id' => $myid['id']] ) ->one();
+				if ($fcha && $fcha->channel){
+					$this->push($fcha->channel, "Reqadd",$aa );
+				}
 				echo json_encode ( array (
 						'flag' => 1,
 						'msg' => 'ReqSuccessfully'
