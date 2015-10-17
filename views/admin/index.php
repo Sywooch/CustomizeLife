@@ -68,6 +68,7 @@ use yii\widgets\ActiveForm;
     var push="<?= Yii::$app->urlManager->createUrl('push/create')?>";
     var pushhist="<?= Yii::$app->urlManager->createUrl('push/index')?>";
     var judge="<?= Yii::$app->urlManager->createUrl('judge/index')?>";
+    var blacklist="<?= Yii::$app->urlManager->createUrl('blacklist/index')?>";
     
     BUI.use('common/main',function(){
         var config = [
@@ -77,7 +78,7 @@ use yii\widgets\ActiveForm;
                   //{text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
 
                   {text:'用户管理',items:[{id:'22',text:'普通用户',href:thumb},{id:'23',text:'明星用户',href:staruser},
-                                      {id:'24',text:'后台用户',href:sysuser}]},
+                                      {id:'24',text:'后台用户',href:sysuser},{id:'25',text:'黑名单',href:blacklist}]},
                   {text:'好友管理',items:[{id:'33',text:'好友关系',href:friend},{id:'35',text:'关注关系',href:follow}]},
                   {text:'消息管理',items:[{id:'44',text:'消息',href:message},{id:'45',text:'消息对应应用',href:msgtoapp},{id:'46',text:'消息回复',href:reply}]},
                   {text:'推送',items:[{id:'55',text:'推送消息',href:pushhist}]},

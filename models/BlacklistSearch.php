@@ -10,7 +10,7 @@ use app\modules\v1\models\User;
 /**
  * UserSearch represents the model behind the search form about `app\modules\v1\models\User`.
  */
-class StaruserSearch extends User
+class BlacklistSearch extends User
 {
     /**
      * @inheritdoc
@@ -49,8 +49,7 @@ class StaruserSearch extends User
 
         $this->load($params);
         $query->andFilterWhere([
-        		'famous' => 1,
-        		'blacklist'=>0
+        		'blacklist'=>1
         		]);
 
         if (!$this->validate()) {

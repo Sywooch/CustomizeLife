@@ -3,15 +3,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\v1\models\Tag */
+/* @var $model app\modules\v1\models\User */
 
-$this->title = '更新顶级标签: ' . ' ';
-$this->params['breadcrumbs'][] = ['label' => 'Tags', 'url' => ['index']];
+$this->title = 'Update User: ' . ' ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<html lang="en-US" style="padding-left:15px">
-<div class="tag-update">
+<div class="user-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

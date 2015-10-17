@@ -17,8 +17,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('创建二级标签', ['createoftag?first='.$first], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a('创建二级标签', ['createoftag?first='.$first], ['class' => 'btn btn-success']) ?>
     </p>
+    
+    <p>
+    <?= Html::Button('创建二级标签',['value'=>\yii\helpers\Url::to(['createoftag?first='.$first]),'class' => 'showModalButton btn btn-success','id'=>'modalButton']) ?>
+</p>
+<!--引入模态对话框 -->
+<?php
+\yii\bootstrap\Modal::begin([
+    //'header' => '<h2>Branches</h2>',
+    'id'=>'modal',
+    'size'=>'modal-lg',
+]);
+echo "<div id='modalContent'></div>";
+
+\yii\bootstrap\Modal::end()
+?>
+    
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

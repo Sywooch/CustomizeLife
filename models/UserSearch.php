@@ -50,6 +50,7 @@ class UserSearch extends User
         $this->load($params);
         $query->andFilterWhere([
         		'famous' => 0,
+        		'blacklist'=>0
         		]);
 
         if (!$this->validate()) {

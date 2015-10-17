@@ -84,6 +84,26 @@ $this->params['breadcrumbs'][] = $this->title;
     		}
     		
     		],
+    		[
+    						//if ($date->famous==0){
+    						'label'=>'加入黑名单',
+    								//}
+    								'format'=>'raw',
+    								'value' => function($data){
+    								$url = "recom";
+    								$recom="加入";
+    							//var_dump($data->phone);
+    							//     							if($data->authKey==0){
+    							//     							$recom="推荐";
+    							//     						}else{
+    							//     						$recom="取消推荐";
+    							//     						}
+    						
+    							return Html::a($recom, "blacklist/".$data->id, ['title' => '升级']);
+    								
+    						}
+    						
+    						],
             ['class' => 'yii\grid\ActionColumn'],
     		
     		    

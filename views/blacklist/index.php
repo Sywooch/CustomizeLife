@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('添加用户', ['create'], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a('添加用户', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -46,49 +46,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'signature',
     		[
     		//if ($date->famous==0){
-    		'label'=>'升级明星用户',
+    		'label'=>'移出黑名单',
     				//}
     				'format'=>'raw',
     				'value' => function($data){
     						$url = "recom";
-    						$recom="升级";
-    							//var_dump($data->phone);
-//     							if($data->authKey==0){
-//     							$recom="推荐";
-//     						}else{
-//     						$recom="取消推荐";
-//     						}
-    						
-    									return Html::a($recom, "upgrade/".$data->id, ['title' => '升级']);
-    									
-    						}
-    						
-    						],
+    						$recom="移出";
+    						//var_dump($data->phone);
+    						//     							if($data->authKey==0){
+    		//     							$recom="推荐";
+    		//     						}else{
+    		//     						$recom="取消推荐";
+    		//     						}
     		
-    						[
-    						//if ($date->famous==0){
-    						'label'=>'加入黑名单',
-    								//}
-    								'format'=>'raw',
-    								'value' => function($data){
-    								$url = "recom";
-    								$recom="加入";
-    							//var_dump($data->phone);
-    							//     							if($data->authKey==0){
-    							//     							$recom="推荐";
-    							//     						}else{
-    							//     						$recom="取消推荐";
-    							//     						}
-    						
-    							return Html::a($recom, "blacklist/".$data->id, ['title' => '升级']);
-    								
-    						}
-    						
-    						],
+    		return Html::a($recom, "blacklist/".$data->id, ['title' => '升级']);
+    		
+    		}
+    		
+    		],
+    		
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

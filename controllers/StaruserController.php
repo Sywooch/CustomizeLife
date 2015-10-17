@@ -46,6 +46,17 @@ class StaruserController extends Controller
     	return $this->redirect(['index']);
     	//echo $id;
     }
+    
+    public function actionBlacklist($id){
+    	$model = $this->findModel($id);
+    	//echo $model->authKey;
+    	$model->blacklist=1;
+    	//echo $model->authKey;
+    	$model->save();
+    
+    	return $this->redirect(['index']);
+    	//echo $id;
+    }
 
     /**
      * Lists all User models.

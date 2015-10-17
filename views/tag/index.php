@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TagSearch */
@@ -14,10 +15,26 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="tag-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
+<p>
+    <?= Html::Button('创建顶级标签',['value'=>\yii\helpers\Url::to(['create']),'class' => 'showModalButton btn btn-success','id'=>'modalButton']) ?>
+</p>
+<!--引入模态对话框 -->
+<?php
+\yii\bootstrap\Modal::begin([
+    //'header' => '<h2>Branches</h2>',
+    'id'=>'modal',
+    'size'=>'modal-lg',
+]);
+echo "<div id='modalContent'></div>";
+
+\yii\bootstrap\Modal::end()
+?>
+    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('创建顶级标签', ['create'], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a('创建顶级标签', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
