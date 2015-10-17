@@ -13,6 +13,8 @@ use Yii;
  * @property string $kind
  * @property string $area
  * @property integer $created_at
+ * @property integer $appstars
+ * @property string $appkinds
  *
  * @property CollectInteract[] $collectInteracts
  * @property User $user
@@ -36,8 +38,8 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'content', 'created_at'], 'required'],
-            [['userid', 'created_at'], 'integer'],
-            [['content', 'area'], 'string', 'max' => 255],
+            [['userid', 'created_at','appstars'], 'integer'],
+            [['content', 'area','appkinds'], 'string', 'max' => 255],
             [['kind'], 'string', 'max' => 11]
         ];
     }

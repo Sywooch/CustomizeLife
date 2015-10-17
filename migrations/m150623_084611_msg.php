@@ -15,6 +15,8 @@ class m150623_084611_msg extends Migration
     			'kind' => Schema::TYPE_STRING,
     			'area' => Schema::TYPE_STRING,
     			'created_at' => Schema::TYPE_BIGINT . ' NOT NULL',
+    			'appstars' => Schema::TYPE_INTEGER . ' DEFAULT 0',
+    			'appkinds' => schema::TYPE_STRING,
     	],"CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB");
     	$this->createIndex('userid', 'msg', 'userid');
     	$this->addForeignKey('msguserid', 'msg', 'userid', 'user', 'id','CASCADE','CASCADE');

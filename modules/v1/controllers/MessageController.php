@@ -55,6 +55,7 @@ class MessageController extends ActiveController {
 				':id' => $id 
 		] )->one ();
 		$info = $msg;
+		$info['appkinds'] = explode(" ", $info['appkinds']);
 		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 				'app.*' 
 		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
@@ -89,7 +90,8 @@ class MessageController extends ActiveController {
 // 				'pageSize' => '10' 
 // 		] );
 		//$models = $data->orderBy ( "msg.created_at desc" )->offset ( $pages->offset )->limit ( $pages->limit )->all ();
-		$models = $data->orderBy ( "msg.created_at desc" )->limit ( $pages->limit )->all ();
+		//$models = $data->orderBy ( "msg.created_at desc" )->limit ( $pages->limit )->all ();
+		$models = $data->orderBy ( "msg.created_at desc" )->all ();
 		$result = array ();
 		$result ['item'] = array ();
 		foreach ( $models as $model ) {
@@ -101,6 +103,7 @@ class MessageController extends ActiveController {
 					':id' => $model ['id'] 
 			] )->one ();
 			$info = $msg;
+			$info['appkinds'] = explode(" ", $info['appkinds']);
 			$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 					'app.*' 
 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
@@ -138,9 +141,15 @@ class MessageController extends ActiveController {
 		// $msg->userid = Yii::$app->user->id;
 		$msg->userid = $phone ['id'];
 		$msg->content = $data ['content'];
+		if(isset($data['kind'])){
 		$msg->kind = $data ['kind'];
+		}
+		if(isset($data['area'])){
 		$msg->area = $data ['area'];
+		}
 		$msg->created_at = time ();
+		$msg->appstars = $data['appstarts'];
+		$msg->appkinds = join(" ",$data['appkinds']);
 		$err = $msg->save ();
 		if ($err == false) {
 			echo json_encode ( array (
