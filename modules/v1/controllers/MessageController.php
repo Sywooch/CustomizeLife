@@ -55,6 +55,7 @@ class MessageController extends ActiveController {
 				':id' => $id 
 		] )->one ();
 		$info = $msg;
+		$info['appkinds'] = explode(" ", $info['appkinds']);
 		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 				'app.*' 
 		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
@@ -102,6 +103,7 @@ class MessageController extends ActiveController {
 					':id' => $model ['id'] 
 			] )->one ();
 			$info = $msg;
+			$info['appkinds'] = explode(" ", $info['appkinds']);
 			$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 					'app.*' 
 			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
