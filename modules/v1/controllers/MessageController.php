@@ -139,9 +139,15 @@ class MessageController extends ActiveController {
 		// $msg->userid = Yii::$app->user->id;
 		$msg->userid = $phone ['id'];
 		$msg->content = $data ['content'];
+		if(isset($data['kind'])){
 		$msg->kind = $data ['kind'];
+		}
+		if(isset($data['area'])){
 		$msg->area = $data ['area'];
+		}
 		$msg->created_at = time ();
+		$msg->appstars = $data['appstarts'];
+		$msg->appkinds = join(" ",$data['appkinds']);
 		$err = $msg->save ();
 		if ($err == false) {
 			echo json_encode ( array (
