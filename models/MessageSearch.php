@@ -19,8 +19,8 @@ class MessageSearch extends Message
     public function rules()
     {
         return [
-            [['id', 'userid', 'created_at'], 'integer'],
-            [['content', 'kind', 'area'], 'safe'],
+            [['id', 'userid', 'appstars','created_at'], 'integer'],
+            [['content', 'appkinds'], 'safe'],
         ];
     }
 
@@ -77,11 +77,11 @@ class MessageSearch extends Message
             'id' => $this->id,
             'userid' => $this->value,
             'created_at' => $this->created_at,
+        	'appstars' => $this->appstars,
         ]);
 
         $query->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'kind', $this->kind])
-            ->andFilterWhere(['like', 'area', $this->area]);
+            ->andFilterWhere(['like', 'appkinds', $this->appkinds]);
 
         return $dataProvider;
     }

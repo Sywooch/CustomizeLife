@@ -29,8 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'userid',
             'content',
-            'kind',
-        	'area',
+            //'kind',
+        	'appstars',
+        	'appkinds',
+        	//'area',
              [
 				'attribute' => 'created_at',
 				'label'=>'创建时间',

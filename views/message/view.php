@@ -47,8 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			'id',
             'userid',
             'content',
-            'kind',
-        	'area',
+        	'appstars',
+            'appkinds',
+        	//'area',
 			[
 				'attribute'=>'应用',
 				'value'=>getapps($apps,$model->id),

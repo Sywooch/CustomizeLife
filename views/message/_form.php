@@ -15,9 +15,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'userid')->textInput() ?>
 
     <?= $form->field($model, 'content')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'kind')->textInput() ?>
-    <?= $form->field($model, 'area')->textInput() ?>
+	<?= $form->field($model, 'appstars')->textInput() ?>
+    <?= $form->field($model, 'appkinds')->textInput() ?>
+    
 
 
     <div class="form-group">

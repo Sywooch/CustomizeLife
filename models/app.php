@@ -48,7 +48,8 @@ class app extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['stars', 'downloadcount', 'commentscount'], 'integer'],
+            [['downloadcount', 'commentscount'], 'integer'],
+        	[['stars'],'double'],
             [['updated_at'], 'safe'],
             [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log', 'kind','package'], 'string', 'max' => 255]
         ];

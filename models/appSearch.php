@@ -18,7 +18,8 @@ class appSearch extends app
     public function rules()
     {
         return [
-            [['id', 'stars', 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
+            [['id', 'downloadcount', 'commentscount', 'updated_at'], 'integer'],
+        	[['stars'],'double'],
             [['name', 'version', 'profile', 'android_url', 'ios_url', 'introduction', 'size', 'icon', 'updated_log', 'kind'], 'safe'],
         ];
     }
