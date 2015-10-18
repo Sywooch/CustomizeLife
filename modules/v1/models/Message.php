@@ -57,7 +57,7 @@ class Message extends \yii\db\ActiveRecord
             'area' => '可见范围',
             'created_at' => '创建时间',
         	'appstars' => '应用评星',
-        	'appkinds' => '应用种类',
+        	'appkinds' => '标签',
         ];
     }
 
