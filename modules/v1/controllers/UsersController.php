@@ -29,14 +29,19 @@ class UsersController extends Controller {
 		$userinfo = User::findOne ( [ 
 				'phone' => $data ['phone'] 
 		] );
-		if ($userinfo) {
+		if ($userinfo&&$userinfo->blacklist==0) {
 			$userinfo->pwd = md5 ( $data ['pwd'] );
 			$userinfo->save ();
 			echo json_encode ( array (
 					'flag' => 1,
 					'msg' => 'change pwd success!' 
 			) );
-		} else {
+		} else if ($userinfo&&$userinfo->blacklist==1){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Signup failed!'
+			) );
+		} else{
 			$model->created_at = time ();
 			$model->save ();
 			echo json_encode ( array (
@@ -51,7 +56,7 @@ class UsersController extends Controller {
 		$data=Yii::$app->request->post();
 		$model=new User();
 		$info=$model->findOne(['phone'=>$data['phone'],'pwd'=>md5($data['pwd'])]);
-		if($info){
+		if($info&&$info->blacklist==0){
 			echo json_encode ( array (
 			 						'flag' => 1,
 			 						'msg' => 'Login success!'

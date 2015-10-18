@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
         			'value'=>getkinds($tags,$model->first),
         			'format' => ['html'],
 			],
-            'commend',
+            //'commend',
         ],
     ]) ?>
 

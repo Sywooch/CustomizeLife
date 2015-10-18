@@ -98,9 +98,13 @@ class TagController extends Controller
     public function actionCreate()
     {
         $model = new Tag();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        //$data=Yii::$app->request->post();
+        
+        if ($model->load(Yii::$app->request->post())) {
+        	    $model->commend=0;
+        	    if($model->save()){
+                 return $this->redirect(['index']);
+        	    }
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,
@@ -168,8 +172,10 @@ class TagController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        //$this->findModel($id)->first;
+        $model=$this->findModel($id);
+        $tags=Tag::deleteAll('first=:id',['id'=>$model->first]);
+        //var_dump($tags);
         return $this->redirect(['index']);
     }
 
