@@ -82,7 +82,7 @@ class MessageController extends ActiveController {
 				'phone' => $data ['phone'] 
 		] );
 		// $data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and msg.userid = :id ', [':id' => Yii::$app->user->id ]);
-		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and friends.myid = :id ', [ 
+		$data = Message::find ()->select ( 'msg.id' )->join ( 'INNER JOIN', 'friends', ' msg.userid =friends.friendid and friends.myid = :id  or msg.userid = :id', [ 
 				':id' => $phone ['id'] 
 		] );
 // 		$pages = new \yii\data\Pagination ( [ 
