@@ -148,7 +148,7 @@ class MessageController extends ActiveController {
 		$msg->area = $data ['area'];
 		}
 		$msg->created_at = time ();
-		$msg->appstars = $data['appstarts'];
+		$msg->appstars = $data['appstars'];
 		$msg->appkinds = join(" ",$data['appkinds']);
 		$err = $msg->save ();
 		if ($err == false) {
