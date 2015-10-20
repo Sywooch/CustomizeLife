@@ -331,7 +331,7 @@ class UsersController extends Controller {
 		$ans['job']=$fid['job'];
 		$ans['hobby']=$fid['hobby'];
 		$ans['signature']=$fid['signature'];
-		if($info){
+		if($info&&$info->isfriend==1){
 			$ans['isfriend']=1;
 		}else{
 			$ans['isfriend']=0;

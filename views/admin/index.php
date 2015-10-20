@@ -73,8 +73,8 @@ use yii\widgets\ActiveForm;
     BUI.use('common/main',function(){
         var config = [
             {id:'1',menu:[
-				  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'用户的应用',href:userapp},{id:'13',text:'应用评论',href:appcom},
-				    				  {id:'14',text:'一级标签',href:tag},{id:'15',text:'二级标签',href:tag2}]},
+				  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},
+				    				  {id:'13',text:'一级标签',href:tag},{id:'14',text:'二级标签',href:tag2}]},
                   //{text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
 
                   {text:'用户管理',items:[{id:'22',text:'普通用户',href:thumb},{id:'23',text:'明星用户',href:staruser},
