@@ -66,7 +66,7 @@ echo "<div id='modalContent'></div>";
         												'aria-label' => Yii::t('yii', 'Update'),
         														'data-pjax' => '0',
         														];
-        														return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+        														return Html::Button('',['style'=>'background:none;border:0;','value'=>\yii\helpers\Url::to(['updateoftag','id'=>$model->id]),'class' => 'showModalButton glyphicon glyphicon-pencil','id'=>'modalButton']);
         															},
         															'deleteoftag' => function ($url, $model, $key) {
         																$options = [
