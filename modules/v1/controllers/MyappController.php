@@ -136,12 +136,13 @@ class MyappController extends Controller {
 		//$tag=$model->find()->select('second')->from('tag')->where('second > \'\' and commend=1')->all();
 		//return var_dump($data['tag'][0]);
 		$ans=array();
+		//var_dump($data);
 		for($i=0;$i<count($data['tag']);$i++){
 			//$ans[$i]=$tag[$i]['second'];
 			$ans[$data['tag'][$i]]=array();
 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
-			->where(['like','kind',$data['tag'][$i]])
-			->where('a.commend=1')
+			->where(['like','a.kind',$data['tag'][$i]])
+			//->where('a.commend=1')
 			->limit(3)
 			->all ();
 			$ans[$data['tag'][$i]]=$aa;
