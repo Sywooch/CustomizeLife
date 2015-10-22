@@ -329,6 +329,24 @@ class MessageController extends ActiveController {
 		}
 		return $ans;
 	}
+	
+	public function actionIosbefSend(){
+		$data=Yii::$app->request->post();
+		$ans=array();
+		foreach ($data['packages'] as $package){
+			$ans[$package]=array();
+			$app=Appl::findOne(['ios_package'=>$package]);
+			if($app){
+				$ans[$package]['appid']=$app->id;
+				$ans[$package]['exist']=1;
+			}else{
+				$ans[$package]['appid']=0;
+				$ans[$package]['exist']=0;
+			}
+		}
+		return $ans;
+	}
+	
 	public function actionPush() {
 		$sdk = new PushSDK ();
 		$channelId = '4483825412066692748';
