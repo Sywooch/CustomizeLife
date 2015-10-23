@@ -44,7 +44,7 @@ class MessageSearch extends Message
      */
     public function search($params)
     {
-        $query = Message::find();
+        $query = Message::find()->orderBy('created_at desc');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

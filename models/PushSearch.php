@@ -41,7 +41,7 @@ class PushSearch extends Push
      */
     public function search($params)
     {
-        $query = Push::find();
+        $query = Push::find()->orderBy('created_at desc');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

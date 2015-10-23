@@ -15,6 +15,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $appstars
  * @property string $appkinds
+ * @property string $appid
  *
  * @property CollectInteract[] $collectInteracts
  * @property User $user
@@ -38,7 +39,7 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'content', 'created_at'], 'required'],
-            [['userid', 'created_at','appstars'], 'integer'],
+            [['userid', 'created_at','appstars','appid'], 'integer'],
             [['content', 'area','appkinds'], 'string', 'max' => 255],
             [['kind'], 'string', 'max' => 11]
         ];
@@ -58,6 +59,7 @@ class Message extends \yii\db\ActiveRecord
             'created_at' => '创建时间',
         	'appstars' => '应用评星',
         	'appkinds' => '标签',
+        		'appid' =>'应用'
         ];
     }
 

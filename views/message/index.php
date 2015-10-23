@@ -33,6 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
         	'appstars',
         	'appkinds',
         	//'area',
+        		[
+				'attribute' => 'appid',
+				//'label'=>'图标',
+				//'value'=>'appid',
+				'format' => ['image',['width'=>'40','height'=>'40']],
+				],
              [
 				'attribute' => 'created_at',
 				'label'=>'创建时间',

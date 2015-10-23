@@ -46,7 +46,7 @@ class AppcommentsSearch extends Appcomments
     public function search($params)
     {
     	
-        $query = Appcomments::find();
+        $query = Appcomments::find()->orderBy('created_at desc');;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -21,7 +21,7 @@ function getapps($apps,$msgid)
 	$msg=$msg. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
 	return $msg;
 }
-$this->title = $model->id;
+//$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -51,9 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'appkinds',
         	//'area',
 			[
-				'attribute'=>'应用',
-				'value'=>getapps($apps,$model->id),
-				'format' => ['html'],
+					'attribute'=>'应用',
+					'value'=>$model->appid,
+					'format' => ['image',['width'=>'100','height'=>'100']],
 			],
 			[
 				'attribute'=>'消息回复',

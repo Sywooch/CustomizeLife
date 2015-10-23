@@ -44,7 +44,7 @@ class JudgeSearch extends Judge
      */
     public function search($params)
     {
-        $query = Judge::find()->join('INNER JOIN','user','judge.userid=user.id');
+        $query = Judge::find()->join('INNER JOIN','user','judge.userid=user.id')->orderBy('created_at desc');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
