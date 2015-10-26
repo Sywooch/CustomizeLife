@@ -323,7 +323,7 @@ class MessageController extends ActiveController {
 			$app=Appl::findOne(['package'=>$package]);
 			if($app){
 				$ans[$package]['appid']=$app->id;
-				$ans[$package]['tag']=$app->tag;
+				$ans[$package]['tag']=$app->kind;
 				$ans[$package]['exist']=1;
 			}else{
 				$ans[$package]['appid']=0;
