@@ -48,6 +48,11 @@ class MessageController extends Controller
         				'id' => $model ['userid']
         				] );
         		$model ['userid'] = $userinfo ['phone'];
+        		
+        		$app=app::findOne([
+        				'id' => $model ['appid']
+        				] );
+        		$model['appid']=$app['icon'];
         	}
         	$dataProvider->setModels ( $models );
         	$count1 ++;
@@ -70,14 +75,18 @@ class MessageController extends Controller
     public function actionView($id)
     {
     	$model = $this->findModel ( $id );
-    	$apps=app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])->all();
+    	//$apps=app::find ()->join('INNER JOIN','msgtoapp','msgtoapp.appid = app.id && msgtoapp.msgid = :msgid',[':msgid'=>$model->id])->all();
     	$userinfo = User::findOne ( [
     			'id' => $model ['userid']
     			] );
     	$model ['userid'] = $userinfo ['phone'];
+    	$app=app::findOne([
+    			'id' => $model ['appid']
+    	] );
+    	$model['appid']=$app['icon'];
         return $this->render('view', [
             'model' => $model,
-        	'apps' =>$apps,
+       // 	'apps' =>$apps,
         ]);
     }
 

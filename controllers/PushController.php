@@ -67,6 +67,7 @@ class PushController extends Controller
         $allkind2 = (new \yii\db\Query ())->select('second distinct')->from('tag')->all();
         //var_dump($allkind2);
         $data=Yii::$app->request->post();
+      
         if ($data != false) {
          	$model->load($data);
          	unset($model->label);

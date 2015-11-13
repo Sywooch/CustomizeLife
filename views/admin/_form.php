@@ -20,10 +20,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'version')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'profile')->textInput(['maxlength' => true])?>
 
-    <?= $form->field($model, 'stars')->textInput()?>
+    <?//= $form->field($model, 'stars')->textInput()?>
 
-    <?= $form->field($model, 'downloadcount')->textInput()?>
-    <?= $form->field($model, 'commentscount')->textInput()?>
+    <?//= $form->field($model, 'downloadcount')->textInput()?>
+    <?//= $form->field($model, 'commentscount')->textInput()?>
 
     <?= $form->field($model, 'introduction')->textarea(['rows'=>6])?>
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
@@ -111,6 +111,7 @@ use yii\widgets\ActiveForm;
     <?//= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>
+    <?= $form->field($model, 'ios_package')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'ios_url')->textInput(['maxlength' => true])?>
     
 <div>

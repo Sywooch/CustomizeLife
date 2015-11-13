@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\v1\models\User */
 
-$this->title = $model->id;
+$this->title = '';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+         //   'id',
 			'nickname',
            		[
 				'attribute'=>'我的好友',
@@ -48,12 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
     			'format' => ['html'],
     		],
     		[
-    		'attribute'=>'我收藏的消息',
-    				'value'=>'<a href='.'/collect-interact/index?CollectInteractSearch%5Buserid%5D='.$model->phone.'&CollectInteractSearch%5Bmsg%5D=&CollectInteractSearch%5Bcreated_at%5D=&sort=created_at'.'>点击这里</a>',
-    			'format' => ['html'],
-    		    			],
-    		[
-    			'attribute'=>'我下载的应用',
+    			'attribute'=>'我上传的应用',
     			'value'=>'<a href='.'/usertoapp/index?UsertoappSearch%5Buserid%5D='.$model->phone.'&UsertoappSearch%5Bappid%5D=&UsertoappSearch%5Bcreated_at%5D=&sort=created_at'.'>点击这里</a>',
     			'format' => ['html'],
     		],

@@ -12,40 +12,68 @@ use app;
 use app\modules\v1\models;
 use yii\filters\AccessControl;
 class MyappController extends Controller {
+// 	public function actionDownload() {
+// 		// \Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+// 		$usertoapp = new Usertoapp ();
+// 		// $user=new User();
+// 		$appl = new Appl ();
+// 		$data = Yii::$app->request->post ();
+// 		if ($usertoapp->find ()->where ( [ 
+// 				'userid' => $data ['userid'],
+// 				'appid' => $data ['appid'] 
+// 		] )->one ()) {
+// 			echo json_encode ( array (
+// 					'flag' => 0,
+// 					'msg' => 'Already download!' 
+// 			) );
+// 			exit ();
+// 		} else {
+// 			/*$connection = \Yii::$app->db;
+// 			$command = $connection->createCommand ( 'UPDATE app SET downloadcount=downloadcount+1 WHERE id=' . $data ['appid'] );
+// 			$command->execute ();*/
+// // 			$appinfo = $appl->find ()->where ( [ 
+// // 					'id' => $data ['appid'] 
+// // 			] )->one ();
+// 			$appinfo=Appl::findOne([
+// 					'id' => $data ['appid']
+// 			]);
+// 			$usertoapp->appid = $data ['appid'];
+// 			$usertoapp->userid = $data ['userid'];
+// 			$usertoapp->created_at = time ();
+// 			$usertoapp->save ();
+// 			$appinfo['downloadcount']=$appinfo['downloadcount']+1;
+// 			$appinfo->save();
+// 			return $appinfo;
+// 		}
+// 	}
+	
 	public function actionDownload() {
-		// \Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
-		$usertoapp = new Usertoapp ();
-		// $user=new User();
 		$appl = new Appl ();
 		$data = Yii::$app->request->post ();
-		if ($usertoapp->find ()->where ( [ 
-				'userid' => $data ['userid'],
-				'appid' => $data ['appid'] 
-		] )->one ()) {
+		if (isset($data['phone'])){
+			$userinfo=User::findOne([
+					'phone'=>$data['phone']
+			]);
+			$userinfo['shared']+=1;
+			$userinfo->save();
+		} 
+		$appinfo=Appl::findOne([
+				'id' => $data ['appid']
+		]);
+		$appinfo['downloadcount']=$appinfo['downloadcount']+1;
+	if($appinfo->save()){
+			echo json_encode ( array (
+					'flag' => 1,
+					'msg' => 'Success!'
+			) );
+		}else{
 			echo json_encode ( array (
 					'flag' => 0,
-					'msg' => 'Already download!' 
+					'msg' => 'Failed!'
 			) );
-			exit ();
-		} else {
-			/*$connection = \Yii::$app->db;
-			$command = $connection->createCommand ( 'UPDATE app SET downloadcount=downloadcount+1 WHERE id=' . $data ['appid'] );
-			$command->execute ();*/
-// 			$appinfo = $appl->find ()->where ( [ 
-// 					'id' => $data ['appid'] 
-// 			] )->one ();
-			$appinfo=Appl::findOne([
-					'id' => $data ['appid']
-			]);
-			$usertoapp->appid = $data ['appid'];
-			$usertoapp->userid = $data ['userid'];
-			$usertoapp->created_at = time ();
-			$usertoapp->save ();
-			$appinfo['downloadcount']=$appinfo['downloadcount']+1;
-			$appinfo->save();
-			return $appinfo;
 		}
 	}
+	
 	public function actionDelete() {
 		$usertoapp = new Usertoapp ();
 		$data = Yii::$app->request->post ();
@@ -136,12 +164,13 @@ class MyappController extends Controller {
 		//$tag=$model->find()->select('second')->from('tag')->where('second > \'\' and commend=1')->all();
 		//return var_dump($data['tag'][0]);
 		$ans=array();
+		//var_dump($data);
 		for($i=0;$i<count($data['tag']);$i++){
 			//$ans[$i]=$tag[$i]['second'];
 			$ans[$data['tag'][$i]]=array();
 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
-			->where(['like','kind',$data['tag'][$i]])
-			->where('a.commend=1')
+			->where(['like','a.kind',$data['tag'][$i]])
+			//->where('a.commend=1')
 			->limit(3)
 			->all ();
 			$ans[$data['tag'][$i]]=$aa;
@@ -151,10 +180,19 @@ class MyappController extends Controller {
 	public function actionUpload(){
 		$data=Yii::$app->request->post();
 		$phone=User::findOne(['phone'=>$data['phone']]);
+                $flag=1;
 		foreach ($data['apps'] as $app){
-			$a=Appl::findOne(['package'=>$app[1]]);
-			if($a){
-				$model=new Usertoapp();
+		
+                       if($data['platform']=='ios'){
+				$a=Appl::findOne(['ios_package'=>$app]);
+			}else{
+				$a=Appl::findOne(['package'=>$app]);
+			}	
+                      if($a){
+                        $flag=0;
+			$model=new Usertoapp();
+				$b=Usertoapp::findOne(['userid'=>$phone->id,'appid'=>$a->id]);
+				if(!$b){
 				$model->userid=$phone->id;
 				$model->appid=$a->id;
 				$model->created_at=time();
@@ -165,35 +203,19 @@ class MyappController extends Controller {
 					) );
 					return;
 				}
-			}else{
-				$model1=new Appl();
-				$model1->name=$app[0];
-				$model1->package=$app[1];
-				$model1->updated_at=time();
-				if(!$model1->save()){
-					echo json_encode ( array (
-							'flag' => 0,
-							'msg' => 'Upload your app failed!'
-					) );
-					return;
 				}
-				$a1=Appl::findOne(['package'=>$app[1]]);
-				$model2=new Usertoapp();
-				$model2->userid=$phone->id;
-				$model2->appid=$a1->id;
-				$model2->created_at=time();
-				if(!$model2->save()){
-					echo json_encode ( array (
-							'flag' => 0,
-							'msg' => 'Upload your app failed!'
-					) );
-					return;
-				}
+                           }
 			}
-		}
+                if($flag==1){
+			echo json_encode ( array (
+					'flag' => 0,
+					'msg' => 'Upload your app failed!'
+			) );
+		}else{
 		echo json_encode ( array (
 							'flag' => 1,
 							'msg' => 'Upload your app success!'
 					) );
+		}
 	}
 }

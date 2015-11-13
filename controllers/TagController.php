@@ -8,6 +8,8 @@ use app\models\TagSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\app\modules\v1\models;
+
 
 /**
  * TagController implements the CRUD actions for Tag model.
@@ -77,10 +79,11 @@ class TagController extends Controller
     {
     	$model=$this->findModel($id);
     	$tags=Tag::find()->where('second>\'\' and first=:id',['id'=>$model->first])->all();
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        	'tags'=>$tags,
-        ]);
+//         return $this->render('view', [
+//             'model' => $this->findModel($id),
+//         	'tags'=>$tags,
+//         ]);
+    	return $this->redirect(['indexoftag?TagSearch%5Bfirst%5D='.$model->first]);
     }
     public function actionViewoftag($id)
     {
@@ -141,12 +144,18 @@ class TagController extends Controller
      */
     public function actionUpdate($id)
     {
+    
         $model = $this->findModel($id);
+        $data=Yii::$app->request->post();
+        if ($data!=false){
+        $tag=new Tag();
+        $tag->updateAll(['first'=>$data['Tag']['first']],'first=:first',['first'=>$model->first]);
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }

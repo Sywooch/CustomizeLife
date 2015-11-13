@@ -44,38 +44,38 @@ class MessageController extends ActiveController {
 	// $posts = $result->query ();
 	// return $posts->all ();
 	// }
-	public function actionId() {
-		$data = Yii::$app->request->post ();
-		$id = $data ['id'];
-		$msg = (new \yii\db\Query ())->select ( [ 
-				'msg.*',
-				'user.nickname',
-				'user.thumb' 
-		] )->from ( 'msg' )->join ( 'INNER JOIN', 'user', 'msg.userid = user.id and msg.id = :id', [ 
-				':id' => $id 
-		] )->one ();
-		$info = $msg;
-		//$info['appkinds'] = explode(" ", $info['appkinds']);
-		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
-				'app.*' 
-		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
-				':id' => $id 
-		] )->all ();
-		$info ['replys'] = (new \yii\db\Query ())->select ( [ 
-				'reply.*',
-				'user1.nickname as fromnickname',
-				'user1.phone as fromphone',
-				'user2.nickname as tonickname',
-				'user2.phone as tophone' 
-		] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
-				':id' => $id 
-		] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
-		$info['zan']=(new \yii\db\Query())
-		->select('u.phone,u.nickname')->from('zan z')
-		->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$id ])
-		->all();
-		return $info;
-	}
+// 	public function actionId() {
+// 		$data = Yii::$app->request->post ();
+// 		$id = $data ['id'];
+// 		$msg = (new \yii\db\Query ())->select ( [ 
+// 				'msg.*',
+// 				'user.nickname',
+// 				'user.thumb' 
+// 		] )->from ( 'msg' )->join ( 'INNER JOIN', 'user', 'msg.userid = user.id and msg.id = :id', [ 
+// 				':id' => $id 
+// 		] )->one ();
+// 		$info = $msg;
+// 		//$info['appkinds'] = explode(" ", $info['appkinds']);
+// 		$info ['apps'] = (new \yii\db\Query ())->select ( [ 
+// 				'app.*' 
+// 		] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
+// 				':id' => $id 
+// 		] )->all ();
+// 		$info ['replys'] = (new \yii\db\Query ())->select ( [ 
+// 				'reply.*',
+// 				'user1.nickname as fromnickname',
+// 				'user1.phone as fromphone',
+// 				'user2.nickname as tonickname',
+// 				'user2.phone as tophone' 
+// 		] )->from ( 'reply' )->join ( 'INNER JOIN', 'user user1', 'user1.id = reply.fromid and reply.msgid= :id', [ 
+// 				':id' => $id 
+// 		] )->join ( 'Left JOIN', 'user user2', 'user2.id = reply.toid' )->orderBy ( "reply.created_at" )->all ();
+// 		$info['zan']=(new \yii\db\Query())
+// 		->select('u.phone,u.nickname')->from('zan z')
+// 		->join('INNER JOIN','user u','u.id=z.myid and z.msgid=:id',[':id'=>$id ])
+// 		->all();
+// 		return $info;
+// 	}
 	public function actionGet() {
 		$data = Yii::$app->request->post ();
 		$phone = User::findOne ( [ 
@@ -98,7 +98,8 @@ class MessageController extends ActiveController {
 			$msg = (new \yii\db\Query ())->select ( [ 
 					'msg.*',
 					'user.nickname',
-					'user.thumb' 
+					'user.thumb',
+                                         'user.phone' 
 			] )->from ( 'msg' )->join ( 'INNER JOIN', 'user', 'msg.userid = user.id and msg.id = :id', [ 
 					':id' => $model ['id'] 
 			] )->one ();
@@ -106,9 +107,10 @@ class MessageController extends ActiveController {
 			//$info['appkinds'] = explode(" ", $info['appkinds']);
 			$info ['apps'] = (new \yii\db\Query ())->select ( [ 
 					'app.*' 
-			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msgtoapp.appid = app.id and msgtoapp.msgid = :id', [ 
+			] )->from ( 'msg' )->join ( 'INNER JOIN', 'app', 'app.version>\'\' and msg.appid = app.id and msg.id = :id', [ 
 					':id' => $model ['id'] 
 			] )->all ();
+			
 			$info ['replys'] = (new \yii\db\Query ())->select ( [ 
 					'reply.*',
 					'user1.nickname as fromnickname',
@@ -150,29 +152,30 @@ class MessageController extends ActiveController {
 		$msg->created_at = time ();
 		$msg->appstars = $data['appstars'];
 		$msg->appkinds = join(" ",$data['appkinds']);
-		$err = $msg->save ();
-		if ($err == false) {
-			echo json_encode ( array (
-					'flag' => 0,
-					'msg' => 'Send fail!' 
-			) );
-			// throw new \yii\web\HttpException(404,"msg recode insert error");
-		}
+		
+			// throw new \yii\web\HttpException(404,"msg recode insert error")
 		foreach ( $data ['apps'] as $app ) {
 			// echo $app;
-			$msgtoapp = new Msgtoapp ();
-			$msgtoapp->msgid = $msg->id;
-			$msgtoapp->appid = $app ['id'];
+// 			$msgtoapp = new Msgtoapp ();
+// 			$msgtoapp->msgid = $msg->id;
+// 			$msgtoapp->appid = $app ['id'];
+       $msg->appid=$app['id'];
 			
-			$err = $msgtoapp->save ();
-			if ($err == false) {
-				echo json_encode ( array (
-						'flag' => 1,
-						'msg' => 'Send fail!' 
-				) );
+// 			$err = $msgtoapp->save ();
+// 			if ($err == false) {
+// 				echo json_encode ( array (
+// 						'flag' => 1,
+// 						'msg' => 'Send fail!' 
+// 				) );
 				// throw new \yii\web\HttpException(404,"msgtoapp recode insert error");
 			}
-		}
+			$err = $msg->save ();
+			if ($err == false) {
+				echo json_encode ( array (
+						'flag' => 0,
+						'msg' => 'Send fail!'
+				) );
+			}
 		echo json_encode ( array (
 				'flag' => 1,
 				'msg' => 'Send success!' 
@@ -321,14 +324,36 @@ class MessageController extends ActiveController {
 			$app=Appl::findOne(['package'=>$package]);
 			if($app){
 				$ans[$package]['appid']=$app->id;
+				$ans[$package]['tag']=$app->kind;
 				$ans[$package]['exist']=1;
 			}else{
 				$ans[$package]['appid']=0;
+				$ans[$package]['tag']='';
 				$ans[$package]['exist']=0;
 			}
 		}
 		return $ans;
 	}
+	
+	public function actionIosbefSend(){
+		$data=Yii::$app->request->post();
+		$ans=array();
+		foreach ($data['packages'] as $package){
+			$ans[$package]=array();
+			$app=Appl::findOne(['ios_package'=>$package]);
+		if($app){
+				$ans[$package]['appid']=$app->id;
+				$ans[$package]['tag']=$app->kind;
+				$ans[$package]['exist']=1;
+			}else{
+				$ans[$package]['appid']=0;
+				$ans[$package]['tag']='';
+				$ans[$package]['exist']=0;
+			}
+		}
+		return $ans;
+	}
+	
 	public function actionPush() {
 		$sdk = new PushSDK ();
 		$channelId = '4483825412066692748';

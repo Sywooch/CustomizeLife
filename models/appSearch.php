@@ -43,7 +43,7 @@ class appSearch extends app
     public function search($params)
     {
         //$query = app::find();
-    	$query = app::find()->where('version IS NOT NULL');
+    	$query = app::find()->where('version IS NOT NULL')->orderBy('updated_at desc');
         
         
         $dataProvider = new ActiveDataProvider([

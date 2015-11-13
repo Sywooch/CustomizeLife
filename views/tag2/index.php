@@ -49,7 +49,48 @@ $this->params['breadcrumbs'][] = $this->title;
         		}
         			],
 
-            ['class' => 'yii\grid\ActionColumn'],
+                      [
+           'class' => 'yii\grid\ActionColumn',
+				'template' => '{view} {update} {delete}',
+           						'buttons' => [
+           								'view' => function ($url, $model, $key) {
+           								$options = [
+           									'title' => Yii::t('yii', 'View'),
+           									'aria-label' => Yii::t('yii', 'View'),
+           											'data-pjax' => '0',
+           									];
+           											return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, $options);
+					},
+           													'update' => function ($url, $model, $key) {
+           													$options = [
+           										'title' => Yii::t('yii', 'Update'),
+           										'aria-label' => Yii::t('yii', 'Update'),
+           												'data-pjax' => '0',
+           												];
+           												
+           													\yii\bootstrap\Modal::begin([
+           															//'header' => '<h2>Branches</h2>',
+           															'id'=>'modal',
+           															'size'=>'modal-lg',
+           													]);
+           													echo "<div id='modalContent'></div>";
+           													
+           													\yii\bootstrap\Modal::end();
+           											
+           												return Html::Button('',['style'=>'background:none;border:0;','value'=>\yii\helpers\Url::to(['update','id'=>$model->id]),'class' => 'showModalButton glyphicon glyphicon-pencil','id'=>'modalButton']);
+           													},
+           													'delete' => function ($url, $model, $key) {
+           														$options = [
+           																'title' => Yii::t('yii', 'Delete'),
+           																		'aria-label' => Yii::t('yii', 'Delete'),
+           																				'data-confirm' => Yii::t('yii', '确定要删除该条记录?'),
+           																						'data-method' => 'post',
+           																						'data-pjax' => '0',
+			        	];
+           			        	return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+           			        },
+           		      	],
+           			],
         ],
     ]); ?>
 

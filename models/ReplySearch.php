@@ -44,7 +44,7 @@ class ReplySearch extends Reply
      */
     public function search($params)
     {
-        $query = Reply::find();
+        $query = Reply::find()->orderBy('created_at desc');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

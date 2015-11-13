@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\v1\controllers;
-
 use Yii;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
@@ -16,9 +14,8 @@ use app\modules\v1\models\Apptopicture;
 use app\modules\v1\models\Appcomments;
 use app\modules\v1\models\Message;
 use yii\filters\AccessControl;
-use app\modules\v1\models\app\modules\v1\models;
 use app\modules\v1\models\Usertoapp;
-
+use app\modules\v1\models\CollectPerson;
 class AppController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Appl';
 	public $serializer = [ 
@@ -81,14 +78,13 @@ class AppController extends ActiveController {
 		foreach ($appcoms as $appcomment){
 			$result['comments'][]=$appcomment;
 		}
-		$userinfo=User::find()->where([ 
+                $userinfo=User::find()->where([ 
 					'phone' => $data ['phone'] 
 			])->one();
-		$colinfo=Usertoapp::find()->where([
-				'appid' => $data ['appid'],
+		$colinfo=CollectPerson::find()->where([
+				'app' => $data ['appid'],
 				'userid'=>$userinfo->id
-		]);
-		
+		])->one();
 		if($colinfo){
 			$result['collect']="1";
 		}else{
@@ -251,7 +247,7 @@ class AppController extends ActiveController {
 	}
 	public function actionTagCommend(){
 		$model=new Tag();
-		$Tag1s=$model->findBySql ( "select distinct first from tag where commend=1 and second='' limit 2" )->all ();
+		$Tag1s=$model->findBySql ( "select distinct first from tag where commend=1 and second=''" )->all ();
 		$ans=array();
 		foreach ($Tag1s as $Tag1){
 			$model2=new Tag();
