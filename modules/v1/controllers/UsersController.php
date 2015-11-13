@@ -44,6 +44,14 @@ class UsersController extends Controller {
 		} else{
 			$model->created_at = time ();
 			$model->save ();
+                        $myinfo = User::findOne ( [
+                                'phone' => $data ['phone']
+                        ] );
+                        $friend=new Friend();
+                        $friend->myid=$myinfo->id;
+                        $friend->friendid=$myinfo->id;
+                        $friend->isfriend='1';
+                        $friend->save();
 			echo json_encode ( array (
 					'flag' => 1,
 					'msg' => 'Signup success!' 
@@ -105,33 +113,63 @@ class UsersController extends Controller {
 		unset ( $PersonInfo ['accessKey'] );
 		return $PersonInfo;
 	}
+
 	public function actionGetinfo() {
 		$data = Yii::$app->request->post ();
 		// \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$userinfo = User::find ()->where ( [ 
-				'phone' => $data ['phone'] 
+				'phone' => $data ['starphone'] 
 		] )->one ();
 		// $userinfo['gender'] = 'man';
 		// $userinfo->save();
 		$response = Yii::$app->response;
 		$response->format = \yii\web\Response::FORMAT_JSON;
-		if (false == $userinfo) {
-			// $response=Yii::$app->response;
-			$user = new User ();
-			$user->nickname = "";
-			return $user;
-			// $response->statusCode=404;
-			// throw new \yii\web\HttpException(404,"user recode not found");
-		} else {
-			//
-			unset ( $userinfo->pwd );
-			// unset ( $userinfo->accessKey );
-			unset ( $userinfo->authKey );
-			unset ( $userinfo->created_at );
-			unset ( $userinfo->updated_at );
-			return $userinfo;
-		}
+		
+		$my = User::find ()->where ( [ 
+				'phone' => $data ['myphone'] 
+		] )->one ();
+		$friend = User::find ()->where ( [ 
+				'phone' => $data ['starphone'] 
+		] )->one ();
+		
+	
+                $result = array ();	
+		
+	if($friend->famous==1){
+			$colinfo = Friend::find ()->where ( [
+					'myid' => $my->id,
+					'friendid' => $friend->id,
+					'isfriend' => '0'
+					] )->one ();
+			
+			if ($colinfo) {
+				$result['flag']="1";
+			}else{
+				$result['flag']="0";
+			}
+		}else{
+			$colinfo = Friend::find ()->where ( [
+					'myid' => $my->id,
+					'friendid' => $friend->id,
+					'isfriend' => '1'
+					] )->one ();
+			
+			if ($colinfo) {
+				$result['flag']="1";
+			}else{
+				$result['flag']="0";
+			}
+		}	
+		
+		unset ( $userinfo->pwd );
+		// unset ( $userinfo->accessKey );
+		unset ( $userinfo->authKey );
+		unset ( $userinfo->created_at );
+		unset ( $userinfo->updated_at );
+		$result['user']=$userinfo;
+		return $result;
 	}
+
 	public function actionGetmsg(){
 		$data=Yii::$app->request->post();
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -157,7 +195,7 @@ class UsersController extends Controller {
 			$info['apps'] = (new \yii\db\Query())->
 			select ( [
 					'app.*'
-			] )->from ( 'msgtoapp' )->join ( 'INNER JOIN', 'app', 'msgtoapp.appid = app.id and msgtoapp.msgid = :id',[':id'=>$model ['id']])->all();
+			] )->from ( 'msg' )->join ( 'INNER JOIN', 'app', 'msg.appid = app.id and msg.id = :id',[':id'=>$model ['id']])->all();
 			$info['replys'] = (new \yii\db\Query())
 			->select(['reply.*','user1.nickname as fromnickname','user1.phone as fromphone','user2.nickname as tonickname','user2.phone as tophone'])
 			->from ( 'reply' )

@@ -98,7 +98,8 @@ class MessageController extends ActiveController {
 			$msg = (new \yii\db\Query ())->select ( [ 
 					'msg.*',
 					'user.nickname',
-					'user.thumb' 
+					'user.thumb',
+                                         'user.phone' 
 			] )->from ( 'msg' )->join ( 'INNER JOIN', 'user', 'msg.userid = user.id and msg.id = :id', [ 
 					':id' => $model ['id'] 
 			] )->one ();

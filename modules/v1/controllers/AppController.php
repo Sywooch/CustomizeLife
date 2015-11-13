@@ -16,7 +16,8 @@ use app\modules\v1\models\Apptopicture;
 use app\modules\v1\models\Appcomments;
 use app\modules\v1\models\Message;
 use yii\filters\AccessControl;
-use app\modules\v1\models\app\modules\v1\models;
+use app\modules\v1\models\Usertoapp;
+use app\modules\v1\models\CollectPerson;
 
 class AppController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Appl';
@@ -79,6 +80,18 @@ class AppController extends ActiveController {
 		$result['comments']=array();
 		foreach ($appcoms as $appcomment){
 			$result['comments'][]=$appcomment;
+		}
+                $userinfo=User::find()->where([ 
+					'phone' => $data ['phone'] 
+			])->one();
+		$colinfo=CollectPerson::find()->where([
+				'app' => $data ['appid'],
+				'userid'=>$userinfo->id
+		])->one();
+		if($colinfo){
+			$result['collect']="1";
+		}else{
+			$result['collect']="0";
 		}
 		return $result;
 	}

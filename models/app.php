@@ -71,7 +71,7 @@ class app extends \yii\db\ActiveRecord
             'stars' => '评星',
             'downloadcount' => '下载次数',
             'commentscount' => '评论数量',
-            'introduction' => '介绍',
+            'introduction' => '应用简介',
             'updated_at' => '更新时间',
             'size' => '大小',
             'icon' => '图标',
