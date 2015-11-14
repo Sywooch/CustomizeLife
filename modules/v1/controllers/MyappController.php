@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\v1\controllers;
-
 use Yii;
 use app\modules\v1\models\Usertoapp;
 use app\modules\v1\models\Appl;
@@ -73,7 +71,6 @@ class MyappController extends Controller {
 			) );
 		}
 	}
-	
 	
 	public function actionDelete() {
 		$usertoapp = new Usertoapp ();
@@ -181,16 +178,17 @@ class MyappController extends Controller {
 	public function actionUpload(){
 		$data=Yii::$app->request->post();
 		$phone=User::findOne(['phone'=>$data['phone']]);
-		$flag=0;
+                $flag=1;
 		foreach ($data['apps'] as $app){
-			if($data['platform']=='ios'){
+		
+                       if($data['platform']=='ios'){
 				$a=Appl::findOne(['ios_package'=>$app]);
 			}else{
 				$a=Appl::findOne(['package'=>$app]);
-			}
-			if($a){
-				$flag=1;
-				$model=new Usertoapp();
+			}	
+                      if($a){
+                        $flag=0;
+			$model=new Usertoapp();
 				$b=Usertoapp::findOne(['userid'=>$phone->id,'appid'=>$a->id]);
 				if(!$b){
 				$model->userid=$phone->id;
@@ -204,34 +202,9 @@ class MyappController extends Controller {
 					return;
 				}
 				}
+                           }
 			}
-// 			else{
-// 				$model1=new Appl();
-// 				$model1->name=$app[0];
-// 				$model1->package=$app[1];
-// 				$model1->updated_at=time();
-// 				if(!$model1->save()){
-// 					echo json_encode ( array (
-// 							'flag' => 0,
-// 							'msg' => 'Upload your app failed!'
-// 					) );
-// 					return;
-// 				}
-// 				$a1=Appl::findOne(['package'=>$app[1]]);
-// 				$model2=new Usertoapp();
-// 				$model2->userid=$phone->id;
-// 				$model2->appid=$a1->id;
-// 				$model2->created_at=time();
-// 				if(!$model2->save()){
-// 					echo json_encode ( array (
-// 							'flag' => 0,
-// 							'msg' => 'Upload your app failed!'
-// 					) );
-// 					return;
-// 				}
-// 			}
-		}
-		if(flag==0){
+                if($flag==1){
 			echo json_encode ( array (
 					'flag' => 0,
 					'msg' => 'Upload your app failed!'

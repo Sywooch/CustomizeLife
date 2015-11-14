@@ -65,6 +65,7 @@ use yii\widgets\ActiveForm;
     var collectperson="<?= Yii::$app->urlManager->createUrl('collect-person/index')?>";
     var tag="<?= Yii::$app->urlManager->createUrl('tag/index')?>";
     var tag2="<?= Yii::$app->urlManager->createUrl('tag2/index')?>";
+    var hobbytag="<?= Yii::$app->urlManager->createUrl('hobby/index')?>";
     var push="<?= Yii::$app->urlManager->createUrl('push/create')?>";
     var pushhist="<?= Yii::$app->urlManager->createUrl('push/index')?>";
     var judge="<?= Yii::$app->urlManager->createUrl('judge/index')?>";
@@ -74,7 +75,7 @@ use yii\widgets\ActiveForm;
         var config = [
             {id:'1',menu:[
 				  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},
-				    				  {id:'13',text:'一级标签',href:tag},{id:'14',text:'二级标签',href:tag2}]},
+				    				  {id:'13',text:'一级标签',href:tag},{id:'14',text:'二级标签',href:tag2},{id:'15',text:'爱好标签',href:hobbytag}]},
                   //{text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
 
                   {text:'用户管理',items:[{id:'22',text:'普通用户',href:thumb},{id:'23',text:'明星用户',href:staruser},

@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\v1\controllers;
-
 use Yii;
 use yii\rest\ActiveController;
 use yii\filters\AccessControl;
@@ -13,11 +11,9 @@ use app\modules\v1\models\Notify;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
 use app\modules\v1\models\Appcomments;
-
 require dirname ( dirname ( dirname ( __FILE__ ) ) ) . '/../vendor/pushserver/sdk.php';
 use PushSDK;
 use app\modules\v1\models\Appl;
-
 class MessageController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Message';
 	public $serializer = [ 
@@ -98,8 +94,8 @@ class MessageController extends ActiveController {
 			$msg = (new \yii\db\Query ())->select ( [ 
 					'msg.*',
 					'user.nickname',
-					'user.thumb' ,
-					'user.phone'
+					'user.thumb',
+                                         'user.phone' 
 			] )->from ( 'msg' )->join ( 'INNER JOIN', 'user', 'msg.userid = user.id and msg.id = :id', [ 
 					':id' => $model ['id'] 
 			] )->one ();
