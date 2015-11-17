@@ -336,7 +336,7 @@ class MessageController extends ActiveController {
 		$ans=array();
 		foreach ($data['packages'] as $package){
 			$ans[$package]=array();
-			$app=Appl::findOne(['ios_package'=>$package]);
+			$app=Appl::findOne(['ios_url'=>$package]);
 		if($app){
 				$ans[$package]['appid']=$app->id;
 				$ans[$package]['tag']=$app->kind;

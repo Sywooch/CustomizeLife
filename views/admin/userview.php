@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			'kind',
         	'package',
-        	'ios_package',
+        	//'ios_package',
             'updated_log',
     		[
     				'attribute'=>'评论',

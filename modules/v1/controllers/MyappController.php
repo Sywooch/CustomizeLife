@@ -182,7 +182,7 @@ class MyappController extends Controller {
 		foreach ($data['apps'] as $app){
 		
                        if($data['platform']=='ios'){
-				$a=Appl::findOne(['ios_package'=>$app]);
+				$a=Appl::findOne(['ios_url'=>$app]);
 			}else{
 				$a=Appl::findOne(['package'=>$app]);
 			}	
