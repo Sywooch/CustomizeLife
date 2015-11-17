@@ -216,6 +216,7 @@ class AppController extends ActiveController {
 		$userinfo=User::findOne([
 				'phone'=>$data['phone']
 		]);
+		$userinfo['hobby']=trim($userinfo['hobby']);
 		$arrs=explode(' ', $userinfo['hobby']);
 		$ans=array();
 		$num=0;
