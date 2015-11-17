@@ -220,26 +220,43 @@ class AppController extends ActiveController {
 		$ans=array();
 		$num=0;
 		for($i=0;$i<count($arrs);$i++,$num++){
-			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
-			->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
-			->where ( [
-				'ak.kind' => $arrs[$i]
-			] )
-			->all();
+// 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+// 			->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
+// 			->where ( [
+// 				'ak.kind' => $arrs[$i]
+// 			] )->all();
+// 			if($aa){
+// 			foreach($aa as $a){
+// 				$point=0;
+// 				for($j=0;$j<count($ans);$j++){
+// 					if($a['id']==$ans[$j]['id']){
+// 						$point=1;
+// 						break;
+// 					}
+// 				}
+// 				if($point==0){
+// 					$ans[]=$a;
+// 				}
+// 			}
+// 			}
+			$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'app' )
+						->where ( ['like','kind',$arrs[$i]] )->all();
 			if($aa){
-			foreach($aa as $a){
-				$point=0;
-				for($j=0;$j<count($ans);$j++){
-					if($a['id']==$ans[$j]['id']){
-						$point=1;
-						break;
-					}
-				}
-				if($point==0){
-					$ans[]=$a;
-				}
-			}
-			}
+							foreach($aa as $a){
+								$point=0;
+								for($j=0;$j<count($ans);$j++){
+									if($a['id']==$ans[$j]['id']){
+										$point=1;
+										break;
+									}
+								}
+								if($point==0){
+									$ans[]=$a;
+								}
+							}
+							}
+			
+			
 		}
 		//$ans=array_unique($ans);
 		

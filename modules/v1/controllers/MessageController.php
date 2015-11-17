@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\v1\controllers;
-
 use Yii;
 use yii\rest\ActiveController;
 use yii\filters\AccessControl;
@@ -13,11 +11,9 @@ use app\modules\v1\models\Notify;
 use yii\data\ActiveDataProvider;
 use app\modules\v1\models\Reply;
 use app\modules\v1\models\Appcomments;
-
 require dirname ( dirname ( dirname ( __FILE__ ) ) ) . '/../vendor/pushserver/sdk.php';
 use PushSDK;
 use app\modules\v1\models\Appl;
-
 class MessageController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Message';
 	public $serializer = [ 

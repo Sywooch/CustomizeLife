@@ -14,6 +14,7 @@ use app;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Notify;
 use app\modules\v1\models\Judge;
+use app\modules\v1\models\Hobby;
 use Qiniu\Auth;
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
@@ -94,6 +95,11 @@ class UsersController extends Controller {
 				'msg' => 'Logout success!' 
 		) );
 	}
+	
+	public function actionHobby(){
+		return Hobby::findBySql("select hobby from hobby")->all ();
+	}
+	
 	public function actionView() {
 		// $response=Yii::$app->response;
 		// $response->format=\yii\web\Response::FORMAT_JSON;

@@ -1,7 +1,5 @@
 <?php
-
 namespace app\modules\v1\controllers;
-
 use Yii;
 use app\modules\v1\models\Usertoapp;
 use app\modules\v1\models\Appl;
