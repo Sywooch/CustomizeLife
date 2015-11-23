@@ -147,7 +147,7 @@ class MessageController extends ActiveController {
 		}
 		$msg->created_at = time ();
 		$msg->appstars = $data['appstars'];
-		$msg->appkinds = join(" ",$data['appkinds']);
+		//$msg->appkinds = join(" ",$data['appkinds']);
 		
 			// throw new \yii\web\HttpException(404,"msg recode insert error")
 		foreach ( $data ['apps'] as $app ) {
@@ -155,8 +155,9 @@ class MessageController extends ActiveController {
 // 			$msgtoapp = new Msgtoapp ();
 // 			$msgtoapp->msgid = $msg->id;
 // 			$msgtoapp->appid = $app ['id'];
-       $msg->appid=$app['id'];
-			
+            $msg->appid=$app['id'];
+			$appinfo=Appl::find()->where(['id'=>$msg->appid])->one();
+			$msg->appkinds=$appinfo->kind;
 // 			$err = $msgtoapp->save ();
 // 			if ($err == false) {
 // 				echo json_encode ( array (
@@ -336,7 +337,7 @@ class MessageController extends ActiveController {
 		$ans=array();
 		foreach ($data['packages'] as $package){
 			$ans[$package]=array();
-			$app=Appl::findOne(['ios_package'=>$package]);
+			$app=Appl::findOne(['ios_url'=>$package]);
 		if($app){
 				$ans[$package]['appid']=$app->id;
 				$ans[$package]['tag']=$app->kind;

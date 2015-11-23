@@ -152,7 +152,7 @@ class CollectController extends Controller {
 				'totalCount' => $query->count (),
 				'pageSize' => '10' 
 		] );
-		$models = $query->offset ( $pages->offset )->limit ( $pages->limit )->all ();
+		$models = $query->offset ( $pages->offset )->limit ( $pages->limit )->all();
 		
 		$result = array ();
 		$result ['item'] = array ();
