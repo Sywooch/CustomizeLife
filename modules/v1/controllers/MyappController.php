@@ -119,9 +119,9 @@ class MyappController extends Controller {
 // 		->select('id,name,icon')
 // 		->from('app')
 // 		->limit(4)->all();
-		$aa = (new \yii\db\Query ())->select ( 'distinct *' )->from ( 'usertoapp ua1' )
+		$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'usertoapp ua1' )
 		->join ( 'LEFT JOIN', 'usertoapp ua2', 'ua1.userid=ua2.userid' )
-		->join('LEFT JOIN','app a','a.id=ua2.appid')
+		->join('LEFT JOIN','app a','a.id=ua2.appid')->distinct('a.id')
 		->where ( [
 			 'ua1.appid' => $data['appid']
 				] )
