@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AppcommentsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $dataProvider->models[0]['appid'];
+//$this->title = $dataProvider->models[0]['appid'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
@@ -45,7 +45,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             // 'title',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            	[
+							'class' => 'yii\grid\ActionColumn',
+				'template' => '{deleteone}',
+													'buttons' => [
+																				'deleteone' => function ($url, $model, $key) {
+																					$options = [
+																							'title' => Yii::t('yii', 'Delete'),
+																									'aria-label' => Yii::t('yii', 'Delete'),
+																											'data-confirm' => Yii::t('yii', '确定要删除该条记录?'),
+																													'data-method' => 'post',
+																													'data-pjax' => '0',
+			        	];
+										        	return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+										        },
+									      	],
+										],
         ],
     ]); ?>
 

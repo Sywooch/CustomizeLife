@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\v1\models\User;
 
+header("Content-Type:text/html;charset=UTF-8");
 /**
  * FriendController implements the CRUD actions for Friend model.
  */
@@ -169,13 +170,24 @@ class FriendController extends Controller
 			$appinfo = User::findOne ( [ 
 					'phone' => $data ['Friend']['friendid'] 
 			] );
-			
+	
+
 			$model->myid=(string)$userinfo ['id'];
 			$model->friendid=$appinfo ['id'];
 			$model ['friendnickname'] = $appinfo ['nickname'];
 			$model ['friendicon'] = $appinfo ['thumb'];
 			$model->isfriend= 1;
 			
+			$row=Friend::findOne([ 
+					'myid' => $model->myid ,
+					'friendid'=>$model->friendid
+			] );
+			
+			if($row){
+				//echo "<script> alert('已经是好友！'); </script>";
+		      $this->alert("已经是好友！","jump","indexofall");
+				return $this->redirect(['indexofall']);
+			}else{
 			if ($model->save()) {
 				return $this->redirect ( [ 
 						'viewall',
@@ -186,12 +198,45 @@ class FriendController extends Controller
 						'model' => $model 
 				] );
 			}
+			}
 		}else{
 			return $this->render ( 'create_all', [
 					'model' => $model
 					] );
 		}
     }
+    
+function alert($tip = "", $type = "", $url = "") {
+    $js = "<script>";
+    if ($tip)
+        $js .= "alert('" . $tip . "');";
+    switch ($type) {
+        case "close" : //关闭页面
+            $js .= "window.close();";
+            break;
+        case "back" : //返回
+            $js .= "history.back(-1);";
+            break;
+        case "refresh" : //刷新
+            $js .= "parent.location.reload();";
+            break;
+        case "top" : //框架退出
+            if ($url)
+                $js .= "top.location.href='" . $url . "';";
+            break;
+        case "jump" : //跳转
+            if ($url)
+                $js .= "window.location.href='" . $url . "';";
+            break;
+        default :
+            break;
+    }
+    $js .= "</script>";
+    echo $js;
+    if ($type) {
+        exit();
+    }
+}
     
     public function actionCreatefriend($myselfid)
     {
@@ -333,6 +378,9 @@ class FriendController extends Controller
     public function actionDelete($id)
     {
         $model=$this->findModel($id);
+        if ($model->myid==$model->friendid){
+        	$this->alert("不能删除自己！","back","indexofall");
+        }
         $model->delete();
         $user=User::findOne(['id' => $model->myid]);
         return $this->redirect(['index?FriendSearch%5Bmyid%5D='.$user->phone]);
@@ -341,6 +389,9 @@ class FriendController extends Controller
     public function actionDeleteall($id)
     {
     	$model=$this->findModel($id);
+    	if ($model->myid==$model->friendid){
+    		$this->alert("不能删除自己！","back","indexofall");
+    	}
     	$model->delete();
     	$user=User::findOne(['id' => $model->myid]);
     	return $this->redirect(['indexofall']);

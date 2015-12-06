@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('添加关注', ['createfriend?myselfid='.$myselfid], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a('添加关注', ['createfriend?myselfid='.$myselfid], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -39,7 +39,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         	//'friendname',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            	[
+							'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
+													'buttons' => [
+																				'delete' => function ($url, $model, $key) {
+																					$options = [
+																							'title' => Yii::t('yii', 'Delete'),
+																									'aria-label' => Yii::t('yii', 'Delete'),
+																											'data-confirm' => Yii::t('yii', '确定要删除该条记录?'),
+																													'data-method' => 'post',
+																													'data-pjax' => '0',
+			        	];
+										        	return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+										        },
+									      	],
+										],
         ],
     ]); ?>
 

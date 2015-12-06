@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\v1\models\User;
 use app\models\app;
+use app\modules\v1\models\Appl;
 
 /**
  * AppcommentsController implements the CRUD actions for Appcomments model.
@@ -221,11 +222,22 @@ class AppcommentsController extends Controller {
 	 * @param integer $id        	
 	 * @return mixed
 	 */
+	
+	public function actionDeleteone($id) {
+		$model=$this->findModel($id);
+		$app=Appl::findOne(['id'=>$model->appid]);
+		$this->findModel ( $id )->delete ();
+	
+		return $this->redirect ( [
+				'indexofapp?AppcommentsSearch%5Bappid%5D='.$app->name
+		] );
+	}
+	
 	public function actionDelete($id) {
 		$this->findModel ( $id )->delete ();
 		
 		return $this->redirect ( [ 
-				'index' 
+				'index'
 		] );
 	}
 	

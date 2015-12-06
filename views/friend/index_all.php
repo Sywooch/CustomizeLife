@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //['class' => 'yii\grid\ActionColumn'],
     		[
     		'class' => 'yii\grid\ActionColumn',
-    				'template' => '{viewall} {updateall} {deleteall}',
+    				'template' => '{deleteall}',
     						'buttons' => [
     						'viewall' => function ($url, $model, $key) {
     						$options = [

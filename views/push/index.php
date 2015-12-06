@@ -40,7 +40,22 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions' => ['width' => '170'],
 			],
 
-            ['class' => 'yii\grid\ActionColumn'],
+           	[
+							'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
+													'buttons' => [
+																				'delete' => function ($url, $model, $key) {
+																					$options = [
+																							'title' => Yii::t('yii', 'Delete'),
+																									'aria-label' => Yii::t('yii', 'Delete'),
+																											'data-confirm' => Yii::t('yii', '确定要删除该条记录?'),
+																													'data-method' => 'post',
+																													'data-pjax' => '0',
+			        	];
+										        	return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+										        },
+									      	],
+										],
         ],
     ]); ?>
 
