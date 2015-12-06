@@ -313,6 +313,10 @@ class UsersController extends Controller {
 				Vercode::deleteAll ( [ 
 						'phone' => $data ['phone'] 
 				] );
+                                $Has=User::findOne([
+                                    'phone'=> $data['phone']  
+                                ]);
+                                if(!$Has){
 				$model = new User ();
 				$model->phone = $data ['phone'];
 				$model->created_at = time ();
@@ -323,6 +327,7 @@ class UsersController extends Controller {
 					) );
 					return;
 				}
+                                }
 				echo json_encode ( array (
 						'flag' => 1,
 						'msg' => 'Verify success!' 
@@ -355,11 +360,11 @@ class UsersController extends Controller {
 // 				'myid'=>$myid['id'],
 // 				'friendid'=>$fid['id']
 // 		]);
-		$info=Friend::findOne([
-				'myid'=>$myid['id'],
-				'friendid'=>$fid['id']
-		]);
 		$ans=array();
+                $info=Friend::findOne([
+                                'myid'=>$myid['id'],
+                                'friendid'=>$fid['id']
+                ]);
 		if($fid){
 		$ans['id']=$fid['id'];
 		$ans['phone']=$fid['phone'];

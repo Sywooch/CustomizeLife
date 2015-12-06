@@ -30,18 +30,11 @@ class FriendController extends Controller {
 				'friendid' => $myid['id'] 
 		] )->count ();
 		
-		if ($num > 0) {
 			$aa = (new \yii\db\Query ())->select ( 'phone,thumb,nickname' )->from ( 'reqfriend f' )->join ( 'LEFT JOIN', 'user u', 'f.myid=u.id' )->where ( [ 
 					'f.friendid' => $myid['id'] 
 			] )->all ();
 			
 			return $aa;
-		} else {
-			echo json_encode ( array (
-					'flag' => 0,
-					'msg' => 'Have no req' 
-			) );
-		}
 	}
 	public function actionGetall() 	// 得到所有好友
 	{
@@ -240,13 +233,15 @@ class FriendController extends Controller {
 	public function actionExist(){
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$data = Yii::$app->request->post ();
-		
+		$me = User::findOne(['phone'=>$data['myphone']]);
 		$ans=array();
 		for($i=0;$i<count($data['phone']);$i++){
 			$model=new User();
-			$id = $model->find()->select('phone')->where(['phone'=>$data['phone'][$i]])->one();
+			$id = $model->find()->select('id,phone')->where(['phone'=>$data['phone'][$i]])->one();
+			
 			if($id){
 				$ans[$i]=1;
+				if(Friend::findOne(['myid'=>$me['id'],'friendid'=>$id['id'],'isfriend'=>1])){ $ans[$i]=2;}
 			}else 
 				$ans[$i]=0;
 		}
