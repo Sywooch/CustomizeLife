@@ -124,7 +124,7 @@ class MyappController extends Controller {
 		->join('LEFT JOIN','app a','a.id=ua2.appid')->distinct('a.id')
 		->where ( [
 			 'ua1.appid' => $data['appid']
-				] )
+				] )->groupBy('a.id')
 		->orderBy('a.downloadcount desc')
 		->limit(6)
 	    ->all ();
