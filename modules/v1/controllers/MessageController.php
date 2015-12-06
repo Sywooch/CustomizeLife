@@ -323,6 +323,7 @@ class MessageController extends ActiveController {
 				$ans[$package]['appid']=$app->id;
 				$ans[$package]['tag']=$app->kind;
 				$ans[$package]['exist']=1;
+				$ans[$package]['icon']=$app->icon;
 			}else{
 				$ans[$package]['appid']=0;
 				$ans[$package]['tag']='';

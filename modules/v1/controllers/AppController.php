@@ -62,6 +62,9 @@ class AppController extends ActiveController {
 		$appinfo = $appl->find ()->where ( [ 
 					'id' => $data ['appid'] 
 			] )->one ();
+	#	if(!isset($data['phone']){
+	#		return $appinfo ;
+	#	}
 		$result=array();
 		$result['basic']=$appinfo;
 		$apppics = $apptopic->find ()->where ( [
@@ -77,6 +80,9 @@ class AppController extends ActiveController {
 		$result['comments']=array();
 		foreach ($appcoms as $appcomment){
 			$result['comments'][]=$appcomment;
+		}
+		if (!isset($data['phone'])){
+			return $result;
 		}
                 $userinfo=User::find()->where([ 
 					'phone' => $data ['phone'] 
@@ -158,8 +164,7 @@ class AppController extends ActiveController {
 		return $aa;
 	}
 	public function actionRecommendAll(){
-		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared,max(m.created_at) as created_at' )->from ( 'user u' )
-		->join('INNER JOIN', 'msg m','m.userid=u.id')
+		$aa = (new \yii\db\Query ())->select ( 'phone,nickname,thumb,follower,shared' )->from ( 'user u' )
 		->where ( [
 				'famous' => 1
 		] )

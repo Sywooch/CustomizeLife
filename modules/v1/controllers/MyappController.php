@@ -121,10 +121,10 @@ class MyappController extends Controller {
 // 		->limit(4)->all();
 		$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'usertoapp ua1' )
 		->join ( 'LEFT JOIN', 'usertoapp ua2', 'ua1.userid=ua2.userid' )
-		->join('LEFT JOIN','app a','a.id=ua2.appid')->distinct('a.id')
+		->join('LEFT JOIN','app a','a.id=ua2.appid')
 		->where ( [
 			 'ua1.appid' => $data['appid']
-				] )
+				] )->groupBy('a.id')
 		->orderBy('a.downloadcount desc')
 		->limit(6)
 	    ->all ();
