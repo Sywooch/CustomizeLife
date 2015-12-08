@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'ios_url',
             'stars',
             'downloadcount',
-            'commentscount',
+           // 'commentscount',
         	'introduction',
             [
 				'attribute' => 'updated_at',

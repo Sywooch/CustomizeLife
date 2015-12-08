@@ -158,6 +158,10 @@ class MessageController extends ActiveController {
             $msg->appid=$app['id'];
 			$appinfo=Appl::find()->where(['id'=>$msg->appid])->one();
 			$msg->appkinds=$appinfo->kind;
+			$allstar=$appinfo->commentscount*$appinfo->stars;
+			$appinfo->commentscount+=1;
+			$appinfo->stars=number_format(($allstar+$msg->appstars)/$appinfo->commentscount,1);
+			$appinfo->save();
 // 			$err = $msgtoapp->save ();
 // 			if ($err == false) {
 // 				echo json_encode ( array (

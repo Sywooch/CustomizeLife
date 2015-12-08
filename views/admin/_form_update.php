@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'stars')->textInput()?>
 
     <?= $form->field($model, 'downloadcount')->textInput()?>
-    <?= $form->field($model, 'commentscount')->textInput()?>
+    <?//= $form->field($model, 'commentscount')->textInput()?>
 
     <?= $form->field($model, 'introduction')->textarea(['rows'=>6])?>
     <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>
