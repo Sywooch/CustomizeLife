@@ -7,7 +7,7 @@ use app\modules\v1\models\Appcomments;
 /* @var $this yii\web\View */
 /* @var $model app\models\app */
 
-$this->title = $model->name;
+$this->title = '';
 $this->params['breadcrumbs'][] = ['label' => 'Apps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'format' => ['image',['width'=>'100','height'=>'100']],
 			],
 			'kind',
+        		'reltag',
         	'package',
         	//'ios_package',
             'updated_log',

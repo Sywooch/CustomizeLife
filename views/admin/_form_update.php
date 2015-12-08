@@ -142,7 +142,7 @@ use yii\widgets\ActiveForm;
 // 	    }
 // 	}
 	</script>
-	
+	<?= $form->field($model, 'reltag')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'ios_url')->textInput(['maxlength' => true])?>
     

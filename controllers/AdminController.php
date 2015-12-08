@@ -19,6 +19,8 @@ use yii\db\ActiveQuery;
 use app\modules\v1\models\Appofkind;
 use app\models\appSearch;
 use app\models\userappSearch;
+use app\modules\v1\models\Reltag;
+use app\modules\v1\models\app\modules\v1\models;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -180,6 +182,18 @@ class AdminController extends Controller {
 				$model->android_url = $data ['android_url'];
 				$model->icon = $data ['icon'];
 				$model->updated_at = time ();
+				$allreltag=trim($model->reltag);
+				$row=explode(" ",$allreltag);
+				
+				
+				foreach ($row as $tag){
+					$relmodel=new Reltag();
+					$one=$relmodel->find()->where(['tag'=>$tag])->count();
+					if($one==0){
+						$relmodel->tag=$tag;
+						$relmodel->save();
+					}
+				}
 // 				foreach ( $data['kind1array'] as $kind ) {
 // 					$model->kind.=$kind." ";
 // 				}
@@ -329,6 +343,19 @@ class AdminController extends Controller {
 // 					$appofkindnew->save();
 					
 // 				}
+
+			$allreltag=trim($model->reltag);
+				$row=explode(" ",$allreltag);
+				
+				
+				foreach ($row as $tag){
+					$relmodel=new Reltag();
+					$one=$relmodel->find()->where(['tag'=>$tag])->count();
+					if($one==0){
+						$relmodel->tag=$tag;
+						$relmodel->save();
+					}
+				}
 				
 				$appofkind2 = Appofkind::find()->where(['appid'=>$id])->all();
 				foreach ($appofkind2 as $a){
@@ -439,6 +466,19 @@ class AdminController extends Controller {
 					
 				// 				}
 	
+				$allreltag=trim($model->reltag);
+				$row=explode(" ",$allreltag);
+				
+				
+				foreach ($row as $tag){
+					$relmodel=new Reltag();
+					$one=$relmodel->find()->where(['tag'=>$tag])->count();
+					if($one==0){
+						$relmodel->tag=$tag;
+						$relmodel->save();
+					}
+				}
+				
 				$appofkind2 = Appofkind::find()->where(['appid'=>$id])->all();
 				foreach ($appofkind2 as $a){
 					$a->delete();

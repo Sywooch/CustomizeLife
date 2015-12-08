@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'format' => ['image',['width'=>'100','height'=>'100']],
 			],
 			'kind',
+        		'reltag',
         	'package',
         	//'ios_package',
             'updated_log',

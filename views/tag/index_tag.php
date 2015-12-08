@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     
     <p>
-    <?= Html::Button('创建二级标签',['value'=>\yii\helpers\Url::to(['createoftag?first='.$first]),'class' => 'showModalButton btn btn-success','id'=>'modalButton']) ?>
+    <?= Html::Button('创建二级分类',['value'=>\yii\helpers\Url::to(['createoftag?first='.$first]),'class' => 'showModalButton btn btn-success','id'=>'modalButton']) ?>
 </p>
 <!--引入模态对话框 -->
 <?php

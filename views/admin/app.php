@@ -61,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'size',
             
              'kind',
+             'reltag',
             // 'updated_log',
 
             ['class' => 'yii\grid\ActionColumn'],

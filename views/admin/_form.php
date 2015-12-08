@@ -107,7 +107,7 @@ use yii\widgets\ActiveForm;
 	</script>
     
     
-    
+    <?= $form->field($model, 'reltag')->textInput(['maxlength' => true])?>
     <?//= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>

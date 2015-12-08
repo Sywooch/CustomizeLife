@@ -16,7 +16,7 @@ function getkinds($tags,$first)
 	$tag=$tag.$tags[$i]['second'].' ';
 	};
 	$tag=$tag.'<a href="/tag/indexoftag?TagSearch%5Bfirst%5D='.$first.'">';
-	$tag =$tag .'管理二级标签';
+	$tag =$tag .'管理二级分类';
 	$tag=$tag. '</a>';
 	$tag=$tag. '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
 	return $tag;

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
 <p>
-    <?= Html::Button('创建顶级标签',['value'=>\yii\helpers\Url::to(['create']),'class' => 'showModalButton btn btn-success','id'=>'modalButton']) ?>
+    <?= Html::Button('创建顶级分类',['value'=>\yii\helpers\Url::to(['create']),'class' => 'showModalButton btn btn-success','id'=>'modalButton']) ?>
 </p>
 <!--引入模态对话框 -->
 <?php
