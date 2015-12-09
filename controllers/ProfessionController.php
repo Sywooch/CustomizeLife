@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\modules\v1\models\Reltag;
-use app\models\ReltagSearch;
+use app\modules\v1\models\Profession;
+use app\models\ProfessionSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ReltagController implements the CRUD actions for Reltag model.
+ * ProfessionController implements the CRUD actions for Profession model.
  */
-class ReltagController extends Controller
+class ProfessionController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class ReltagController extends Controller
     }
 
     /**
-     * Lists all Reltag models.
+     * Lists all Profession models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ReltagSearch();
+        $searchModel = new ProfessionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class ReltagController extends Controller
     }
 
     /**
-     * Displays a single Reltag model.
+     * Displays a single Profession model.
      * @param integer $id
      * @return mixed
      */
@@ -54,21 +54,17 @@ class ReltagController extends Controller
     }
 
     /**
-     * Creates a new Reltag model.
+     * Creates a new Profession model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Reltag();
+        $model = new Profession();
 
         if ($model->load(Yii::$app->request->post())) {
-        $model->tag=trim($model->tag);
-        	if($model->tag==''){
-        		return $this->redirect(['index']);
-        	}
-        	$model->created_at=time ();
-        	$model->save();
+         $model->created_at=time();
+         $model->save();
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -78,7 +74,7 @@ class ReltagController extends Controller
     }
 
     /**
-     * Updates an existing Reltag model.
+     * Updates an existing Profession model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -97,7 +93,7 @@ class ReltagController extends Controller
     }
 
     /**
-     * Deletes an existing Reltag model.
+     * Deletes an existing Profession model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +106,15 @@ class ReltagController extends Controller
     }
 
     /**
-     * Finds the Reltag model based on its primary key value.
+     * Finds the Profession model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Reltag the loaded model
+     * @return Profession the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Reltag::findOne($id)) !== null) {
+        if (($model = Profession::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

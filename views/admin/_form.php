@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
 //     	}
     ?>
     <?php 
-    	echo '<label class="control-label">'.'一级标签:'.'</label>';
+    	echo '<label class="control-label">'.'一级分类:'.'</label>';
     	echo '         ';
     	foreach ($allkind2 as $first=>$second)
     	{

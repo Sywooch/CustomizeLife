@@ -71,12 +71,13 @@ use yii\widgets\ActiveForm;
     var judge="<?= Yii::$app->urlManager->createUrl('judge/index')?>";
     var blacklist="<?= Yii::$app->urlManager->createUrl('blacklist/index')?>";
     var reltag="<?= Yii::$app->urlManager->createUrl('reltag/index')?>";
+    var profession="<?= Yii::$app->urlManager->createUrl('profession/index')?>";
     
     BUI.use('common/main',function(){
         var config = [
             {id:'1',menu:[
 				  {text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},
-				    				  {id:'13',text:'一级分类',href:tag},{id:'14',text:'二级分类',href:tag2},{id:'15',text:'标签',href:reltag},{id:'16',text:'爱好',href:hobbytag}]},
+				    				  {id:'13',text:'一级分类',href:tag},{id:'14',text:'二级分类',href:tag2},{id:'15',text:'标签',href:reltag},{id:'16',text:'爱好',href:hobbytag},{id:'17',text:'职业',href:profession}]},
                   //{text:'应用管理',items:[{id:'11',text:'应用',href:myapp},{id:'12',text:'应用评论',href:appcom},{id:'13',text:'应用图片',href:apptopic}]},
 
                   {text:'用户管理',items:[{id:'22',text:'普通用户',href:thumb},{id:'23',text:'明星用户',href:staruser},

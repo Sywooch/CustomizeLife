@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
     <?//= $form->field($model, 'ios_package')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'size')->textInput(['maxlength' => true])?>
     <?php 
-    	echo '<label class="control-label">'.'一级标签:'.'</label>';
+    	echo '<label class="control-label">'.'一级分类:'.'</label>';
     	echo '         ';
     	foreach ($allkind2 as $first=>$second)
     	{

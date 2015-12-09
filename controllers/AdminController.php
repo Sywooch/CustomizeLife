@@ -178,6 +178,14 @@ class AdminController extends Controller {
 // 				$model->updated_log = $data ['app'] ['updated_log'];
 // 				$model->size = $data ['app'] ['size'];
 				//$model->kind=$data ['app'] ['kind'];
+				$appinfo=$model->find()->where(['package'=>$data ['app']['package']])->one();
+				if($appinfo){
+					return $this->redirect ( [
+							'view',
+							'id' => $appinfo->id
+					] );
+				}
+				
 				$model->load($data);
 				$model->android_url = $data ['android_url'];
 				$model->icon = $data ['icon'];
@@ -187,10 +195,14 @@ class AdminController extends Controller {
 				
 				
 				foreach ($row as $tag){
+				if(trim($tag)==''){
+						continue;
+					}
 					$relmodel=new Reltag();
 					$one=$relmodel->find()->where(['tag'=>$tag])->count();
 					if($one==0){
 						$relmodel->tag=$tag;
+						$relmodel->created_at=time();
 						$relmodel->save();
 					}
 				}
@@ -349,10 +361,15 @@ class AdminController extends Controller {
 				
 				
 				foreach ($row as $tag){
+					//trim($tag)
+					if(trim($tag)==''){
+						continue;
+					}
 					$relmodel=new Reltag();
 					$one=$relmodel->find()->where(['tag'=>$tag])->count();
 					if($one==0){
 						$relmodel->tag=$tag;
+						$relmodel->created_at=time();
 						$relmodel->save();
 					}
 				}
@@ -471,10 +488,14 @@ class AdminController extends Controller {
 				
 				
 				foreach ($row as $tag){
+				if(trim($tag)==''){
+						continue;
+					}
 					$relmodel=new Reltag();
 					$one=$relmodel->find()->where(['tag'=>$tag])->count();
 					if($one==0){
 						$relmodel->tag=$tag;
+						$relmodel->created_at=time();
 						$relmodel->save();
 					}
 				}

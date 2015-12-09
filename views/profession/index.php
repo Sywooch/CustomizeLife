@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ReltagSearch */
+/* @var $searchModel app\models\ProfessionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en-US" style="padding-left:15px">
-<div class="reltag-index">
+<div class="profession-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,11 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'tag',
+           // 'id',
+            'profession',
             //'created_at',
 
-             	[
+            [
     			'class' => 'yii\grid\ActionColumn',
 				'template' => '{delete}',
 		    	'buttons' => [

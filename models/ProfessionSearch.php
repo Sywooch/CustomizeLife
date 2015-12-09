@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\models\Reltag;
+use app\modules\v1\models\Profession;
 
 /**
- * ReltagSearch represents the model behind the search form about `app\modules\v1\models\Reltag`.
+ * ProfessionSearch represents the model behind the search form about `app\modules\v1\models\Profession`.
  */
-class ReltagSearch extends Reltag
+class ProfessionSearch extends Profession
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class ReltagSearch extends Reltag
     {
         return [
             [['id', 'created_at'], 'integer'],
-            [['tag'], 'safe'],
+            [['profession'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ReltagSearch extends Reltag
      */
     public function search($params)
     {
-        $query = Reltag::find()->orderBy('created_at desc');
+        $query = Profession::find()->orderBy('created_at desc');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,7 +60,7 @@ class ReltagSearch extends Reltag
             'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', 'tag', $this->tag]);
+        $query->andFilterWhere(['like', 'profession', $this->profession]);
 
         return $dataProvider;
     }

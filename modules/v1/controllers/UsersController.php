@@ -15,6 +15,7 @@ use yii\filters\AccessControl;
 use app\modules\v1\models\Notify;
 use app\modules\v1\models\Judge;
 use app\modules\v1\models\Hobby;
+use app\modules\v1\models\Profession;
 use Qiniu\Auth;
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
@@ -98,6 +99,10 @@ class UsersController extends Controller {
 	
 	public function actionHobby(){
 		return Hobby::findBySql("select hobby from hobby")->all ();
+	}
+	
+	public function actionProfession(){
+		return Profession::findBySql("select profession from profession")->all ();
 	}
 	
 	public function actionView() {

@@ -139,7 +139,7 @@ class AppController extends ActiveController {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new Appl();
 		$data=Yii::$app->request->post();
-		$aa = $model->find()->where(['like','name',$data['name']])->orWhere(['like','kind',$data['name']])->all();
+		$aa = $model->find()->where(['like','name',$data['name']])->orWhere(['like','kind',$data['name']])->orWhere(['like','reltag',$data['name']])->all();
 		//$aa =$model->find()->where( 'kind LIKE \'%:id%\'',['id'=>$data['name']] )->all();
 		return $aa;
 	}
@@ -223,6 +223,12 @@ class AppController extends ActiveController {
 		]);
 		$userinfo['hobby']=trim($userinfo['hobby']);
 		$arrs=explode(' ', $userinfo['hobby']);
+		
+		if(trim($userinfo['hobby'])==''){
+			//echo "mycscsd";
+			return Appl::findBySql('select * from app order by downloadcount desc limit 10')->all();
+		}
+		
 		$ans=array();
 		$num=0;
 		for($i=0;$i<count($arrs);$i++,$num++){
@@ -246,7 +252,7 @@ class AppController extends ActiveController {
 // 			}
 // 			}
 			$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'app' )
-						->where ( ['like','kind',$arrs[$i]] )->all();
+						->where ( ['like','reltag',$arrs[$i]] )->orWhere(['like','kind',$arrs[$i]])->all();
 			if($aa){
 							foreach($aa as $a){
 								$point=0;
@@ -283,45 +289,61 @@ class AppController extends ActiveController {
 		return $ans;
 	}
 	public function  actionWork(){
-		$model=new Appl();
+		$data=Yii::$app->request->post();
+		$userinfo=User::findOne([
+				'phone'=>$data['phone']
+		]);
+		$userinfo['job']=trim($userinfo['job']);
+		$arrs=explode(' ', $userinfo['job']);
+		
+		if(trim($userinfo['job'])==''){
+			//echo "mycscsd";
+			return Appl::findBySql('select * from app order by downloadcount desc limit 10')->all();
+		}
+		
 		$ans=array();
-		$a1s=$model->find()->where('kind LIKE \'%工作%\'')->all();
-		foreach ($a1s as $a1){
-			$ans[]=$a1;
+		$num=0;
+		for($i=0;$i<count($arrs);$i++,$num++){
+// 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+// 			->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
+// 			->where ( [
+// 				'ak.kind' => $arrs[$i]
+// 			] )->all();
+// 			if($aa){
+// 			foreach($aa as $a){
+// 				$point=0;
+// 				for($j=0;$j<count($ans);$j++){
+// 					if($a['id']==$ans[$j]['id']){
+// 						$point=1;
+// 						break;
+// 					}
+// 				}
+// 				if($point==0){
+// 					$ans[]=$a;
+// 				}
+// 			}
+// 			}
+			$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'app' )
+						->where ( ['like','reltag',$arrs[$i]] )->orWhere(['like','kind',$arrs[$i]])->all();
+			if($aa){
+							foreach($aa as $a){
+								$point=0;
+								for($j=0;$j<count($ans);$j++){
+									if($a['id']==$ans[$j]['id']){
+										$point=1;
+										break;
+									}
+								}
+								if($point==0){
+									$ans[]=$a;
+								}
+							}
+							}
+			
+			
 		}
-		$a2s=$model->find()->where('kind LIKE \'%出差%\'')->all();
-		foreach ($a2s as $a1){
-			$p=0;
-			foreach ($ans as $an){
-				if ($an['id']==$a1['id']){
-					$p=1;
-				}
-			}
-			if($p==0)
-				$ans[]=$a1;
-		}
-		$a3s=$model->find()->where('kind LIKE \'%学习%\'')->all();
-		foreach ($a3s as $a1){
-			$p=0;
-			foreach ($ans as $an){
-				if ($an['id']==$a1['id']){
-					$p=1;
-				}
-			}
-			if($p==0)
-				$ans[]=$a1;
-		}
-		$a4s=$model->find()->where('kind LIKE \'%办公%\'')->all();
-		foreach ($a4s as $a1){
-			$p=0;
-			foreach ($ans as $an){
-				if ($an['id']==$a1['id']){
-					$p=1;
-				}
-			}
-			if($p==0)
-				$ans[]=$a1;
-		}
+		//$ans=array_unique($ans);
+		
 		return $ans;
 	}
 }
