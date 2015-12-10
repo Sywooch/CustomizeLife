@@ -270,8 +270,23 @@ class AppController extends ActiveController {
 			
 			
 		}
-		//$ans=array_unique($ans);
+	   if(count($ans)<10){
+			$add=(new \yii\db\Query ())->select ( '*' )->from ( 'app' )->orderBy('downloadcount desc')->limit(10-count($ans))->all();
 		
+		
+		foreach($add as $a){
+		         $point=0;
+								for($j=0;$j<count($ans);$j++){
+									if($a['id']==$ans[$j]['id']){
+										$point=1;
+										break;
+									}
+								}
+								if($point==0){
+									$ans[]=$a;
+								}
+		}
+	   }
 		return $ans;
 	}
 	public function actionTagCommend(){
@@ -342,8 +357,26 @@ class AppController extends ActiveController {
 			
 			
 		}
-		//$ans=array_unique($ans);
 		
+		if(count($ans)<10){
+			$add=(new \yii\db\Query ())->select ( '*' )->from ( 'app' )->orderBy('downloadcount desc')->limit(10-count($ans))->all();
+		
+		
+		foreach($add as $a){
+		$point=0;
+								for($j=0;$j<count($ans);$j++){
+									if($a['id']==$ans[$j]['id']){
+										$point=1;
+										break;
+									}
+								}
+								if($point==0){
+									$ans[]=$a;
+								}
+		}
+		}
+		
+		//$ans=array_unique($ans);
 		return $ans;
 	}
 }
