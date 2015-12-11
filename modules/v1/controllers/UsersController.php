@@ -43,14 +43,6 @@ class UsersController extends Controller {
 		} else{
 			$model->created_at = time ();
 			$model->save ();
-                        $myinfo = User::findOne ( [
-                                'phone' => $data ['phone']
-                        ] );
-                        $friend=new Friend();
-                        $friend->myid=$myinfo->id;
-                        $friend->friendid=$myinfo->id;
-                        $friend->isfriend='1';
-                        $friend->save();
 			echo json_encode ( array (
 					'flag' => 1,
 					'msg' => 'Signup success!' 
@@ -325,12 +317,19 @@ class UsersController extends Controller {
 				$model = new User ();
 				$model->phone = $data ['phone'];
 				$model->created_at = time ();
+				
 				if(!$model->save ()){
 					echo json_encode ( array (
 							'flag' => 0,
 							'msg' => 'write in database failed!'
 					) );
 					return;
+				}else{
+					$friend=new Friend();
+					$friend->myid=$model->id;
+					$friend->friendid=$model->id;
+					$friend->isfriend='1';
+					$friend->save();
 				}
                                 }
 				echo json_encode ( array (

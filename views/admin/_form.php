@@ -119,7 +119,7 @@ use yii\widgets\ActiveForm;
 			<div id="container" style="position: relative;">
 				<a class="btn btn-default btn-lg " id="android" href="#"
 					style="position: relative; z-index: 1;"> <i
-					class="glyphicon glyphicon-plus"></i> <sapn>上传安卓应用</sapn>
+					class="glyphicon glyphicon-plus"></i> <sapn>上传安卓APK</sapn>
 				</a>
 				<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
 					class="moxie-shim moxie-shim-html5"
@@ -137,7 +137,7 @@ use yii\widgets\ActiveForm;
 					<div id="container" style="position: relative;">
 						<a class="btn btn-default btn-lg " id="icon" href="#"
 							style="position: relative; z-index: 1;"> <i
-							class="glyphicon glyphicon-plus"></i> <sapn>上传应用图标</sapn>
+							class="glyphicon glyphicon-plus"></i> <sapn>上传应用LOGO</sapn>
 						</a>
 						<div id="html5_19rugovp4pupkrh1n901mlkrhd3_container"
 							class="moxie-shim moxie-shim-html5"

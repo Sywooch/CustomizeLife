@@ -64,6 +64,7 @@ class FriendController extends Controller {
 			) );
 			return;
 		}
+		
 		if(!$fid){
 			echo json_encode ( array (
 					'flag' => 0,
