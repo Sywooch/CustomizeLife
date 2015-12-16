@@ -5,24 +5,24 @@ namespace app\modules\v1\models;
 use Yii;
 
 /**
- * This is the model class for table "appofkind".
+ * This is the model class for table "apptoreltag".
  *
  * @property integer $id
  * @property integer $appid
- * @property integer $kind
- * @property integer $status
+ * @property integer $tagid
+ * @property integer $created_at
  *
  * @property App $app
- * @property Tag $kind0
+ * @property Reltag $tag
  */
-class Appofkind extends \yii\db\ActiveRecord
+class Apptoreltag extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'appofkind';
+        return 'apptoreltag';
     }
 
     /**
@@ -31,8 +31,8 @@ class Appofkind extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['appid', 'kindid'], 'required'],
-            [['appid', 'kindid', 'status'], 'integer']
+            [['appid', 'tagid'], 'required'],
+            [['appid', 'tagid', 'created_at'], 'integer']
         ];
     }
 
@@ -44,8 +44,8 @@ class Appofkind extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'appid' => 'Appid',
-            'kindid' => 'Kind',
-            'status' => 'Status',
+            'tagid' => 'Tagid',
+            'created_at' => 'Created At',
         ];
     }
 
@@ -60,8 +60,8 @@ class Appofkind extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getKind0()
+    public function getTag()
     {
-        return $this->hasOne(Tag::className(), ['id' => 'kindid']);
+        return $this->hasOne(Reltag::className(), ['id' => 'tagid']);
     }
 }

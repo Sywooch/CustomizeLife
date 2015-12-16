@@ -62,10 +62,19 @@ class ProfessionController extends Controller
     {
         $model = new Profession();
 
-        if ($model->load(Yii::$app->request->post())) {
-         $model->created_at=time();
-         $model->save();
+    if ($model->load(Yii::$app->request->post())) {
+        	$row=Profession::findOne([
+        			'profession' => $model->profession,
+        	] );
+        		
+        	if($row){
+        		//echo "<script> alert('已经是好友！'); </script>";
+        		$this->alert("已经存在！","jump","index");
+        		return $this->redirect(['index']);
+        	}else{
+        		$model->save();
             return $this->redirect(['index']);
+        	}
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -73,6 +82,38 @@ class ProfessionController extends Controller
         }
     }
 
+    
+    function alert($tip = "", $type = "", $url = "") {
+    	$js = "<script>";
+    	if ($tip)
+    		$js .= "alert('" . $tip . "');";
+    	switch ($type) {
+    		case "close" : //关闭页面
+    			$js .= "window.close();";
+    			break;
+    		case "back" : //返回
+    			$js .= "history.back(-1);";
+    			break;
+    		case "refresh" : //刷新
+    			$js .= "parent.location.reload();";
+    			break;
+    		case "top" : //框架退出
+    			if ($url)
+    				$js .= "top.location.href='" . $url . "';";
+    				break;
+    		case "jump" : //跳转
+    			if ($url)
+    				$js .= "window.location.href='" . $url . "';";
+    				break;
+    		default :
+    			break;
+    	}
+    	$js .= "</script>";
+    	echo $js;
+    	if ($type) {
+    		exit();
+    	}
+    }
     /**
      * Updates an existing Profession model.
      * If update is successful, the browser will be redirected to the 'view' page.

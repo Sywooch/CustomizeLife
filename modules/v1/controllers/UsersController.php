@@ -17,6 +17,9 @@ use app\modules\v1\models\Judge;
 use app\modules\v1\models\Hobby;
 use app\modules\v1\models\Profession;
 use Qiniu\Auth;
+use app\modules\v1\models\Usertoprof;
+use app\modules\v1\models\Usertohobby;
+
 class UsersController extends Controller {
 	public $enableCsrfValidation = false;
 	
@@ -119,8 +122,33 @@ class UsersController extends Controller {
 		$userinfo = User::find ()->where ( [ 
 				'phone' => $data ['starphone'] 
 		] )->one ();
-		// $userinfo['gender'] = 'man';
-		// $userinfo->save();
+		
+		$hobbyinfo=(new \yii\db\Query ())->select ( 'h.hobby' )->from ( 'usertohobby u' )
+		->join('INNER JOIN', 'hobby h','u.hobbyid=h.id')
+		->where ( [
+				'u.userid' => $userinfo ['id']
+		] )->all();
+		$userinfo['hobby']="";
+		if(count($hobbyinfo)>0){
+			foreach($hobbyinfo as $hobby){
+				$userinfo['hobby']=$userinfo['hobby'].$hobby['hobby']." ";
+			}
+		}
+		$userinfo['hobby']=trim($userinfo['hobby']);
+		
+		$profinfo=(new \yii\db\Query ())->select ( 'h.profession' )->from ( 'usertoprof u' )
+		->join('INNER JOIN', 'profession h','u.profid=h.id')
+		->where ( [
+				'u.userid' => $userinfo ['id']
+		] )->all();
+		$userinfo['job']="";
+		if(count($profinfo)>0){
+			foreach($profinfo as $prof){
+				$userinfo['job']=$userinfo['job'].$prof['profession']." ";
+			}
+		}
+		$userinfo['job']=trim($userinfo['job']);
+		
 		$response = Yii::$app->response;
 		$response->format = \yii\web\Response::FORMAT_JSON;
 		
@@ -234,6 +262,39 @@ class UsersController extends Controller {
 			)
 			 );
 		} else {
+			$user=User::find()->where(['phone' => $data ['phone']])->one();
+			Usertohobby::deleteAll(['userid'=>$user->id]);
+			
+			$allhobby=trim($data ['hobby']);
+			$row=explode(" ",$allhobby);
+			foreach ($row as $hobby){
+				if(trim($hobby)==''){
+					continue;
+				}
+				$hobbymodel=new Hobby();
+				$one=$hobbymodel->find()->where(['hobby'=>$hobby])->one();
+				$usertohobby=new Usertohobby();
+				$usertohobby->userid=$model->id;
+				$usertohobby->hobbyid=$one->id;
+				$usertohobby->save();
+			}
+			
+			Usertoprof::deleteAll(['userid'=>$id]);
+			$allprof=trim($model->job);
+			$row=explode(" ",$allprof);
+			foreach ($row as $prof){
+				if(trim($prof)==''){
+					continue;
+				}
+				$profmodel=new Profession();
+				$one=$profmodel->find()->where(['profession'=>$prof])->one();
+			
+				$usertoprof=new Usertoprof();
+				$usertoprof->userid=$model->id;
+				$usertoprof->profid=$one->id;
+				$usertoprof->save();
+			}
+			
 			echo json_encode ( array (
 					'flag' => 1,
 					'msg' => 'Modify success!' 
@@ -479,6 +540,21 @@ class UsersController extends Controller {
 		$model=new User();
 		$ans=$model->find()->select('*')->from('user')->where('famous=1')
 		->andWhere(['like','nickname',$data['name']])->all();
+		
+		for($i=0;$i<count($ans);$i++){
+			$hobbyinfo=(new \yii\db\Query ())->select ( 'h.hobby' )->from ( 'usertohobby u' )
+        	->join('INNER JOIN', 'hobby h','u.hobbyid=h.id')
+        	->where ( [
+        			'u.userid' => $ans[$i] ['id']
+        	] )->all();
+        	$ans[$i]['hobby']="";
+        	if(count($hobbyinfo)>0){
+        		foreach($hobbyinfo as $hobby){
+        			$ans[$i]['hobby']=$ans[$i]['hobby'].$hobby['hobby']." ";
+        		}
+        	}
+		}
+		
 		return $ans;
 	}
 	public function actionToken() {

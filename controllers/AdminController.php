@@ -20,7 +20,8 @@ use app\modules\v1\models\Appofkind;
 use app\models\appSearch;
 use app\models\userappSearch;
 use app\modules\v1\models\Reltag;
-use app\modules\v1\models\app\modules\v1\models;
+use app\modules\v1\models\Apptoreltag;
+use app\modules\v1\models\Tag;
 
 /**
  * AdminController implements the CRUD actions for app model.
@@ -72,6 +73,46 @@ class AdminController extends Controller {
 			$searchModel = new appSearch();
 			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
 			
+			$pagination = $dataProvider->getPagination ();
+			$count = $pagination->pageCount;
+			$count1 = 0;
+			while ( $categories = $dataProvider->models ) {
+				$models = $categories;
+				foreach ( $models as $model ) {
+					$taginfo=(new \yii\db\Query ())->select ( 'r.tag' )->from ( 'apptoreltag a' )
+					->join('INNER JOIN', 'reltag r','a.tagid=r.id')
+					->where ( [
+							'a.appid' => $model ['id']
+					] )->all();
+					$model['reltag']="";
+					if(count($taginfo)>0){
+						foreach($taginfo as $tag){
+							$model['reltag']=$model['reltag'].$tag['tag']." ";
+						}
+					}
+					
+					
+					$kindinfo=(new \yii\db\Query ())->select ( 'r.second' )->from ( 'appofkind a' )
+				->join('INNER JOIN', 'tag r','a.kindid=r.id')
+				->where ( [
+						'a.appid' => $model ['id']
+				] )->all();
+					$model['kind']="";
+					if(count($kindinfo)>0){
+						foreach($kindinfo as $kind){
+							$model['kind']=$model['kind'].$kind['second']." ";
+						}
+					}
+					
+					//$model ['reltag'] = $userinfo ['phone'];
+				}
+				$dataProvider->setModels ( $models );
+				$count1 ++;
+				if ($count1 > $count) {
+					break;
+				}
+			}
+			
 				return $this->render ( 'app', [
 						'dataProvider' => $dataProvider,
 						'searchModel'=>$searchModel ,
@@ -90,6 +131,45 @@ class AdminController extends Controller {
 			$searchModel = new appSearch();
 			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
 			$dataProvider->query = $dataProvider->query->orderBy("commend desc");
+			$pagination = $dataProvider->getPagination ();
+			$count = $pagination->pageCount;
+			$count1 = 0;
+			while ( $categories = $dataProvider->models ) {
+				$models = $categories;
+				foreach ( $models as $model ) {
+					$taginfo=(new \yii\db\Query ())->select ( 'r.tag' )->from ( 'apptoreltag a' )
+					->join('INNER JOIN', 'reltag r','a.tagid=r.id')
+					->where ( [
+							'a.appid' => $model ['id']
+					] )->all();
+					$model['reltag']="";
+					if(count($taginfo)>0){
+						foreach($taginfo as $tag){
+							$model['reltag']=$model['reltag'].$tag['tag']." ";
+						}
+					}
+						
+						
+					$kindinfo=(new \yii\db\Query ())->select ( 'r.second' )->from ( 'appofkind a' )
+					->join('INNER JOIN', 'tag r','a.kindid=r.id')
+					->where ( [
+							'a.appid' => $model ['id']
+					] )->all();
+					$model['kind']="";
+					if(count($kindinfo)>0){
+						foreach($kindinfo as $kind){
+							$model['kind']=$model['kind'].$kind['second']." ";
+						}
+					}
+						
+					//$model ['reltag'] = $userinfo ['phone'];
+				}
+				$dataProvider->setModels ( $models );
+				$count1 ++;
+				if ($count1 > $count) {
+					break;
+				}
+			}
 			return $this->render ( 'tagrecom', [
 					'dataProvider' => $dataProvider,
 					'searchModel'=>$searchModel ,
@@ -105,9 +185,48 @@ class AdminController extends Controller {
 	public function actionUserapp() {
 		if (Yii::$app->session ['var'] === 'admin') {
 				
-			$searchModel = new userappSearch();
+		$searchModel = new appSearch();
 			$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
-				
+			
+			$pagination = $dataProvider->getPagination ();
+			$count = $pagination->pageCount;
+			$count1 = 0;
+			while ( $categories = $dataProvider->models ) {
+				$models = $categories;
+				foreach ( $models as $model ) {
+					$taginfo=(new \yii\db\Query ())->select ( 'r.tag' )->from ( 'apptoreltag a' )
+					->join('INNER JOIN', 'reltag r','a.tagid=r.id')
+					->where ( [
+							'a.appid' => $model ['id']
+					] )->all();
+					$model['reltag']="";
+					if(count($taginfo)>0){
+						foreach($taginfo as $tag){
+							$model['reltag']=$model['reltag'].$tag['tag']." ";
+						}
+					}
+					
+					
+					$kindinfo=(new \yii\db\Query ())->select ( 'r.second' )->from ( 'appofkind a' )
+				->join('INNER JOIN', 'tag r','a.kind=r.id')
+				->where ( [
+						'a.appid' => $model ['id']
+				] )->all();
+					$model['kind']="";
+					if(count($kindinfo)>0){
+						foreach($kindinfo as $kind){
+							$model['kind']=$model['kind'].$kind['second']." ";
+						}
+					}
+					
+					//$model ['reltag'] = $userinfo ['phone'];
+				}
+				$dataProvider->setModels ( $models );
+				$count1 ++;
+				if ($count1 > $count) {
+					break;
+				}
+			}
 			return $this->render ( 'userapp', [
 					'dataProvider' => $dataProvider,
 					'searchModel'=>$searchModel ,
@@ -129,8 +248,31 @@ class AdminController extends Controller {
 	 */
 	public function actionView($id) {
 		if (Yii::$app->session ['var'] === 'admin') {
+			$model=$this->findModel ( $id );
+			$taginfo=(new \yii\db\Query ())->select ( 'r.tag' )->from ( 'apptoreltag a' )
+			->join('INNER JOIN', 'reltag r','a.tagid=r.id')
+			->where ( [
+					'a.appid' => $model ['id']
+			] )->all();
+			$model->reltag="";
+			if(count($taginfo)>0){
+				foreach($taginfo as $tag){
+					$model->reltag=$model->reltag.$tag['tag']." ";
+				}
+			}
+			$kindinfo=(new \yii\db\Query ())->select ( 'r.second' )->from ( 'appofkind a' )
+			->join('INNER JOIN', 'tag r','a.kindid=r.id')
+			->where ( [
+					'a.appid' => $model ['id']
+			] )->all();
+			$model['kind']="";
+			if(count($kindinfo)>0){
+				foreach($kindinfo as $kind){
+					$model['kind']=$model['kind'].$kind['second']." ";
+				}
+			}
 			return $this->render ( 'view', [ 
-					'model' => $this->findModel ( $id ) ,
+					'model' =>  $model,
 					'apptopicture' => (new \yii\db\Query ())->from('apptopicture')->where(['appid'=>$id])->all(),
 			] );
 		} else {
@@ -199,8 +341,8 @@ class AdminController extends Controller {
 						continue;
 					}
 					$relmodel=new Reltag();
-					$one=$relmodel->find()->where(['tag'=>$tag])->count();
-					if($one==0){
+					$one=$relmodel->find()->where(['tag'=>$tag])->one();
+					if(!$one){
 						$relmodel->tag=$tag;
 						$relmodel->created_at=time();
 						$relmodel->save();
@@ -225,6 +367,21 @@ class AdminController extends Controller {
 						$apptpic->save ();
 					}
 					
+					
+					$allreltag=trim($model->reltag);
+					$row=explode(" ",$allreltag);
+					foreach ($row as $tag){
+						if(trim($tag)==''){
+							continue;
+						}
+						$relmodel=new Reltag();
+						$one=$relmodel->find()->where(['tag'=>$tag])->one();
+						
+						$apptoreltag=new Apptoreltag();
+						$apptoreltag->appid=$model->id;
+						$apptoreltag->tagid=$one->id;
+						$apptoreltag->save();
+					}
 // 					foreach ( $data['kind1array'] as $kind ) {
 // 						$appkind=new Appofkind();
 // 						$appkind->appid=$model->id;
@@ -234,9 +391,11 @@ class AdminController extends Controller {
 // 					}
 					foreach ( $data['app']['kind2array'] as $kind ) {
 						$appkind=new Appofkind();
+						$one=Tag::find()->where(['second'=>$kind])->one();
+						
 						$appkind->appid=$model->id;
 						//$appkind->status =2;
-						$appkind->kind=$kind;
+						$appkind->kindid=$one->id;
 						$appkind->save();
 					}
 					
@@ -383,10 +542,13 @@ class AdminController extends Controller {
 				if(isset($dada['android_url']))
 					$model->android_url =$dada['android_url'];
 				
+				
 				foreach ($model->kind2array as $k) {
 					$model->kind = $model->kind . " " .$k;
 					$appofkindnew = new Appofkind();
-					$appofkindnew->kind = $k;
+					
+					$one=Tag::find()->where(['second'=>$k])->one();
+					$appofkindnew->kindid=$one->id;
 					$appofkindnew->appid = $id;
 					$appofkindnew->status = 2;
 					$appofkindnew->save();
@@ -400,6 +562,23 @@ class AdminController extends Controller {
 					$apptopicture->save();
 				}
 				if ($model->save ()) {
+					Apptoreltag::deleteAll(['appid'=>$id]);
+					
+					$allreltag=trim($model->reltag);
+					$row=explode(" ",$allreltag);
+					foreach ($row as $tag){
+						if(trim($tag)==''){
+							continue;
+						}
+						$relmodel=new Reltag();
+						$one=$relmodel->find()->where(['tag'=>$tag])->one();
+					
+						$apptoreltag=new Apptoreltag();
+						$apptoreltag->appid=$model->id;
+						$apptoreltag->tagid=$one->id;
+						$apptoreltag->save();
+					}
+					
 					return $this->redirect ( [
 							'view',
 							'id' => $model->id
@@ -408,14 +587,19 @@ class AdminController extends Controller {
 			} else {
 				$data=$model;
 				//$kind1 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id,'status'=>1])->all();
-				$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id])->all();
+				//$kind2 = (new \yii\db\Query ())->select ('kind')->from('appofkind')->where(['appid'=>$id])->all();
+				$kind2=(new \yii\db\Query ())->select ( 'r.second' )->from ( 'appofkind a' )
+				->join('INNER JOIN', 'tag r','a.kindid=r.id')
+				->where ( [
+						'a.appid' => $model ['id']
+				] )->all();
 				//$kind1array = array();
 				$kind2array = array();
 // 				foreach ($kind1 as $index=>$kindname){
 // 					$kind1array[]=$kindname['kind'];
 // 				}
-				foreach ($kind2 as $index=>$kindname){
-					$kind2array[]=$kindname['kind'];
+				foreach ($kind2 as $kindname){
+					$kind2array[]=$kindname['second'];
 				}
 				//$data['kind1array'] = $kind1array;
 				$data['kind2array'] = $kind2array;
@@ -433,6 +617,19 @@ class AdminController extends Controller {
 				{
 					$checkbox2[$name['first']][$name['second']]=$name['second'];
 				}
+				
+				$taginfo=(new \yii\db\Query ())->select ( 'r.tag' )->from ( 'apptoreltag a' )
+				->join('INNER JOIN', 'reltag r','a.tagid=r.id')
+				->where ( [
+						'a.appid' => $model ['id']
+				] )->all();
+				$data->reltag="";
+				if(count($taginfo)>0){
+					foreach($taginfo as $tag){
+						$data->reltag=$data->reltag.$tag['tag']." ";
+					}
+				}
+				
 				return $this->render ( 'update', [ 
 						'model' => $data,
 						//'allkind1' => $checkbox1,
@@ -512,7 +709,7 @@ class AdminController extends Controller {
 				foreach ($model->kind2array as $k) {
 					$model->kind = $model->kind . " " .$k;
 					$appofkindnew = new Appofkind();
-					$appofkindnew->kind = $k;
+					$appofkindnew->kindid = $k;
 					$appofkindnew->appid = $id;
 					$appofkindnew->status = 2;
 					$appofkindnew->save();

@@ -8,6 +8,10 @@ use app\models\StaruserSearch;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\v1\models\Usertohobby;
+use app\modules\v1\models\Hobby;
+use app\modules\v1\models\Profession;
+use app\modules\v1\models\Usertoprof;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -67,6 +71,45 @@ class StaruserController extends Controller
         $searchModel = new StaruserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		$dataProvider->query = $dataProvider->query->orderBy("authKey desc");
+		
+		$pagination = $dataProvider->getPagination ();
+		$count = $pagination->pageCount;
+		$count1 = 0;
+		while ( $categories = $dataProvider->models ) {
+			$models = $categories;
+			foreach ( $models as $model ) {
+				$hobbyinfo=(new \yii\db\Query ())->select ( 'h.hobby' )->from ( 'usertohobby u' )
+				->join('INNER JOIN', 'hobby h','u.hobbyid=h.id')
+				->where ( [
+						'u.userid' => $model ['id']
+				] )->all();
+				$model['hobby']="";
+				if(count($hobbyinfo)>0){
+					foreach($hobbyinfo as $hobby){
+						$model['hobby']=$model['hobby'].$hobby['hobby']." ";
+					}
+				}
+				
+				$profinfo=(new \yii\db\Query ())->select ( 'h.profession' )->from ( 'usertoprof u' )
+				->join('INNER JOIN', 'profession h','u.profid=h.id')
+				->where ( [
+						'u.userid' => $model ['id']
+				] )->all();
+				$model['job']="";
+				if(count($profinfo)>0){
+					foreach($profinfo as $prof){
+						$model['job']=$model['job'].$prof['profession']." ";
+					}
+				}
+				//$model ['reltag'] = $userinfo ['phone'];
+			}
+			$dataProvider->setModels ( $models );
+			$count1 ++;
+			if ($count1 > $count) {
+				break;
+			}
+		}
+		
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -80,8 +123,31 @@ class StaruserController extends Controller
      */
     public function actionView($id)
     {
+        $model=$this->findModel($id);
+    	$hobbyinfo=(new \yii\db\Query ())->select ( 'h.hobby' )->from ( 'usertohobby u' )
+    	->join('INNER JOIN', 'hobby h','u.hobbyid=h.id')
+    	->where ( [
+    			'u.userid' => $model ['id']
+    	] )->all();
+    	$model['hobby']="";
+    	if(count($hobbyinfo)>0){
+    		foreach($hobbyinfo as $hobby){
+    			$model['hobby']=$model['hobby'].$hobby['hobby']." ";
+    		}
+    	}
+    	$profinfo=(new \yii\db\Query ())->select ( 'h.profession' )->from ( 'usertoprof u' )
+    	->join('INNER JOIN', 'profession h','u.profid=h.id')
+    	->where ( [
+    			'u.userid' => $model ['id']
+    	] )->all();
+    	$model['job']="";
+    	if(count($profinfo)>0){
+    		foreach($profinfo as $prof){
+    			$model['job']=$model['job'].$prof['profession']." ";
+    		}
+    	}
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' =>$model ,
         ]);
     }
 
@@ -114,6 +180,37 @@ class StaruserController extends Controller
         	$model->authKey=0;
         	
         	if ($model->save ()) {
+        		
+        		$allhobby=trim($model->hobby);
+        		$row=explode(" ",$allhobby);
+        		foreach ($row as $hobby){
+        			if(trim($hobby)==''){
+        				continue;
+        			}
+        			$hobbymodel=new Hobby();
+        			$one=$hobbymodel->find()->where(['hobby'=>$hobby])->one();
+        		
+        			$usertohobby=new Usertohobby();
+        			$usertohobby->userid=$model->id;
+        			$usertohobby->hobbyid=$one->id;
+        			$usertohobby->save();
+        		}
+        		
+        		$allprof=trim($model->job);
+        		$row=explode(" ",$allprof);
+        		foreach ($row as $prof){
+        			if(trim($prof)==''){
+        				continue;
+        			}
+        			$profmodel=new Profession();
+        			$one=$profmodel->find()->where(['profession'=>$prof])->one();
+        		
+        			$usertoprof=new Usertoprof();
+        			$usertoprof->userid=$model->id;
+        			$usertoprof->profid=$one->id;
+        			$usertoprof->save();
+        		}
+        		
         		return $this->redirect ( [
         				'view',
         				'id' => $model->id
@@ -166,6 +263,39 @@ public function actionUpdate($id)
         	}
         	
         	if ($model->save ()) {
+        		
+        		Usertohobby::deleteAll(['userid'=>$id]);
+        		
+        		$allhobby=trim($model->hobby);
+        		$row=explode(" ",$allhobby);
+        		foreach ($row as $hobby){
+        			if(trim($hobby)==''){
+        				continue;
+        			}
+        			$hobbymodel=new Hobby();
+        			$one=$hobbymodel->find()->where(['hobby'=>$hobby])->one();
+        			$usertohobby=new Usertohobby();
+        			$usertohobby->userid=$model->id;
+        			$usertohobby->hobbyid=$one->id;
+        			$usertohobby->save();
+        		}
+        		
+        		Usertoprof::deleteAll(['userid'=>$id]);
+        		$allprof=trim($model->job);
+        		$row=explode(" ",$allprof);
+        		foreach ($row as $prof){
+        			if(trim($prof)==''){
+        				continue;
+        			}
+        			$profmodel=new Profession();
+        			$one=$profmodel->find()->where(['profession'=>$prof])->one();
+        		
+        			$usertoprof=new Usertoprof();
+        			$usertoprof->userid=$model->id;
+        			$usertoprof->profid=$one->id;
+        			$usertoprof->save();
+        		}
+        		
         		return $this->redirect ( [
         				'view',
         				'id' => $model->id
@@ -173,6 +303,29 @@ public function actionUpdate($id)
         	}
         } else {
         	unset($model->pwd);
+        	$hobbyinfo=(new \yii\db\Query ())->select ( 'h.hobby' )->from ( 'usertohobby u' )
+        	->join('INNER JOIN', 'hobby h','u.hobbyid=h.id')
+        	->where ( [
+        			'u.userid' => $model ['id']
+        	] )->all();
+        	$model['hobby']="";
+        	if(count($hobbyinfo)>0){
+        		foreach($hobbyinfo as $hobby){
+        			$model['hobby']=$model['hobby'].$hobby['hobby']." ";
+        		}
+        	}
+        	
+        	$profinfo=(new \yii\db\Query ())->select ( 'h.profession' )->from ( 'usertoprof u' )
+        	->join('INNER JOIN', 'profession h','u.profid=h.id')
+        	->where ( [
+        			'u.userid' => $model ['id']
+        	] )->all();
+        	$model['job']="";
+        	if(count($profinfo)>0){
+        		foreach($profinfo as $prof){
+        			$model['job']=$model['job'].$prof['profession']." ";
+        		}
+        	}
         	return $this->render ( 'update', [
         			'model' => $model
         			] );

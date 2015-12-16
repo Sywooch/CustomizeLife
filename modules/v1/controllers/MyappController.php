@@ -97,12 +97,12 @@ class MyappController extends Controller {
 	public function actionTag() {
 		$data=Yii::$app->request->post();
 		$appl=new Appl();
-		$ans=(new \yii\db\Query())
-		->select('app.*')
-		->from('app')
-		->innerJoin('appofkind','app.id=appofkind.appid')
-		->where(['appofkind.kind'=>$data['tag']])
-		->all();
+	
+		$ans= (new \yii\db\Query())->select('a.*')->from ( 'app a' )
+		->join('INNER JOIN', 'apptoreltag ar','a.id=ar.appid')
+		->join('INNER JOIN', 'reltag r','ar.tagid=r.id')
+		->where ( [ 'like','tag',$data['tag']] )->all();
+		
 		return $ans;
 	}
 	public function actionLike(){

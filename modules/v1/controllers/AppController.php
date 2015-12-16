@@ -16,6 +16,9 @@ use app\modules\v1\models\Message;
 use yii\filters\AccessControl;
 use app\modules\v1\models\Usertoapp;
 use app\modules\v1\models\CollectPerson;
+use app\modules\v1\models\Usertohobby;
+use app\modules\v1\models\Hobby;
+
 class AppController extends ActiveController {
 	public $modelClass = 'app\modules\v1\models\Appl';
 	public $serializer = [ 
@@ -139,9 +142,36 @@ class AppController extends ActiveController {
 		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		$model=new Appl();
 		$data=Yii::$app->request->post();
-		$aa = $model->find()->where(['like','name',$data['name']])->orWhere(['like','kind',$data['name']])->orWhere(['like','reltag',$data['name']])->all();
-		//$aa =$model->find()->where( 'kind LIKE \'%:id%\'',['id'=>$data['name']] )->all();
-		return $aa;
+		
+		$aa[]=array();
+		$aa[]= (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+		->join('INNER JOIN', 'apptoreltag ar','a.id=ar.appid')
+		->join('INNER JOIN', 'reltag r','ar.tagid=r.id')
+		->where ( ['like','tag',$data['name']] )->orWhere(['like','name',$data['name']])->all();
+		
+		$aa[] =(new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+        		->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
+        		->join('INNER JOIN', 'tag t','ak.kindid=t.id')
+        		->where ( ['like','second',$data['name']] )->all();
+		
+		$ans=array();
+		if($aa){
+							foreach($aa as $a1){
+								foreach ($a1 as $a){
+								$point=0;
+								for($j=0;$j<count($ans);$j++){
+									if($a['id']==$ans[$j]['id']){
+										$point=1;
+										break;
+									}
+								}
+								if($point==0){
+									$ans[]=$a;
+								}
+							}
+							}
+							}
+		return $ans;
 	}
 	public function actionRecommend(){
 // 		$connection = \Yii::$app->db;
@@ -221,6 +251,19 @@ class AppController extends ActiveController {
 		$userinfo=User::findOne([
 				'phone'=>$data['phone']
 		]);
+		
+		$hobbyinfo=(new \yii\db\Query ())->select ( 'h.hobby' )->from ( 'usertohobby u' )
+		->join('INNER JOIN', 'hobby h','u.hobbyid=h.id')
+		->where ( [
+				'u.userid' => $userinfo->id
+		] )->all();
+		$userinfo['hobby']="";
+		if(count($hobbyinfo)>0){
+			foreach($hobbyinfo as $hobby){
+				$userinfo['hobby']=$userinfo['hobby'].$hobby['hobby']." ";
+			}
+		}
+		
 		$userinfo['hobby']=trim($userinfo['hobby']);
 		$arrs=explode(' ', $userinfo['hobby']);
 		
@@ -232,29 +275,21 @@ class AppController extends ActiveController {
 		$ans=array();
 		$num=0;
 		for($i=0;$i<count($arrs);$i++,$num++){
-// 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
-// 			->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
-// 			->where ( [
-// 				'ak.kind' => $arrs[$i]
-// 			] )->all();
-// 			if($aa){
-// 			foreach($aa as $a){
-// 				$point=0;
-// 				for($j=0;$j<count($ans);$j++){
-// 					if($a['id']==$ans[$j]['id']){
-// 						$point=1;
-// 						break;
-// 					}
-// 				}
-// 				if($point==0){
-// 					$ans[]=$a;
-// 				}
-// 			}
-// 			}
-			$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'app' )
-						->where ( ['like','reltag',$arrs[$i]] )->orWhere(['like','kind',$arrs[$i]])->all();
-			if($aa){
-							foreach($aa as $a){
+
+		$aa[]=array();
+		$aa[]= (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+		->join('INNER JOIN', 'apptoreltag ar','a.id=ar.appid')
+		->join('INNER JOIN', 'reltag r','ar.tagid=r.id')
+		->where ( ['like','tag',$arrs[$i]] )->orWhere(['like','name',$arrs[$i]])->all();
+		
+		$aa[] =(new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+        		->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
+        		->join('INNER JOIN', 'tag t','ak.kindid=t.id')
+        		->where ( ['like','second',$arrs[$i]] )->all();
+		
+		if($aa){
+							foreach($aa as $a1){
+								foreach ($a1 as $a){
 								$point=0;
 								for($j=0;$j<count($ans);$j++){
 									if($a['id']==$ans[$j]['id']){
@@ -267,7 +302,7 @@ class AppController extends ActiveController {
 								}
 							}
 							}
-			
+							}
 			
 		}
 	   if(count($ans)<10){
@@ -308,6 +343,19 @@ class AppController extends ActiveController {
 		$userinfo=User::findOne([
 				'phone'=>$data['phone']
 		]);
+		
+		$profinfo=(new \yii\db\Query ())->select ( 'h.profession' )->from ( 'usertoprof u' )
+		->join('INNER JOIN', 'profession h','u.profid=h.id')
+		->where ( [
+				'u.userid' => $userinfo ['id']
+		] )->all();
+		$model['job']="";
+		if(count($profinfo)>0){
+			foreach($profinfo as $prof){
+				$model['job']=$model['job'].$prof['profession']." ";
+			}
+		}
+		
 		$userinfo['job']=trim($userinfo['job']);
 		$arrs=explode(' ', $userinfo['job']);
 		
@@ -319,29 +367,21 @@ class AppController extends ActiveController {
 		$ans=array();
 		$num=0;
 		for($i=0;$i<count($arrs);$i++,$num++){
-// 			$aa = (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
-// 			->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
-// 			->where ( [
-// 				'ak.kind' => $arrs[$i]
-// 			] )->all();
-// 			if($aa){
-// 			foreach($aa as $a){
-// 				$point=0;
-// 				for($j=0;$j<count($ans);$j++){
-// 					if($a['id']==$ans[$j]['id']){
-// 						$point=1;
-// 						break;
-// 					}
-// 				}
-// 				if($point==0){
-// 					$ans[]=$a;
-// 				}
-// 			}
-// 			}
-			$aa = (new \yii\db\Query ())->select ( '*' )->from ( 'app' )
-						->where ( ['like','reltag',$arrs[$i]] )->orWhere(['like','kind',$arrs[$i]])->all();
-			if($aa){
-							foreach($aa as $a){
+
+		$aa[]=array();
+		$aa[]= (new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+		->join('INNER JOIN', 'apptoreltag ar','a.id=ar.appid')
+		->join('INNER JOIN', 'reltag r','ar.tagid=r.id')
+		->where ( ['like','tag',$arrs[$i]] )->orWhere(['like','name',$arrs[$i]])->all();
+		
+		$aa[] =(new \yii\db\Query ())->select ( 'a.*' )->from ( 'app a' )
+        		->join('INNER JOIN', 'appofkind ak','a.id=ak.appid')
+        		->join('INNER JOIN', 'tag t','ak.kindid=t.id')
+        		->where ( ['like','second',$arrs[$i]] )->all();
+		
+		if($aa){
+							foreach($aa as $a1){
+								foreach ($a1 as $a){
 								$point=0;
 								for($j=0;$j<count($ans);$j++){
 									if($a['id']==$ans[$j]['id']){
@@ -354,8 +394,7 @@ class AppController extends ActiveController {
 								}
 							}
 							}
-			
-			
+							}
 		}
 		
 		if(count($ans)<10){
