@@ -9,8 +9,8 @@ var domain="http://7xkbeq.com1.z0.glb.clouddn.com";
         dragdrop: true,
         chunk_size: '4mb',
         uptoken_url: '/admin/token',
-        unique_names: true,
-        save_key: true,
+        unique_names: false,
+        save_key: false,
         domain: domain,
         auto_start: true,
         init: {
@@ -59,7 +59,7 @@ var domain="http://7xkbeq.com1.z0.glb.clouddn.com";
                     progress.setStatus(errTip);
                 },
              'Key': function(up, file) {
-                     var key = "";
+                     var key = file.name;
                      // do something with key
                      return key;
                }
