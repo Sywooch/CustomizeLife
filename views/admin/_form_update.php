@@ -142,7 +142,20 @@ use yii\widgets\ActiveForm;
 // 	    }
 // 	}
 	</script>
-	<?= $form->field($model, 'reltag')->textInput(['maxlength' => true])?>
+	
+	<? $all=array();
+    foreach ($allkindlab as $second)
+    {
+	    	foreach ($second as $first)
+	    	{
+	    		if ($first!=''){
+	    			$all[$first]=$first;
+	    		}
+	    	}
+    }
+    
+    echo $form->field($model, 'reltag')->checkboxList($all)?>
+	<?//= $form->field($model, 'reltag')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'ios_url')->textInput(['maxlength' => true])?>
     

@@ -295,6 +295,7 @@ class AdminController extends Controller {
 			$data = Yii::$app->request->post ();
 			// echo var_dump($data);
 			$allkind2 = (new \yii\db\Query ())->distinct(true)->from('tag')->where(['>','second',''])->all();
+			$allkindlab = (new \yii\db\Query ())->select('tag')->from('reltag')->all();
 			//$checkbox1=array();
 			$checkbox2=array();
 			// 				foreach($allkind1 as $name)
@@ -329,31 +330,36 @@ class AdminController extends Controller {
 				}
 				
 				$model->load($data);
+				unset($model->reltag);
 				$model->android_url = $data ['android_url'];
 				$model->icon = $data ['icon'];
 				$model->updated_at = time ();
-				$allreltag=trim($model->reltag);
-				$row=explode(" ",$allreltag);
+// 				$allreltag=trim($model->reltag);
+// 				$row=explode(" ",$allreltag);
 				
 				
-				foreach ($row as $tag){
-				if(trim($tag)==''){
-						continue;
-					}
-					$relmodel=new Reltag();
-					$one=$relmodel->find()->where(['tag'=>$tag])->one();
-					if(!$one){
-						$relmodel->tag=$tag;
-						$relmodel->created_at=time();
-						$relmodel->save();
-					}
-				}
+// 				foreach ($row as $tag){
+// 				if(trim($tag)==''){
+// 						continue;
+// 					}
+// 					$relmodel=new Reltag();
+// 					$one=$relmodel->find()->where(['tag'=>$tag])->one();
+// 					if(!$one){
+// 						$relmodel->tag=$tag;
+// 						$relmodel->created_at=time();
+// 						$relmodel->save();
+// 					}
+// 				}
 // 				foreach ( $data['kind1array'] as $kind ) {
 // 					$model->kind.=$kind." ";
 // 				}
 				foreach ( $data['app']['kind2array'] as $kind ) {
 					$model->kind.=$kind." ";
 				}
+				
+				foreach ( $data['app']['reltag'] as $label ) {
+ 					$model->reltag.=$label." ";
+ 				}
 				
 				
 				
@@ -368,15 +374,24 @@ class AdminController extends Controller {
 					}
 					
 					
-					$allreltag=trim($model->reltag);
-					$row=explode(" ",$allreltag);
-					foreach ($row as $tag){
-						if(trim($tag)==''){
-							continue;
-						}
-						$relmodel=new Reltag();
-						$one=$relmodel->find()->where(['tag'=>$tag])->one();
+// 					$allreltag=trim($model->reltag);
+// 					$row=explode(" ",$allreltag);
+// 					foreach ($row as $tag){
+// 						if(trim($tag)==''){
+// 							continue;
+// 						}
+// 						$relmodel=new Reltag();
+// 						$one=$relmodel->find()->where(['tag'=>$tag])->one();
 						
+// 						$apptoreltag=new Apptoreltag();
+// 						$apptoreltag->appid=$model->id;
+// 						$apptoreltag->tagid=$one->id;
+// 						$apptoreltag->save();
+// 					}
+					
+					foreach ( $data['app']['reltag'] as $label ) {
+						$relmodel=new Reltag();
+						$one=$relmodel->find()->where(['tag'=>$label])->one();
 						$apptoreltag=new Apptoreltag();
 						$apptoreltag->appid=$model->id;
 						$apptoreltag->tagid=$one->id;
@@ -410,12 +425,14 @@ class AdminController extends Controller {
 						'model' => $model ,
 						//'allkind1'=>$checkbox1,
 						'allkind2'=>$checkbox2,
+						'allkindlab'=>$allkindlab,
 				] );
 			}
 			
 			return $this->render ( 'create', [ 
 					'model' => $model ,
 					'allkind2'=>$checkbox2,
+					'allkindlab'=>$allkindlab,
 			] );
 		} else {
 			return $this->redirect ( [ 
@@ -485,7 +502,7 @@ class AdminController extends Controller {
 	public function actionUpdate($id) {
 		if (Yii::$app->session ['var'] === 'admin') {
 			$model = $this->findModel ( $id );
-			
+			$allkindlab = (new \yii\db\Query ())->select('tag')->from('reltag')->all();
 
 			//$data['kindarray'][] = '0';
 			//$data = array();
@@ -505,6 +522,14 @@ class AdminController extends Controller {
 // 					$a->delete();
 // 				}
 				$model->kind = "";
+				
+// 				$allreltag=array();
+// 				foreach ( $dada['app']['reltag']as $tag){
+// 					$allreltag[]=$tag;
+// 				}
+				
+				//$data->reltag='旅游';
+				//return;
 // 				foreach ($model->kind1array as $k) {
 // 					$model->kind = $model->kind . " " .$k;
 // 					$appofkindnew = new Appofkind();
@@ -515,23 +540,23 @@ class AdminController extends Controller {
 					
 // 				}
 
-			$allreltag=trim($model->reltag);
-				$row=explode(" ",$allreltag);
+// 			$allreltag=trim($model->reltag);
+// 				$row=explode(" ",$allreltag);
 				
 				
-				foreach ($row as $tag){
-					//trim($tag)
-					if(trim($tag)==''){
-						continue;
-					}
-					$relmodel=new Reltag();
-					$one=$relmodel->find()->where(['tag'=>$tag])->count();
-					if($one==0){
-						$relmodel->tag=$tag;
-						$relmodel->created_at=time();
-						$relmodel->save();
-					}
-				}
+// 				foreach ($row as $tag){
+// 					//trim($tag)
+// 					if(trim($tag)==''){
+// 						continue;
+// 					}
+// 					$relmodel=new Reltag();
+// 					$one=$relmodel->find()->where(['tag'=>$tag])->count();
+// 					if($one==0){
+// 						$relmodel->tag=$tag;
+// 						$relmodel->created_at=time();
+// 						$relmodel->save();
+// 					}
+// 				}
 				
 				$appofkind2 = Appofkind::find()->where(['appid'=>$id])->all();
 				foreach ($appofkind2 as $a){
@@ -561,18 +586,28 @@ class AdminController extends Controller {
 					$apptopicture->picture = $pic;
 					$apptopicture->save();
 				}
+				unset($model->reltag);
 				if ($model->save ()) {
 					Apptoreltag::deleteAll(['appid'=>$id]);
 					
-					$allreltag=trim($model->reltag);
-					$row=explode(" ",$allreltag);
-					foreach ($row as $tag){
-						if(trim($tag)==''){
-							continue;
-						}
-						$relmodel=new Reltag();
-						$one=$relmodel->find()->where(['tag'=>$tag])->one();
+// 					$allreltag=trim($model->reltag);
+// 					$row=explode(" ",$allreltag);
+// 					foreach ($row as $tag){
+// 						if(trim($tag)==''){
+// 							continue;
+// 						}
+// 						$relmodel=new Reltag();
+// 						$one=$relmodel->find()->where(['tag'=>$tag])->one();
 					
+// 						$apptoreltag=new Apptoreltag();
+// 						$apptoreltag->appid=$model->id;
+// 						$apptoreltag->tagid=$one->id;
+// 						$apptoreltag->save();
+// 					}
+					
+					foreach ( $dada['app']['reltag'] as $label ) {
+						$relmodel=new Reltag();
+						$one=$relmodel->find()->where(['tag'=>$label])->one();
 						$apptoreltag=new Apptoreltag();
 						$apptoreltag->appid=$model->id;
 						$apptoreltag->tagid=$one->id;
@@ -623,18 +658,24 @@ class AdminController extends Controller {
 				->where ( [
 						'a.appid' => $model ['id']
 				] )->all();
-				$data->reltag="";
-				if(count($taginfo)>0){
-					foreach($taginfo as $tag){
-						$data->reltag=$data->reltag.$tag['tag']." ";
-					}
+				$allreltag=array();
+				foreach ($taginfo as $tag){
+					$allreltag[]=$tag['tag'];
 				}
+				
+				$data->reltag=$allreltag;
+// 				if(count($taginfo)>0){
+// 					foreach($taginfo as $tag){
+// 						$data->reltag=$data->reltag.$tag['tag']." ";
+// 					}
+// 				}
 				
 				return $this->render ( 'update', [ 
 						'model' => $data,
 						//'allkind1' => $checkbox1,
 						'allkind2' => $checkbox2,
 						'apptopicture'=>$apptopicture,
+						'allkindlab'=>$allkindlab,
 						//['社交'=>'社交','休闲'=>'休闲','娱乐'=>'娱乐','工具'=>'工具','导航'=>'导航','购物'=>'购物','体育'=>'体育','旅游'=>'旅游','生活'=>'生活','音乐'=>'音乐','教育'=>'教育','办公'=>'办公','理财'=>'理财','图像'=>'图像']
 						//'model' => $model 
 				] );

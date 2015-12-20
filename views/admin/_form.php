@@ -106,8 +106,21 @@ use yii\widgets\ActiveForm;
 	}
 	</script>
     
+    <? $all=array();
+    foreach ($allkindlab as $second)
+    {
+	    	foreach ($second as $first)
+	    	{
+	    		if ($first!=''){
+	    			$all[$first]=$first;
+	    		}
+	    	}
+    }
     
-    <?= $form->field($model, 'reltag')->textInput(['maxlength' => true])?>
+    echo $form->field($model, 'reltag')->checkboxList($all) ?>
+    
+    
+    <?//= $form->field($model, 'reltag')->textInput(['maxlength' => true])?>
     <?//= $form->field($model, 'kind2array[]')->checkboxList($allkind2)?>
     <?= $form->field($model, 'updated_log')->textInput(['maxlength' => true])?>
     <?= $form->field($model, 'package')->textInput(['maxlength' => true])?>

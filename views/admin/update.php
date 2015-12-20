@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = 'Update';
     	//'allkind1' => $allkind1,
     	'allkind2' => $allkind2,
     	'apptopicture'=>$apptopicture,
+    		'allkindlab'=>$allkindlab,
     ]) ?>
 
 </div>
